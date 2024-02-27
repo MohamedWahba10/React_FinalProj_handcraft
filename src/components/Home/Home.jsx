@@ -5,6 +5,6 @@ export default function Home() {
   return (
 
 
-    <div>Homeeeeeee</div>
+    <div className='my-5 py-5'>Homeeeeeee</div>
   )
 }
