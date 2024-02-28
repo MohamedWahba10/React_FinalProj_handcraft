@@ -148,7 +148,7 @@ export default function Register() {
                   onBlur={formik.handleBlur}
                   value={formik.values.usertype}
                 >
-                  <option value="">Select User Type</option>
+                  <option value="">Select User Role</option>
                   <option value="customer">Customer</option>
                   <option value="vendor">Vendor</option>
                 </select>

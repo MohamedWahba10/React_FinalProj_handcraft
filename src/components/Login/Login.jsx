@@ -54,7 +54,7 @@ export default function Login() {
       <div className={`${styles.header_login} py-5 mb-5 text-center `}>
         <h1>Login</h1>
 
-        <Link to="/">
+        <Link to="/" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
@@ -113,13 +113,13 @@ export default function Login() {
           </div>
           <div className={`col-md-5 ${styles.new_account} offset-md-1   d-flex align-items-center`}>
             <div className="d-flex flex-column ">
-              <h3>New Customer</h3>
+              <h3>Join us</h3>
               <p>
                 Be part of our growing family of new customers! Join us today
                 and unlock a worldof exclusive benefits, offers, and
                 personalized experiences.
               </p>
-              <Link to="/register">
+              <Link to="/register" className="text-decoration-none">
                 
                 <span className={`${styles.register_button}`} >
                 REGISTER
