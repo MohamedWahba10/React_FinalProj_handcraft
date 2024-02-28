@@ -1,0 +1,44 @@
+.slider_container {
+    position: relative;
+  }
+  
+  .slider_content {
+    position: relative;
+  }
+  
+  .main_image img {
+    width: 400px; 
+    /* Adjust size as needed */
+  }
+  
+  .sub_images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    z-index: 1;
+  }
+  
+  .sub_images img {
+    width: 100px;
+    margin: 5px;
+    cursor: pointer;
+    filter: blur(2px); 
+  }
+  
+  .sub_images img:after {
+    width: 100px; 
+    height: 100%;
+    cursor: pointer;
+    content: "";
+    background-color: rgba(240, 248, 255, 0.175);
+    top: 0;
+    left: 0;
+  }
+  
+  .sub_images img.selected {
+    filter: brightness(150%);
+  }
+  

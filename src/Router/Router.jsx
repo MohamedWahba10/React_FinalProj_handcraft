@@ -5,6 +5,7 @@ import Home from '../components/Home/Home';
 import About from '../components/About/About';
 import Register from '../components/Register/Register';
 import Login from "../components/Login/Login";
+import ProductDetail from "../components/ProductDetail/ProductDetail";
 
 export default function Router() {
   return (
@@ -35,7 +36,13 @@ export default function Router() {
             
           }
         />
-        
+         <Route
+          path="/detail"
+          element={
+            <ProductDetail />
+            
+          }
+        />
       </Route>
     </Routes>
   );

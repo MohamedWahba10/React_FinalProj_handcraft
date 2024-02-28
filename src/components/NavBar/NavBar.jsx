@@ -90,7 +90,7 @@ function NavBar() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/" className={`${styles.Link_style}`}>
+                    <Link to="/detail" className={`${styles.Link_style}`}>
                       Products
                     </Link>
                   </li>
