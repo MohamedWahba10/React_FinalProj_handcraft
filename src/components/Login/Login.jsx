@@ -53,7 +53,7 @@ export default function Login() {
       <div className={`${styles.header_login} py-5 mb-5 text-center `}>
         <h1>Login</h1>
 
-        <Link to="/">
+        <Link to="/" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
@@ -118,7 +118,7 @@ export default function Login() {
                 and unlock a worldof exclusive benefits, offers, and
                 personalized experiences.
               </p>
-              <Link to="/register">
+              <Link to="/register" className="text-decoration-none">
                 
                 <span className={`${styles.register_button}`} >
                 REGISTER
