@@ -4,6 +4,7 @@ import Layout from '../components/Layout/Layout';
 import Home from '../components/Home/Home';
 import About from '../components/About/About';
 import Register from '../components/Register/Register';
+import Login from "../components/Login/Login";
 
 export default function Router() {
   return (
@@ -17,9 +18,18 @@ export default function Router() {
           path="/about"
           element={<About />}
         />
+          <Route
+          path="/login"
+          element={
+            <Login />
+          }
+        />
         <Route
-          path="*"
-          element={<Register />}
+          path="/register"
+          element={
+            <Register />
+            
+          }
         />
       </Route>
     </Routes>
