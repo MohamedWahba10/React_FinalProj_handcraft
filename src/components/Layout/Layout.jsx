@@ -8,8 +8,8 @@ export default function Layout() {
     <>
       <NavBar />
 
-       <Outlet />
-       
+      <Outlet />
+
     </>
   )
 }

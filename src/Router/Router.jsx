@@ -10,25 +10,17 @@ export default function Router() {
     <Routes>
       <Route element={<Layout />}>
         <Route
-          path="/"
-          element={
-              <Home />
-          }
+          path="/home"
+          element={<Home />}
         />
         <Route
           path="/about"
-          element={
-            <About />
-          }
+          element={<About />}
         />
         <Route
           path="*"
-          element={
-            <Register />
-            
-          }
+          element={<Register />}
         />
-        
       </Route>
     </Routes>
   );
