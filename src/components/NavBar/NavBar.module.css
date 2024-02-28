@@ -1,6 +1,5 @@
 html.lb-disable-scrolling {
     overflow: hidden;
-    /* Position fixed required for iOS. Just putting overflow: hidden; on the body is not enough. */
     position: fixed;
     height: 100vh;
     width: 100vw;
@@ -955,6 +954,8 @@ header
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
+
+  margin-left: 30px;
 }
 
 .background-header .main-nav .logo {
@@ -968,7 +969,7 @@ header
 .header-area .main-nav .nav {
   float: right;
   margin-top: 30px;
-  margin-right: 0px;
+  margin-right: 40px;
   background-color: transparent;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -977,6 +978,8 @@ header
   position: relative;
   z-index: 999;
 }
+
+
 
 .header-area .main-nav .nav li {
   padding-left: 15px;
