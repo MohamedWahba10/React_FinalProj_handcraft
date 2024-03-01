@@ -1,18 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import styles from "./Register.module.css";
+import axios from 'axios';
 
 
 export default function Register() {
+
+  const [isLoading, setisLoading] = useState(false)
+  const [apiError, setapiError] = useState("")
+  const navigate = useNavigate()
+
+  async function register(values) {
+
+
+    console.log(values);
+    setapiError("")   // this is to remove the error message when user re-try again  
+    setisLoading(true)
+
+    // Set ssn to null if usertype is 'customer'
+    if (values.usertype === 'customer') {
+      values.ssn = null;
+    }
+
+
+    let { data } = await axios.post(`http://localhost:8000/api/register/`, values).catch((err) => {
+      console.log("heelooo", err);
+
+      if (err.response.data.email){
+        setapiError(err.response.data.email)
+      } else if (err.response.data.ssn){
+
+        setapiError(err.response.data.ssn)
+      }
+     
+
+      setisLoading(false)
+    })
+
+    if (data.message === "success") {
+      setisLoading(false)
+      navigate("/login")
+    }
+
+  }
+
+
 
   let validationSchema = Yup.object({
     first_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
     last_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
-    password: Yup.string().matches(/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, 'Password must be at least 8 characters , letters and digits').required('Password is required'),
+    password: Yup.string().matches(/^(?=.?[A-Z])(?=.?[a-z])(?=.*?[0-9]).{8,}$/, 'Password must contain at least  8 characters , one uppercase , letters and digits').required('Password is required'),
     usertype: Yup.string().oneOf(['customer', 'vendor'], 'Please select a valid user type').required('User type is required'),
     shopname: Yup.string().when('usertype', {
       is: 'vendor',
@@ -22,11 +63,11 @@ export default function Register() {
     ssn: Yup.string().when('usertype', {
       is: 'vendor',
       then: () => Yup.string().matches(/^\d{14}$/, 'SSN must be a 14-digit number').required('SSN is required'),
-      otherwise: () =>Yup.string().notRequired()    
+      otherwise: () => Yup.string().notRequired()
     }),
-    
-    
-    
+
+    // 
+
   });
 
   const formik = useFormik({
@@ -44,12 +85,7 @@ export default function Register() {
     validationSchema: validationSchema,
 
 
-    onSubmit: (values) => {
-      if (values.usertype === 'customer') {
-        values.shopname = ""; // Set shopname to null for customer
-      }
-      console.log(values);
-    }
+    onSubmit: (values) => register(values)
   });
 
   return (
@@ -69,6 +105,9 @@ export default function Register() {
           <div className={`col-md-6 ${styles.form_register}`}>
             <h2>Register</h2>
             {/* onSubmit automatic will connect with onSubmit function (values) */}
+
+            {apiError ? <div className="alert alert-danger"> {apiError}</div> : ""}
+
 
             <form onSubmit={formik.handleSubmit}>
               <div className="form-group my-3">
@@ -156,6 +195,7 @@ export default function Register() {
                   <div className="text-danger fs-5 mt-3">{formik.errors.usertype}</div>
                 ) : null}
               </div>
+
               {
                 formik.values.usertype === 'vendor' ? (
                   <div className="form-group my-3">
@@ -197,15 +237,18 @@ export default function Register() {
                 )
               }
 
-
-
-
               <div className={`d-flex justify-content-between my-3`}>
-                <button type="submit" className={`${styles.register_button}`}>
+                {isLoading ? <button type="submit" className={`${styles.register_button}`}>
+                  <i className="fa fa-spinner fa-spin"></i>
+                </button> : <button type="submit" className={`${styles.register_button}`} disabled={!(formik.isValid && formik.dirty)}>
                   REGISTER
                 </button>
+                }
+
+
               </div>
             </form>
+
 
 
           </div>
