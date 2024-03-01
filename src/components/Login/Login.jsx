@@ -1,37 +1,47 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Login.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import { TokenContext } from "../../Context/Token";
+
 export default function Login() {
   let navigate = useNavigate();
+  let {setToken,setUserData,userData} = useContext(TokenContext)
   async function callLogin(reqBody) {
     try {
-      let { data } = await axios
-        .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, reqBody)
-        .catch((err) => {
-          console.log("error");
-        });
-
-      if (data.message === "success") {
-        navigate("/");
+      const response = await axios.post(`http://localhost:8000/api/login/`, reqBody);
+      
+      if (response.status === 200) {
+        const token = response.data.token; 
+        
+        if (token && token.length > 0) {
+          navigate("/about");
+          localStorage.setItem("userToken", token);
+          localStorage.setItem("userData",  response.data.user);
+          setToken(token)
+          setUserData( response.data.user)
+          console.log(userData)
+        } else {
+          console.log("No JWT received or it's empty.");
+        }
       } else {
-        console.log(data.message);
+        console.log("Unexpected response status:", response.status);
       }
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Error during login:", error);
     }
   }
-
+  
   const validationSchema = Yup.object({
     email: Yup.string().email("Email Not Valid").required("Email is Required"),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
+      .min(6, "Password must be at least 8 characters")
       .matches(
-        /^[a-zA-Z0-9]{6,30}$/,
-        "invalid password, should be ex. aDnd345m and max length 30"
+        /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+        "'Password must be at least 8 characters , letters and digits'"
       )
       .required("Password is Required"),
   });
@@ -112,7 +122,7 @@ export default function Login() {
           </div>
           <div className={`col-md-5 ${styles.new_account} offset-md-1   d-flex align-items-center`}>
             <div className="d-flex flex-column ">
-              <h3>New Customer</h3>
+              <h3>Join us</h3>
               <p>
                 Be part of our growing family of new customers! Join us today
                 and unlock a worldof exclusive benefits, offers, and
