@@ -1,23 +1,23 @@
-.header_register {
+.header_AddProduct {
     background-color: #f8f6f0;
   }
   
-  .header_register h1 {
+  .header_AddProduct h1 {
     font-size: 45px;
     font-weight: bold;
     padding-bottom: 10px;
   }
   
-  .header_register .link_home {
+  .header_AddProduct .link_home {
     color: #727272;
     font-size: 18px;
   }
   
-  .header_register .span_register {
+  .header_AddProduct .span_AddProduct {
     color: #3f3e3e;
     font-size: 18px;
   }
-  .form_register .register_button {
+  .form_AddProduct .AddProduct_button {
     background-color: #1f1f1f;
     font-size: 22px;
     padding: 10px 30px;
@@ -26,18 +26,18 @@
     color: white;
     transition: all 0.5s;
   }
-  .form_register form input,.form_register form select {
+  .form_AddProduct form input {
     padding: 15px 13px;
     margin-top: 10px;
     border-radius: 10px;
   }
   
-  .form_register .register_button:hover {
+  .form_AddProduct .AddProduct_button:hover {
     background-color: #d2ef9a;
     color: black;
     cursor: pointer;
   }
-  .new_account {
+  /* .new_account {
     border-left: #3f3e3e 1px solid;
   }
   
@@ -66,7 +66,6 @@
     background-color: #d2ef9a;
     color: black;
     cursor: pointer;
-
   }
   
   @media screen and (max-width: 768px) {
@@ -74,25 +73,4 @@
       border-left: none;
     }
   }
-  
-
- 
-/* styles.module.css */
-.verificationMessage {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-  border-radius: 8px; /* Rounded corners */
-  padding: 15px;
-  margin-bottom: 20px;
-  display: flex; /* Align icon and text horizontally */
-  align-items: center; /* Center vertically */
-}
-
-.icon {
-
-  margin-right: 10px; /* Space between icon and text */
-  color: #155724;
-  font-size: 2rem; /* Adjust the font size to make the icon larger */
-  margin-bottom: 10px; /* Add some space between icon and text */
-}
+   */

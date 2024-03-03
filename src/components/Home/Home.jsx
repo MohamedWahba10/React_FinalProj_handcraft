@@ -1,12 +1,17 @@
 import React from 'react'
-
+import img1 from '../../assets/images/image3.jpg'
+import styles from "./Home.module.css";
 
 export default function Home() {
 
   return (
     <>
-      <div className='my-5 py-5 text-bg-danger'>Homeeeeeee</div>
-      
+      <div className=''>
+        <img src={img1} alt="background image" className={``}/>
+      </div>
+      <div>
+        
+      </div>
       </>
 
 

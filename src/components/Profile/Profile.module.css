@@ -1,0 +1,19 @@
+.header_profile {
+  background-color: #f8f6f0;
+}
+
+.header_profile h1 {
+  font-size: 45px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.header_profile .link_home {
+  color: #727272;
+  font-size: 18px;
+}
+
+.header_profile .span_profile {
+  color: #3f3e3e;
+  font-size: 18px;
+}
