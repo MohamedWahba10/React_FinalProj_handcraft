@@ -6,14 +6,16 @@ import { TokenContext } from "../../Context/Token";
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
-  let { token, setToken } = useContext(TokenContext);
+  let { token, setToken , setUserData } = useContext(TokenContext);
   let navigate = useNavigate();
   function logOut() {
     localStorage.removeItem("userToken");
+    localStorage.removeItem("userData");
     setToken(null);
+    setUserData(null);
     navigate("/login");
   }
-
+  setToken(localStorage.getItem("userToken"))
   function viewAuth() {
     setLayerVisible(!layerVisible);
   }
@@ -108,6 +110,11 @@ function NavBar() {
                       </Link>
                     </li>
                     <li>
+                      <Link to="/addProduct" className={`${styles.Link_style}`}>
+                        Add Product
+                      </Link>
+                    </li>
+                    <li>
                       <Link to="/" className={`${styles.Link_style}`}>
                         Single Product
                       </Link>
@@ -142,17 +149,29 @@ function NavBar() {
             onClick={handleInnerLayerClick}
           >
             {token ? (
-              <div className="mb-3">
-                <button
-                  className={`${styles.login_style_button} py-3`}
-                  onClick={() => {
-                    logOut();
-                    closeLayer();
-                  }}
-                >
-                  LOGOUT
-                </button>
-              </div>
+              <>
+                <div className="mb-3">
+                  <button
+                    className={`${styles.login_style_button} py-3`}
+                    onClick={() => {
+                      logOut();
+                      closeLayer();
+                    }}
+                  >
+                    LOGOUT
+                  </button>
+                </div>
+
+                <div>
+                  <Link
+                    className={`${styles.view_profile} ps-1 text-center d-block `}
+                    to="/profile"
+                    onClick={closeLayer}
+                  >
+                    View Profile
+                  </Link>
+                </div>
+              </>
             ) : (
               <>
                 <div className="mb-3">

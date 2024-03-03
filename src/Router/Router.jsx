@@ -7,6 +7,9 @@ import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 import ProtectedRoutes from "../components/ProtectedRoutes/ProtectedRoutes";
+import Profile from "../components/Profile/Profile";
+import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
+import AddProduct from "../components/AddProduct/AddProduct";
 
 export default function Router() {
   return (
@@ -47,7 +50,32 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+          <Route
+          path="/profile"
+          element={
+            <ProtectedRoutes>
+              <Profile />
+            </ProtectedRoutes>
+          }
+        />
+          <Route
+          path="/updateProfile"
+          element={
+            <ProtectedRoutes>
+              <UpdateProfile />
+            </ProtectedRoutes>
+          }
+        />
+          <Route
+          path="/addProduct"
+          element={
+            <ProtectedRoutes>
+              <AddProduct />
+            </ProtectedRoutes>
+          }
+        />
       </Route>
+    
     </Routes>
   );
 }

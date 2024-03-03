@@ -173,12 +173,14 @@
   color: black;
 }
 
-.register_style_link {
+.register_style_link ,.view_profile{
   text-decoration: none;
   font-size: 22px;
   color: black;
 }
-
+.register_style_link:hover ,.view_profile:hover{
+ text-decoration: underline;
+}
 /* wishList */
 
 .above_layer_wish {
