@@ -7,11 +7,14 @@ import styles from "./Register.module.css";
 import axios from 'axios';
 
 
+
 export default function Register() {
 
   const [isLoading, setisLoading] = useState(false)
   const [apiError, setapiError] = useState("")
   const navigate = useNavigate()
+
+
 
   async function register(values) {
 
@@ -46,8 +49,6 @@ export default function Register() {
     }
 
   }
-
-
 
   let validationSchema = Yup.object({
     first_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
@@ -265,6 +266,8 @@ export default function Register() {
       </div>
     </>
   );
+
+
 }
 
 

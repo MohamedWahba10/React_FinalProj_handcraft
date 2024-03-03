@@ -7,6 +7,10 @@ import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 import ProtectedRoutes from "../components/ProtectedRoutes/ProtectedRoutes";
+import ActivateAccount from "../components/ActivateAccount/ActivateAccount";
+
+
+
 
 export default function Router() {
   return (
@@ -39,8 +43,10 @@ export default function Router() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/detail"
+     
+        <Route path="/activate" element={<Login />} />
+
+        <Route path="/detail"
           element={
             <ProtectedRoutes>
               <ProductDetail />
