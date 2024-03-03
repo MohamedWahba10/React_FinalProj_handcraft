@@ -1,12 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
+import { jwtDecode } from "jwt-decode";
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
-  let { token, setToken , setUserData } = useContext(TokenContext);
+  let { token, setToken, setUserData, userData } = useContext(TokenContext);
+  // const userToken = localStorage.getItem("userToken");
+
+  useEffect(() => {
+    setUserData(localStorage.getItem("userData"));
+  }, []);
+
+  userData = JSON.parse(localStorage.getItem("userData"));
+
   let navigate = useNavigate();
   function logOut() {
     localStorage.removeItem("userToken");
@@ -15,7 +24,8 @@ function NavBar() {
     setUserData(null);
     navigate("/login");
   }
-  setToken(localStorage.getItem("userToken"))
+  setToken(localStorage.getItem("userToken"));
+
   function viewAuth() {
     setLayerVisible(!layerVisible);
   }
@@ -71,7 +81,7 @@ function NavBar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/login">
+                  <Link className={`nav-link ${styles.Link_style}`} to="/">
                     FEATURE
                   </Link>
                 </li>
@@ -100,7 +110,7 @@ function NavBar() {
                   </Link>
                   <ul>
                     <li>
-                      <Link to="/" className={`${styles.Link_style}`}>
+                      <Link to="/about" className={`${styles.Link_style}`}>
                         About Us
                       </Link>
                     </li>
@@ -109,11 +119,17 @@ function NavBar() {
                         Products
                       </Link>
                     </li>
-                    <li>
-                      <Link to="/addProduct" className={`${styles.Link_style}`}>
-                        Add Product
-                      </Link>
-                    </li>
+                    {userData.usertype === "customer" ? null : (
+                      <li>
+                        <Link
+                          to="/addProduct"
+                          className={`${styles.Link_style}`}
+                        >
+                          Add Product
+                        </Link>
+                      </li>
+                    )}
+
                     <li>
                       <Link to="/" className={`${styles.Link_style}`}>
                         Single Product

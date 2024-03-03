@@ -134,6 +134,26 @@ export default function AddProduct() {
                     ) : null}
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodQuantity"
+                      value={AddProductForm.values.prodQuantity}
+                      name="prodPrice"
+                      placeholder="Enter The Product Quantity"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodQuantity &&
+                    AddProductForm.touched.prodQuantity ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodQuantity}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>

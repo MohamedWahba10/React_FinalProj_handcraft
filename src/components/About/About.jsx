@@ -7,12 +7,14 @@ import { TokenContext } from "../../Context/Token";
 export default function About() {
   const userToken = localStorage.getItem("userToken");
   const userId = jwtDecode(userToken).id;
-  let {userData} = useContext(TokenContext)
+  let {userData,setUserData} = useContext(TokenContext)
 
 
-  console.log(userData)
-
+  useEffect(() => {
+    setUserData(localStorage.getItem("userData"));
+  }, []);
   
+   userData = JSON.parse(localStorage.getItem("userData"));
 
   
   return (
@@ -26,6 +28,9 @@ export default function About() {
         </h1>
         <h1>
           {userId}
+        </h1>
+        <h1>
+          {userData.usertype}
         </h1>
 
           <div className="row gy-5">
