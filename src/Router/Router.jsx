@@ -10,7 +10,6 @@ import ProtectedRoutes from "../components/ProtectedRoutes/ProtectedRoutes";
 import Profile from "../components/Profile/Profile";
 import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
-import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
 
 export default function Router() {
   return (
@@ -41,22 +40,9 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-        <Route
-          path="/login"
-          element={
-            <ProtectedLogin>
-              <Login />
-            </ProtectedLogin>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <ProtectedLogin>
-              <Register />
-            </ProtectedLogin>
-          }
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/activate" element={<Login />} />
         <Route
           path="/detail"
           element={
@@ -85,10 +71,11 @@ export default function Router() {
           path="/addProduct"
           element={
             <ProtectedRoutes>
-              <AddProduct />
+              <AddProduct />   
             </ProtectedRoutes>
           }
-        />
+        />  
+      
       </Route>
     </Routes>
   );

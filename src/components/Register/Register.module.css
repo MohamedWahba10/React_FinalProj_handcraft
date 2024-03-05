@@ -75,3 +75,24 @@
     }
   }
   
+
+ 
+/* styles.module.css */
+.verificationMessage {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px;
+  margin-bottom: 20px;
+  display: flex; /* Align icon and text horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.icon {
+
+  margin-right: 10px; /* Space between icon and text */
+  color: #155724;
+  font-size: 2rem; /* Adjust the font size to make the icon larger */
+  margin-bottom: 10px; /* Add some space between icon and text */
+}

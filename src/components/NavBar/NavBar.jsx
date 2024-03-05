@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
-import { jwtDecode } from "jwt-decode";
+
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -14,7 +14,10 @@ function NavBar() {
     setUserData(localStorage.getItem("userData"));
   }, []);
 
-  userData = JSON.parse(localStorage.getItem("userData"));
+
+  // userData = JSON.parse(localStorage.getItem("userData"));
+    userData = localStorage.getItem("userData");
+
 
   let navigate = useNavigate();
   function logOut() {

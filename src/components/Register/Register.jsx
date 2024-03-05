@@ -5,13 +5,19 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import styles from "./Register.module.css";
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
 
 
 export default function Register() {
 
   const [isLoading, setisLoading] = useState(false)
   const [apiError, setapiError] = useState("")
+  const [verificationMessage, setverificationMessage] = useState(false)
   const navigate = useNavigate()
+
+
 
   async function register(values) {
 
@@ -29,25 +35,24 @@ export default function Register() {
     let { data } = await axios.post(`http://localhost:8000/api/register/`, values).catch((err) => {
       console.log("heelooo", err);
 
-      if (err.response.data.email){
+      if (err.response.data.email) {
         setapiError(err.response.data.email)
-      } else if (err.response.data.ssn){
+      } else if (err.response.data.ssn) {
 
         setapiError(err.response.data.ssn)
       }
-     
+
 
       setisLoading(false)
     })
 
     if (data.message === "success") {
       setisLoading(false)
-      navigate("/login")
+      setverificationMessage(true)
+      // navigate("/login")
     }
 
   }
-
-
 
   let validationSchema = Yup.object({
     first_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
@@ -248,6 +253,12 @@ export default function Register() {
 
               </div>
             </form>
+            {verificationMessage ?
+              <div className={`${styles.verificationMessage}`}>
+                <FontAwesomeIcon icon={faCheckCircle} className={styles.icon} />
+                A verification email has been sent to your email address. Please check your email and follow the instructions to verify your account.
+              </div> : null}
+
 
 
 
@@ -265,7 +276,10 @@ export default function Register() {
       </div>
     </>
   );
+
+
 }
+
 
 
 
