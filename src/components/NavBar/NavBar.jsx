@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
+import Cookies from 'js-cookie';
 
 
 function NavBar() {
@@ -16,13 +17,16 @@ function NavBar() {
 
 
   // userData = JSON.parse(localStorage.getItem("userData"));
-    userData = localStorage.getItem("userData");
-
+    // userData = localStorage.getItem("userData");
+    var userDataString = localStorage.getItem("userData");
+    userData = JSON.parse(userDataString);
 
   let navigate = useNavigate();
   function logOut() {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userData");
+    Cookies.remove('userToken');
+    // Cookies.remove('userToken', { path: '/login' }); 
     setToken(null);
     setUserData(null);
     navigate("/login");
@@ -122,7 +126,7 @@ function NavBar() {
                         Products
                       </Link>
                     </li>
-                    {userData.usertype === "customer" ? null : (
+                    {userData?.usertype === "customer" ? null : (
                       <li>
                         <Link
                           to="/addProduct"

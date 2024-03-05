@@ -21,7 +21,7 @@ export default function UpdateProfile() {
     console.log("values", values);
     const userId = jwtDecode(userToken).id;
     setError("");
-    console.log("Merrrrrrna");
+    // console.log("Merrrrrrna");
     setIsLoading(true);
     try {
       const response = await axios.put(
