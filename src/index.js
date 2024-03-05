@@ -7,14 +7,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import TokenContextProvider from './Context/Token';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+let query = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <QueryClientProvider client={query}>
 
   <TokenContextProvider>
     <App />
 
   </TokenContextProvider>
+  </QueryClientProvider>
 
 );
 

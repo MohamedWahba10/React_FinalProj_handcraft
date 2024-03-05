@@ -67,6 +67,7 @@ export default function AddProduct() {
       prodName: "",
       prodPrice: "",
       prodQuantity:"",
+      prodSubCategory:"",
     },
     validationSchema,
     // onSubmit: callAddProduct,
@@ -89,13 +90,15 @@ export default function AddProduct() {
       <div className="container my-5 py-5">
         <div>
           <div className={`${styles.form_AddProduct}`}>
-            <h2 className="text-center">Add Product</h2>
             {/* {error ? <div className="alert alert-danger"> {error}</div> : ""} */}
             {/* <form onSubmit={AddProductForm.handleSubmit}> */}
             <form>
               <div className="row gy-4">
                 <div className="col-md-6">
                   <div className="form-group">
+                  <label htmlFor="prodName" className="fs-4 fw-bold">
+                      Product Name
+                    </label>
                     <input
                       type="text"
                       className="w-100"
@@ -116,6 +119,9 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
+                  <label htmlFor="prodPrice" className="fs-4 fw-bold">
+                      Product Price
+                    </label>
                     <input
                       type="number"
                       className="w-100 "
@@ -136,6 +142,9 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
+                  <label htmlFor="prodQuantity" className="fs-4 fw-bold">
+                      Product Quantity
+                    </label>
                     <input
                       type="number"
                       className="w-100 "
@@ -150,6 +159,30 @@ export default function AddProduct() {
                     AddProductForm.touched.prodQuantity ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodQuantity}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                  <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
+                      Product Category
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodSubCategory"
+                      value={AddProductForm.values.prodSubCategory}
+                      name="prodSubCategory"
+                      placeholder="Enter The Product Category"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodSubCategory &&
+                    AddProductForm.touched.prodSubCategory ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodSubCategory}
                       </div>
                     ) : null}
                   </div>
