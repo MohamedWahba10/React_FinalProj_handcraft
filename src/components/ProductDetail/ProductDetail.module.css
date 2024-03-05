@@ -1,0 +1,35 @@
+.img_style{
+  border-radius: 12px;
+}
+
+.wish_style{
+  border: 2px solid #1f1f1f;
+  padding: 9px;
+  margin-block: 5px;
+  border-radius: 10px;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+ transition: all 0.5s;
+
+}
+.wish_style:hover{
+ background-color: #1f1f1f;
+}
+
+.wish_style:hover .wish_icon{
+  color: white;
+}
+.cart_button_style{
+  border: 3px solid #1f1f1f;
+  border-radius: 10px;
+  color: #1f1f1f;
+  background-color: transparent;
+  transition: all 0.5s;
+}
+
+.cart_button_style:hover{
+  background-color: #1f1f1f;
+  color: white;
+}

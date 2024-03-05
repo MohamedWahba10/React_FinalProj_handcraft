@@ -52,7 +52,7 @@ export default function Router() {
              <Register />
            </ProtectedLogin>
        } />
-        <Route path="/activate" element={
+        <Route path="/activate/*" element={
              <ProtectedLogin>
              <Login />
          </ProtectedLogin>

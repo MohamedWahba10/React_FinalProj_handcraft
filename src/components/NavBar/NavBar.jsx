@@ -126,7 +126,9 @@ function NavBar() {
                         Products
                       </Link>
                     </li>
-                    {userData?.usertype === "customer" ? null : (
+                    {userData.usertype === "customer" ? null : (
+                      <>
+                
                       <li>
                         <Link
                           to="/addProduct"
@@ -135,6 +137,15 @@ function NavBar() {
                           Add Product
                         </Link>
                       </li>
+                          <li>
+                          <Link
+                            to="/detail"
+                            className={`${styles.Link_style}`}
+                          >
+                            Detail
+                          </Link>
+                        </li>
+                        </>
                     )}
 
                     <li>
