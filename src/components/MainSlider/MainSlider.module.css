@@ -1,0 +1,5 @@
+.slider-zoom {
+    transform: scale(1.4); /* Zoom in effect */
+    transition: transform 0.7s; /* Smooth transition */
+  }
+  

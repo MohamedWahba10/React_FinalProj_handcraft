@@ -1,35 +1,34 @@
-// import React, { useEffect } from 'react';
-// import { useSearchParams, useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useNavigate, useLocation } from 'react-router-dom';
+// import axios from 'axios';
 
-// const ActivateAccount = () => {
-//  const navigate = useNavigate();
-//  const [searchParams] = useSearchParams();
-//  const uid = searchParams.get('uid');
-//  const token = searchParams.get('token');
+// function ActivateAccount() {
+//     const navigate = useNavigate();
+//     const location = useLocation();
 
-//  useEffect(() => {
-//     // Perform the activation logic here (e.g., send a request to your Django API)
-//     // Here's an example using fetch:
-//     fetch(`http://localhost:8000/api/activate/?uid=${uid}&token=${token}`)
-//       .then(response => {
-//         if (response.ok) {
-//           // Redirect to the login page after successful activation
-//           navigate('/login');
-//         } else {
-//           // Handle activation failure (e.g., display an error message)
-//           console.error('Activation failed');
-//         }
-//       })
-//       .catch(error => {
-//         console.error('Error activating account:', error);
-//       });
-//  }, [uid, token, navigate]); // Dependencies array updated
+//     useEffect(() => {
+//         const params = new URLSearchParams(location.search);
+//         const uid = params.get('uid');
+//         const token = params.get('token');
 
-//  return (
-//     <div>
-//       <p>Activating your account...</p>
-//     </div>
-//  );
-// };
+//         axios.get(`http://localhost:8000/api/activate/?uid=${uid}&token=${token}`)
+//             .then(response => {
+//                 console.log(response.data); // Log the response data
+//                 if (response.data && response.data.message) {
+//                     alert(response.data.message); // Show a success message
+//                     navigate('/login'); // Redirect to the login page
+//                 } else {
+//                     throw new Error('Invalid response');
+//                 }
+//             })
+//             .catch(error => {
+//                 console.error(error); // Log the error
+//                 alert(error.response ? error.response.data.error : 'An error occurred');
+//                 navigate('/'); // Redirect to the home page or another appropriate page
+//             });
+//     }, [navigate, location.search]);
+
+//     return null; // You can render a loading spinner or message here
+// }
 
 // export default ActivateAccount;
