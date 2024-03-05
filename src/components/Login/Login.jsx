@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { TokenContext } from "../../Context/Token";
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const [isLoading, setisLoading] = useState(false);
@@ -25,6 +26,9 @@ export default function Login() {
         const token = response.data.token;
 
         if (response.data.message == "success" && token && token.length > 0) {
+          Cookies.set('userToken', token); 
+          
+
           navigate("/");
           setisLoading(false);
           localStorage.setItem("userToken", token);

@@ -4,7 +4,7 @@ import styles from "./Home.module.css";
 import MainSlider from '../MainSlider/MainSlider';
 
 export default function Home() {
-  
+
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleCategoryClick = (index) => {
@@ -23,7 +23,7 @@ export default function Home() {
             <h2>what's new ?</h2>
           </div>
         </div>
-        <div className="d-flex mx-auto border-none rounded-2 bg-secondary pointer rounded border-secondary p-1 mb-4 bg-light justify-content-between text-black" style={{ width: '30rem', color: 'grey' }}>
+        <div className="d-flex mx-auto border-none rounded-2 bg-secondary cursor-pointer rounded border-secondary p-1 mb-4 bg-light justify-content-between text-black" style={{ width: '30rem', color: 'grey' }}>
           {['category 1', 'category 2', 'category 3', 'category 4'].map((category, index) => (
             <div
               key={index}
