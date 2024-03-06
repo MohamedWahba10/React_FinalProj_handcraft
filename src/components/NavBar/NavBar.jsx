@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -15,18 +14,17 @@ function NavBar() {
     setUserData(localStorage.getItem("userData"));
   }, []);
 
-
   // userData = JSON.parse(localStorage.getItem("userData"));
-    // userData = localStorage.getItem("userData");
-    var userDataString = localStorage.getItem("userData");
-    userData = JSON.parse(userDataString);
+  // userData = localStorage.getItem("userData");
+  var userDataString = localStorage.getItem("userData");
+  userData = JSON.parse(userDataString);
 
   let navigate = useNavigate();
   function logOut() {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userData");
-    Cookies.remove('userToken');
-    // Cookies.remove('userToken', { path: '/login' }); 
+    Cookies.remove("userToken");
+    // Cookies.remove('userToken', { path: '/login' });
     setToken(null);
     setUserData(null);
     navigate("/login");
@@ -128,24 +126,28 @@ function NavBar() {
                     </li>
                     {userData.usertype === "customer" ? null : (
                       <>
-                
-                      <li>
-                        <Link
-                          to="/addProduct"
-                          className={`${styles.Link_style}`}
-                        >
-                          Add Product
-                        </Link>
-                      </li>
-                          <li>
+                        <li>
                           <Link
-                            to="/detail"
+                            to="/addProduct"
                             className={`${styles.Link_style}`}
                           >
+                            Add Product
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/updateProduct"
+                            className={`${styles.Link_style}`}
+                          >
+                            Update Product
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/detail" className={`${styles.Link_style}`}>
                             Detail
                           </Link>
                         </li>
-                        </>
+                      </>
                     )}
 
                     <li>

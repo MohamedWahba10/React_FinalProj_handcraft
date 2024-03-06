@@ -1,78 +1,148 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AddProduct.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import { TokenContext } from "../../Context/Token";
+import { useQuery } from "@tanstack/react-query";
+import { jwtDecode } from "jwt-decode";
 
 export default function AddProduct() {
   const [isLoading, setisLoading] = useState(false);
-  //   const [error, setError] = useState("");
   let navigate = useNavigate();
-  let { setToken, setUserData } = useContext(TokenContext);
-  //   async function callAddProduct(reqBody) {
-  //     setError("");
-  //     setisLoading(true);
-  //     try {
-  //       const response = await axios.post(
-  //         `http://localhost:8000/api/AddProduct/`,
-  //         reqBody
-  //       );
+  const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
+  const userToken = localStorage.getItem("userToken");
+  const userData = localStorage.getItem("userData")
+  console.log(userData)
+  // const userId = jwtDecode(userToken).id;
+  const [prodImageCoverFile, setProdImageCoverFile] = useState(null);
+  const [prodImagesArray, setProdImagesArray] = useState([]);
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/subcategory/`
+        );
+        setCategories(response.data.data);
+      } catch (error) {
+        setError(error.message);
+      }
+    }
 
-  //       if (response.status === 200) {
-  //         const token = response.data.token;
+    fetchCategories();
+  }, []);
 
-  //         if (response.data.message == "success" && token && token.length > 0) {
-  //           navigate("/");
-  //           setisLoading(false);
-  //           localStorage.setItem("userToken", token);
-  //           localStorage.setItem("userData", JSON.stringify(response.data.user));
+//   useEffect(() => {
+//     async function fetchCategoriesSpecific(id) {
+//       try {
+//         const response = await axios.get(
+//           `http://127.0.0.1:8000/api/subcategory/${id}`
+//         );
+//         setCategories(response.data.data);
+//       } catch (error) {
+//         setError(error.message);
+//       }
+//     }
 
-  //           // localStorage.setItem("userData", response.data.user);
-  //           setToken(token);
-  //           setUserData(response.data.user);
-  //         } else {
-  //           console.log("data", response.data.message);
-  //         }
-  //       } else {
-  //         console.log("Unexpected response status:", response.status);
-  //       }
-  //     } catch (error) {
-  //       setError(error.response.data.detail);
-  //       setisLoading(false);
-  //       console.error("Error during AddProduct:", error.response.data.detail);
-  //     }
-  //   }
+//     fetchCategoriesSpecific(id);
+//   }, [id]);
+// }
 
+
+  console.log("userToken:", userToken);
+  async function callAddProduct(values) {
+    setisLoading(true);
+    const formData = new FormData();
+    formData.append("prodName", AddProductForm.values.prodName);
+    formData.append("prodPrice", AddProductForm.values.prodPrice);
+    formData.append("prodQuantity",  AddProductForm.values.prodQuantity);
+    formData.append("prodSubCategory", AddProductForm.values.prodSubCategory);
+    formData.append("prodVendor",userData);
+    formData.append("prodDescription", AddProductForm.values.prodDescription);
+    formData.append("prodImageCover",  AddProductForm.values.prodImageCover);
+
+    prodImagesArray.forEach((image, index) => {
+      formData.append(`prodImages[${index}]`, image);
+    });
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/product/create`,
+        formData,
+        {
+          headers: {
+            token: `${userToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("response : ", response);
+
+      if (response.data != "") {
+        navigate("/");
+        setisLoading(false);
+      } else {
+        console.log("data is ", response.data);
+      }
+    } catch (error) {
+      setisLoading(false);
+      console.error("Error during AddProduct:", error);
+    }
+  }
   const validationSchema = Yup.object({
     prodName: Yup.string()
-      .matches(/^[a-zA-Z]{3,10}$/, "product Name must be from 3 to 10 letters")
+      .matches(
+        /^[a-zA-Z0-9]{3,35}$/,
+        "product Name must be from 3 to 10 letters"
+      )
       .required("Required"),
-    prodPrice: Yup.string().matches(
-        /^[1-9][0-9]{4}$/,
-        "'product Price must be only digits'"
-      )
+    prodPrice: Yup.string()
+      .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
-      prodQuantity: Yup.string().matches(
-        /^[1-9][0-9]{3}$/,
-        "'product Quantity must be only digits'"
-      )
+    prodQuantity: Yup.string()
+      .matches(/^[1-9][0-9]{0,6}$/, "'product Quantity must be only digits'")
       .required("product Quantity is Required"),
+    prodSubCategory: Yup.string().required("Category is Required"),
+    prodDescription: Yup.string().required("Description is Required"),
+    // prodImageCover: Yup.mixed()
+    //   .test("fileType", "Please select a valid file", (value) => {
+    //     return value instanceof File;
+    //   })
+    //   .required("Image Cover is required"),
+    // prodImages: Yup.array()
+    //   .min(1, "Please upload at least one image")
+    //   .of(
+    //     Yup.mixed().test("fileType", "Please select valid files", (value) => {
+    //       return value instanceof File;
+    //     })
+    //   )
+    //   .required("Product Images are required"),
+      prodImages: Yup.array().required("Product Images are required"),
   });
 
   const AddProductForm = useFormik({
     initialValues: {
       prodName: "",
       prodPrice: "",
-      prodQuantity:"",
-      prodSubCategory:"",
+      prodQuantity: "",
+      prodSubCategory: "",
+      prodVendor: userData,
+      prodDescription: "",
+      prodImageCover: "",
+      prodImages: [],
     },
     validationSchema,
-    // onSubmit: callAddProduct,
+    onSubmit: (values) => callAddProduct(values),
   });
 
+  const handleImageCoverChange = (event) => {
+    setProdImageCoverFile(event.currentTarget.files[0]);
+  };
+
+  const handleImagesChange = (event) => {
+    setProdImagesArray(Array.from(event.currentTarget.files));
+  };
   return (
     <>
       <Helmet>
@@ -90,13 +160,15 @@ export default function AddProduct() {
       <div className="container my-5 py-5">
         <div>
           <div className={`${styles.form_AddProduct}`}>
-            {/* {error ? <div className="alert alert-danger"> {error}</div> : ""} */}
-            {/* <form onSubmit={AddProductForm.handleSubmit}> */}
-            <form>
+            {error ? <div className="alert alert-danger"> {error}</div> : ""}
+            <form
+              onSubmit={AddProductForm.handleSubmit}
+              encType="multipart/form-data"
+            >
               <div className="row gy-4">
                 <div className="col-md-6">
                   <div className="form-group">
-                  <label htmlFor="prodName" className="fs-4 fw-bold">
+                    <label htmlFor="prodName" className="fs-4 fw-bold">
                       Product Name
                     </label>
                     <input
@@ -119,7 +191,7 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                  <label htmlFor="prodPrice" className="fs-4 fw-bold">
+                    <label htmlFor="prodPrice" className="fs-4 fw-bold">
                       Product Price
                     </label>
                     <input
@@ -142,7 +214,7 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                  <label htmlFor="prodQuantity" className="fs-4 fw-bold">
+                    <label htmlFor="prodQuantity" className="fs-4 fw-bold">
                       Product Quantity
                     </label>
                     <input
@@ -150,7 +222,7 @@ export default function AddProduct() {
                       className="w-100 "
                       id="prodQuantity"
                       value={AddProductForm.values.prodQuantity}
-                      name="prodPrice"
+                      name="prodQuantity"
                       placeholder="Enter The Product Quantity"
                       onChange={AddProductForm.handleChange}
                       onBlur={AddProductForm.handleBlur}
@@ -166,25 +238,99 @@ export default function AddProduct() {
 
                 <div className="col-md-6">
                   <div className="form-group">
-                  <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
+                    <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
                       Product Category
                     </label>
-                    <input
-                      type="number"
+
+                    <select
                       className="w-100 "
                       id="prodSubCategory"
                       value={AddProductForm.values.prodSubCategory}
                       name="prodSubCategory"
-                      placeholder="Enter The Product Category"
                       onChange={AddProductForm.handleChange}
                       onBlur={AddProductForm.handleBlur}
-                    />
+                    >
+                      <option value="">Select Category</option>
+                      {Array.isArray(categories) &&
+                        categories.map((category) => (
+                          <option value={category.id} key={category.id}>
+                            {category.subCateName}
+                          </option>
+                        ))}
+                    </select>
                     {AddProductForm.errors.prodSubCategory &&
-                    AddProductForm.touched.prodSubCategory ? (
+                      AddProductForm.touched.prodSubCategory && (
+                        <div className="text-danger fs-5 mt-3">
+                          {AddProductForm.errors.prodSubCategory}
+                        </div>
+                      )}
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodDescription" className="fs-4 fw-bold">
+                      Product Description
+                    </label>
+                    <textarea
+                      className="w-100 "
+                      id="prodDescription"
+                      value={AddProductForm.values.prodDescription}
+                      name="prodDescription"
+                      placeholder="Enter The Product Description"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    ></textarea>
+                    {AddProductForm.errors.prodDescription &&
+                    AddProductForm.touched.prodDescription ? (
                       <div className="text-danger fs-5 mt-3">
-                        {AddProductForm.errors.prodSubCategory}
+                        {AddProductForm.errors.prodDescription}
                       </div>
                     ) : null}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodImageCover" className="fs-4 fw-bold">
+                      Image Cover
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageCover"
+                      name="prodImageCover"
+                      onChange={handleImageCoverChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                    {AddProductForm.errors.prodImageCover &&
+                    AddProductForm.touched.prodImageCover ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodImageCover}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodImages" className="fs-4 fw-bold">
+                      Product Images
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImages"
+                      name="prodImages"
+                      multiple
+                      onChange={handleImagesChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodImages &&
+                      AddProductForm.touched.prodImages && (
+                        <div className="text-danger fs-5 mt-3">
+                          {AddProductForm.errors.prodImages}
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>

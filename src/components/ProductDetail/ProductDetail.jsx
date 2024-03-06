@@ -26,6 +26,7 @@ export default function ProductDetail() {
       `https://ecommerce.routemisr.com/api/v1/products/6428de2adc1175abc65ca05b`
     );
   }
+
   const detailPro = data?.data?.data;
 
   return (

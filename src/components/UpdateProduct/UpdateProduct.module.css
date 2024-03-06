@@ -1,0 +1,41 @@
+.header_UpdateProduct {
+  background-color: #f8f6f0;
+}
+
+.header_UpdateProduct h1 {
+  font-size: 45px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.header_UpdateProduct .link_home {
+  color: #727272;
+  font-size: 18px;
+}
+
+.header_UpdateProduct .span_UpdateProduct {
+  color: #3f3e3e;
+  font-size: 18px;
+}
+.form_UpdateProduct .UpdateProduct_button {
+  background-color: #1f1f1f;
+  font-size: 22px;
+  padding: 10px 30px;
+  margin-block: 15px;
+  border-radius: 10px;
+  color: white;
+  transition: all 0.5s;
+}
+.form_UpdateProduct form input,
+.form_UpdateProduct form select,
+.form_UpdateProduct form textarea {
+  padding: 15px 13px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.form_UpdateProduct .UpdateProduct_button:hover {
+  background-color: #d2ef9a;
+  color: black;
+  cursor: pointer;
+}
