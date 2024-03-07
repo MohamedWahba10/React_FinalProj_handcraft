@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 
 
 function NavBar() {
+  
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
   let { token, setToken, setUserData, userData } = useContext(TokenContext);
@@ -158,9 +159,9 @@ function NavBar() {
                   onClick={() => viewWishList()}
                 ></i>
               </div>
-              <div className={`${styles.cursor_pointer}`}>
-                <i class="fa-solid fa-cart-shopping fs-3"></i>
-              </div>
+              <Link to="/cart" className={`${styles.cursor_pointer}`}>
+                <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
+              </Link>
             </>
           ) : null}
         </div>

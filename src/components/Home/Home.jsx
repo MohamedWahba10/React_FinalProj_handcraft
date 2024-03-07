@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import img1 from '../../assets/images/image3.jpg';
 import styles from "./Home.module.css";
 import MainSlider from '../MainSlider/MainSlider';
+import CartContext from '../../Context/CartContext';
+
+import RecipeReviewCard from '../test/RecipeReviewCard';
+
 
 export default function Home() {
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(0);
+  // let { addToCart } = useContext(CartContext)
 
   const handleCategoryClick = (index) => {
-
     setSelectedCategory(index);
 
   };
 
+  // async function addCart(id) {
+  //  let res= await addToCart(id)
+  // }
+
+
   return (
     <>
-      <MainSlider />
+       <MainSlider />
 
+      {/* <RecipeReviewCard /> */}
+      
       <div className="container">
         <div className="row">
           <div className="md-col-3 text-center mt-5">
@@ -42,13 +53,16 @@ export default function Home() {
                 <div className="card-body gy-5">
                   <h5 className="card-title">{`Category ${selectedCategory + 1} Card ${cardIndex}`}</h5>
                   <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" className="btn btn-primary">Go somewhere</a>
+                  {/* <a href="#" className="btn btn-primary" onClick={()=>addCart(ele.id)} >Go somewhere</a> */}
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
+      </div> 
+
+
+
     </>
   );
 }

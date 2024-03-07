@@ -11,6 +11,7 @@ import Profile from "../components/Profile/Profile";
 import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
+import Cart from  "../components/Cart/Cart"
 
 export default function Router() {
   return (
@@ -42,21 +43,21 @@ export default function Router() {
           }
         />
         <Route path="/login" element={
-        <ProtectedLogin>
+          <ProtectedLogin>
             <Login />
-        </ProtectedLogin>
-        
-      } />
+          </ProtectedLogin>
+
+        } />
         <Route path="/register" element={
-               <ProtectedLogin>
-             <Register />
-           </ProtectedLogin>
-       } />
-        <Route path="/activate/*" element={
-             <ProtectedLogin>
-             <Login />
-         </ProtectedLogin>
-         
+          <ProtectedLogin>
+            <Register />
+          </ProtectedLogin>
+        } />
+        <Route path="/verify-email" element={
+          <ProtectedLogin>
+            <Login />
+          </ProtectedLogin>
+
         } />
         <Route
           path="/detail"
@@ -86,12 +87,25 @@ export default function Router() {
           path="/addProduct"
           element={
             <ProtectedRoutes>
-              <AddProduct />   
+              <AddProduct />
             </ProtectedRoutes>
           }
-        />  
-      
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoutes>
+              <Cart />
+            </ProtectedRoutes>
+          }
+        />
+
       </Route>
+
+
+
+
     </Routes>
   );
 }
+
