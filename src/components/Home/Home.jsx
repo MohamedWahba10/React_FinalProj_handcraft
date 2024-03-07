@@ -45,11 +45,11 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="row">
+        <div className="row gy-5">
           {[1, 2, 3, 4].map((cardIndex) => (
-            <div key={cardIndex} className="col-md-3 col-sm-12 ">
-              <div className="card" style={{ width: '18rem', height: '12rem' }}>
-                <img src={img1} alt="" />
+            <div key={cardIndex} className="col-lg-3 col-md-6 col-12 ">
+              <div className="card" >
+                <img src={img1} alt="" style={{ height: '12rem' }} />
                 <div className="card-body gy-5">
                   <h5 className="card-title">{`Category ${selectedCategory + 1} Card ${cardIndex}`}</h5>
                   <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

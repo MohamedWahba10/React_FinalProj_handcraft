@@ -21,20 +21,35 @@ export default function UpdateProfile() {
     console.log("values", values);
     const userId = jwtDecode(userToken).id;
     setError("");
-    // console.log("Merrrrrrna");
     setIsLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("image", values.image);
+      formData.append("first_name", values.first_name);
+      formData.append("last_name", values.last_name);
+      formData.append("phone", values.phone);
+      formData.append("address", values.address);
+
       const response = await axios.put(
         `http://localhost:8000/api/${userId}/`,
-        values
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       console.log(response);
 
       if (response.data.message === "Data Updated Successfully") {
-        navigate("/");
+        navigate("/updateProfile");
         setUserData(response.data.user);
         localStorage.setItem("userData", JSON.stringify(response.data.user));
-      } else {
+
+        // if (response.data.user.imageUrl) {
+        //   // localStorage.setItem("imageUrl", response.data.user.imageUrl);
+
+        // }      } else {
         console.log("data", response.data.message);
       }
     } catch (error) {
@@ -53,33 +68,24 @@ export default function UpdateProfile() {
       .required("Required"),
     phone: Yup.string().matches(/^01[1250][0-9]{8}$/, "invalid"),
     address: Yup.string(),
-    ssn: Yup.string().when("usertype", {
-      is: "vendor",
-      then: () =>
-        Yup.string()
-          .matches(/^\d{14}$/, "SSN must be a 14-digit number")
-          .required("SSN is required"),
-      otherwise: () => Yup.string().notRequired(),
-    }),
   });
 
   const updateProfile = useFormik({
     initialValues: {
       first_name: userData.first_name,
       last_name: userData.last_name,
-      email: userData.email,
-      password: userData.password,
       phone: userData.phone,
-      usertype: userData.usertype,
+      image: "",
+      imageUrl: localStorage.getItem("imageUrl") || "", 
       address: userData.address,
-      ssn: userData.ssn,
-      shopname: userData.shopname,
-      is_superuser: userData.is_superuser,
     },
     validationSchema,
     onSubmit: (values) => callUpdateProfile(values),
   });
-
+  // useEffect(() => {
+  //   if (userData.imageUrl) {
+  //     localStorage.setItem("imageUrl", userData.imageUrl); // Save imageUrl in localStorage
+  // }, [userData.imageUrl]);
   return (
     <>
       <Helmet>
@@ -99,8 +105,48 @@ export default function UpdateProfile() {
           <div className={`${styles.form_update}`}>
             <h2 className="text-center py-3">Update Profile</h2>
             {error ? <div className="alert alert-danger"> {error}</div> : ""}
-            <form onSubmit={updateProfile.handleSubmit}>
+            <form
+              onSubmit={updateProfile.handleSubmit}
+              encType="multipart/form-data"
+            >
               <div className="row gy-4">
+                <div className="col-md-12 text-center mb-3">
+                  <div className="form-group">
+                    {/* <img
+                      src={updateProfile.values.image && URL.createObjectURL(updateProfile.values.image)}
+                      style={{ height: "100px", width: "100px" }}
+                      alt="profile img"
+                    /> */}
+                    <img
+                      src={
+                        updateProfile.values.image
+                          ? URL.createObjectURL(updateProfile.values.image)
+                          : updateProfile.values.imageUrl
+                      }
+                      style={{ height: "100px", width: "100px" }}
+                      alt="profile img"
+                    />
+                    <input
+                      type="file"
+                      className="w-100"
+                      id="image"
+                      name="image"
+                      onChange={(event) => {
+                        updateProfile.setFieldValue(
+                          "image",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={updateProfile.handleBlur}
+                    />
+                    {updateProfile.errors.image &&
+                    updateProfile.touched.image ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {updateProfile.errors.image}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="first_name" className="fs-4 fw-bold">
@@ -196,31 +242,6 @@ export default function UpdateProfile() {
                     ) : null}
                   </div>
                 </div>
-                {userData.usertype === "customer" ? null : (
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label htmlFor="ssn" className="fs-4 fw-bold">
-                        SSN
-                      </label>
-
-                      <input
-                        type="text"
-                        className="w-100"
-                        id="ssn"
-                        value={updateProfile.values.ssn}
-                        name="ssn"
-                        placeholder="Enter The SSN "
-                        onChange={updateProfile.handleChange}
-                        onBlur={updateProfile.handleBlur}
-                      />
-                      {updateProfile.errors.ssn && updateProfile.touched.ssn ? (
-                        <div className="text-danger fs-5 mt-3">
-                          {updateProfile.errors.ssn}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                )}
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>
@@ -229,11 +250,7 @@ export default function UpdateProfile() {
                     <i className="fa fa-spinner fa-spin"></i>
                   </button>
                 ) : (
-                  <button
-                    type="submit"
-                    className={`${styles.update_button}`}
-                    disabled={!(updateProfile.isValid && updateProfile.dirty)}
-                  >
+                  <button type="submit" className={`${styles.update_button}`}>
                     Save Change
                   </button>
                 )}

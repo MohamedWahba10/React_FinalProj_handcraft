@@ -7,7 +7,7 @@ let CartContext = createContext();
 
 let headers = {
 
-    token: localStorage.getItem("token")
+    token: localStorage.getItem("userToken")
 }
 function addToCart(id) {
 

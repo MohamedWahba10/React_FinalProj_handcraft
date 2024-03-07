@@ -12,6 +12,8 @@ import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
 import Cart from  "../components/Cart/Cart"
+import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
+
 
 export default function Router() {
   return (
@@ -90,6 +92,7 @@ export default function Router() {
               <AddProduct />
             </ProtectedRoutes>
           }
+
         />
         <Route
           path="/cart"
@@ -99,6 +102,18 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+
+
+      
+          <Route
+          path="/updateProduct"
+          element={
+            <ProtectedRoutes>
+              <UpdateProduct />   
+            </ProtectedRoutes>
+          }
+        />  
+      
 
       </Route>
 
