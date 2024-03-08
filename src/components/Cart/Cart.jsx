@@ -23,11 +23,11 @@ export default function Cart() {
     //     setcartDetails(data)
     // }
 
-   //  async function clearCart() {
-        //     let { data } = clearCart()
-        //     setcartDetails(data)
-        // }
-    
+    //  async function clearCart() {
+    //     let { data } = clearCart()
+    //     setcartDetails(data)
+    // }
+
     // function updateProduct(id,count){
 
     //     let {data}= updateCartProduct(id,count)
@@ -63,7 +63,7 @@ export default function Cart() {
                                         </div>
 
                                         {/* Cart item details */}
-                                        <div className="row gy-3 mb-4">
+                                        <div className="row gy-3 mb-4 mt-3">
                                             {/* Cart item image */}
                                             <div className="col-lg-5">
                                                 <div className="me-lg-5">
@@ -78,10 +78,10 @@ export default function Cart() {
                                             </div>
                                             {/* Cart item quantity and price */}
                                             <div className="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
-                                                <div className="me-4">
-                                                    <button className="btn btn-outline-secondary me-2" >-</button>
-                                                    <span>quantity</span>
-                                                    <button className="btn btn-outline-secondary ms-2" >+</button>
+                                                <div className="me-4 d-flex">
+                                                    <div><button className="btn btn-outline-secondary me-2" >-</button></div>
+                                                    <div className='mt-1'>    <span >5</span></div>
+                                                    <div>   <button className="btn btn-outline-secondary ms-2" >+</button></div>
                                                 </div>
                                                 <div>
                                                     <p className="h6 mt-2"> $460.00 / per item </p>
@@ -97,18 +97,23 @@ export default function Cart() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                    
+
+                                      
+
+
+
+
                                         {/* Cart item details */}
                                         {/* Repeat for other cart items */}
                                     </div>
                                     {/* Cart total and shipping details */}
                                     <div className="border-top pt-4 mx-4 mb-4">
-                                        <div className="d-flex justify-content-between">
-                                            <p className="h6">Subtotal: <span className="text-muted">$1156.00</span></p>
-                                            <p className="h6">Delivery: <span className="text-muted">Free</span></p>
-                                        </div>
+
                                         <div className="d-flex justify-content-between">
                                             <p className="h5">Total: <span className="text-primary">$1156.00</span></p>
-                                            <a href="#" className="btn text-light bg-dark"> Proceed to checkout</a>
+                                            <a href="checkout" className="btn text-light bg-dark "> Proceed to checkout</a>
                                         </div>
                                     </div>
                                     {/* Cart total and shipping details */}
@@ -123,8 +128,8 @@ export default function Cart() {
                                         <h6 className="card-title">Cart summary</h6>
                                         <hr />
                                         <div className="d-flex justify-content-between">
-                                            <p className="h6">Subtotal:</p>
-                                            <p className="h6">$1156.00</p>
+                                            <p className="h6">Quantitiy:</p>
+                                            <p className="h6"> 4 </p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p className="h6">Delivery:</p>
@@ -135,7 +140,7 @@ export default function Cart() {
                                             <p className="h5">Total:</p>
                                             <p className="h5">$1156.00</p>
                                         </div>
-                                        <a href="#" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
+                                        <a href="/checkout" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
                                     </div>
                                 </div>
                             </div>

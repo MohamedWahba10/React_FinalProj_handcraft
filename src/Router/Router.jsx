@@ -11,8 +11,13 @@ import Profile from "../components/Profile/Profile";
 import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
-import Cart from  "../components/Cart/Cart"
+import Cart from "../components/Cart/Cart"
 import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
+import Checkout from "../components/Checkout/Checkout";
+
+
+
+
 
 
 export default function Router() {
@@ -55,12 +60,9 @@ export default function Router() {
             <Register />
           </ProtectedLogin>
         } />
-        <Route path="/verify-email" element={
-          <ProtectedLogin>
-            <Login />
-          </ProtectedLogin>
+        
+   
 
-        } />
         <Route
           path="/detail"
           element={
@@ -102,24 +104,27 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+ <Route
+          path="/checkout"
+          element={
+            <ProtectedRoutes>
+              <Checkout />
+            </ProtectedRoutes>
+          }
+        />
 
 
-      
-          <Route
+
+Checkout
+        <Route
           path="/updateProduct"
           element={
             <ProtectedRoutes>
-              <UpdateProduct />   
+              <UpdateProduct />
             </ProtectedRoutes>
           }
-        />  
-      
-
+        />
       </Route>
-
-
-
-
     </Routes>
   );
 }
