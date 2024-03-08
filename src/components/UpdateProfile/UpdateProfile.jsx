@@ -19,7 +19,7 @@ export default function UpdateProfile() {
 
   async function callUpdateProfile(values) {
     console.log("values", values);
-    const userId = jwtDecode(userToken).id;
+    // const userId = jwtDecode(userToken).id;
     setError("");
     setIsLoading(true);
     try {
@@ -31,11 +31,12 @@ export default function UpdateProfile() {
       formData.append("address", values.address);
 
       const response = await axios.put(
-        `http://localhost:8000/api/${userId}/`,
+        `http://localhost:8000/api/profile/`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            // "Content-Type": "multipart/form-data",
+            Authorization: `Token ${localStorage.getItem("userToken")}`
           },
         }
       );

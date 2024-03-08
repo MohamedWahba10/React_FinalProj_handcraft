@@ -162,7 +162,7 @@ const Checkout = () => {
                                     </div>
                                 </div>
                                 <div className="float-end">
-                                    <button type="submit" className="btn btn-primary btn-rounded" style={{ backgroundColor: '#0062CC' }}>Place order</button>
+                                    <button type="submit" className="btn btn-primary btn-rounded bg-black">Place order</button>
                                 </div>
                             </form>
 

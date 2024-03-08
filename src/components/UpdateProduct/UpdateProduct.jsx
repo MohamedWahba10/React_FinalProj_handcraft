@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./UpdateProduct.module.css";
 import { Link } from "react-router-dom";
-
 import { Helmet } from "react-helmet";
 import axios from "axios";
 
@@ -15,7 +14,7 @@ export default function UpdateProduct() {
         async function fetchCategories() {
           try {
             const response = await axios.get(
-              `http://127.0.0.1:8000/api/subcategory/`
+              `http://127.0.0.1:8000/api/subcategory/`,
             );
             setCategories(response.data.data);
           } catch (error) {

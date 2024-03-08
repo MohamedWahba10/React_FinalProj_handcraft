@@ -5,10 +5,11 @@ import axios from 'axios';
 let CartContext = createContext();
 
 
-let headers = {
 
-    token: localStorage.getItem("userToken")
-}
+let headers = {
+    Authorization: `Token ${localStorage.getItem("userToken")}`
+};
+
 function addToCart(id) {
 
     console.log("leoooooo leoooo");
