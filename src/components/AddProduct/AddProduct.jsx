@@ -15,10 +15,10 @@ export default function AddProduct() {
   const [error, setError] = useState(null);
   const userToken = localStorage.getItem("userToken");
   const userData = localStorage.getItem("userData")
-  console.log(userData)
+  // console.log(userData)
   // const userId = jwtDecode(userToken).id;
-  const [prodImageCoverFile, setProdImageCoverFile] = useState(null);
-  const [prodImagesArray, setProdImagesArray] = useState([]);
+  // const [prodImageCoverFile, setProdImageCoverFile] = useState(null);
+  // const [prodImagesArray, setProdImagesArray] = useState([]);
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -51,28 +51,30 @@ export default function AddProduct() {
 // }
 
 
-  console.log("userToken:", userToken);
+  // console.log("userToken:", userToken);
   async function callAddProduct(values) {
     setisLoading(true);
-    const formData = new FormData();
-    formData.append("prodName", AddProductForm.values.prodName);
-    formData.append("prodPrice", AddProductForm.values.prodPrice);
-    formData.append("prodQuantity",  AddProductForm.values.prodQuantity);
-    formData.append("prodSubCategory", AddProductForm.values.prodSubCategory);
-    formData.append("prodVendor",userData);
-    formData.append("prodDescription", AddProductForm.values.prodDescription);
-    formData.append("prodImageCover",  AddProductForm.values.prodImageCover);
+    // const formData = new FormData();
+    // formData.append("prodName",values.prodName);
+    // formData.append("prodPrice", values.prodPrice);
+    // formData.append("prodQuantity",values.prodQuantity);
+    // formData.append("prodSubCategory",values.prodSubCategory);
+    // formData.append("prodVendor",userData);
+    // formData.append("prodDescription",values.prodDescription);
+    // formData.append("prodImageThumbnail",values.prodImageThumbnail);
 
-    prodImagesArray.forEach((image, index) => {
-      formData.append(`prodImages[${index}]`, image);
-    });
+    // prodImagesArray.forEach((image, index) => {
+    //   formData.append(`prodImages[${index}]`, image);
+    // });
     try {
+      console.log("MERRRRRRRRRRRRRRRRRRRRRR")
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/product/create`,
-        formData,
+        `http://127.0.0.1:8000/api/product/create/`,
+        values,
         {
           headers: {
-            token: `${userToken}`,
+            userToken: `${userToken}`,
+            
             "Content-Type": "multipart/form-data",
           },
         }
@@ -118,7 +120,7 @@ export default function AddProduct() {
     //     })
     //   )
     //   .required("Product Images are required"),
-      prodImages: Yup.array().required("Product Images are required"),
+      // prodImages: Yup.array().required("Product Images are required"),
   });
 
   const AddProductForm = useFormik({
@@ -129,20 +131,20 @@ export default function AddProduct() {
       prodSubCategory: "",
       prodVendor: userData,
       prodDescription: "",
-      prodImageCover: "",
+      prodImageThumbnail: "",
       prodImages: [],
     },
     validationSchema,
     onSubmit: (values) => callAddProduct(values),
   });
 
-  const handleImageCoverChange = (event) => {
-    setProdImageCoverFile(event.currentTarget.files[0]);
-  };
+  // const handleImageCoverChange = (event) => {
+  //   setProdImageCoverFile(event.currentTarget.files[0]);
+  // };
 
-  const handleImagesChange = (event) => {
-    setProdImagesArray(Array.from(event.currentTarget.files));
-  };
+  // const handleImagesChange = (event) => {
+  //   setProdImagesArray(Array.from(event.currentTarget.files));
+  // };
   return (
     <>
       <Helmet>
@@ -298,7 +300,9 @@ export default function AddProduct() {
                       className="w-100 border"
                       id="prodImageCover"
                       name="prodImageCover"
-                      onChange={handleImageCoverChange}
+                      // onChange={handleImageCoverChange}
+                      onChange={AddProductForm.handleChange}
+
                       onBlur={AddProductForm.handleBlur}
                     />
 
@@ -322,7 +326,9 @@ export default function AddProduct() {
                       id="prodImages"
                       name="prodImages"
                       multiple
-                      onChange={handleImagesChange}
+                      // onChange={handleImagesChange}
+                      onChange={AddProductForm.handleChange}
+
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodImages &&

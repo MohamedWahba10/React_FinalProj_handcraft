@@ -96,7 +96,7 @@ function NavBar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/">
+                  <Link className={`nav-link ${styles.Link_style}`} to="/allProduct">
                     PRODUCT
                   </Link>
                 </li>

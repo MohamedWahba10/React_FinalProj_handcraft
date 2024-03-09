@@ -12,6 +12,7 @@ import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
 import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
+import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
 
 export default function Router() {
   return (
@@ -99,7 +100,14 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />  
-      
+       <Route
+          path="/allProduct"
+          element={
+            <ProtectedRoutes>
+              <FeatureProduct />   
+            </ProtectedRoutes>
+          }
+        /> 
       </Route>
     </Routes>
   );
