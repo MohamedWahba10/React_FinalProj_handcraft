@@ -120,7 +120,7 @@ export default function Router() {
         />
 
         <Route
-          path="/updateProduct"
+          path="/updateProduct/:id"
           element={
             <ProtectedRoutes>
               <UpdateProduct />

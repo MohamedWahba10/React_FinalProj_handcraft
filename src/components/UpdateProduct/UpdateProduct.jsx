@@ -1,29 +1,135 @@
 import React, { useEffect, useState } from "react";
 import styles from "./UpdateProduct.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 
 export default function UpdateProduct() {
-    const [categories, setCategories] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setisLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setisLoading] = useState(false);
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const [dataProduct, setData] = useState(null);
 
-    useEffect(() => {
-        async function fetchCategories() {
-          try {
-            const response = await axios.get(
-              `http://127.0.0.1:8000/api/subcategory/`,
-            );
-            setCategories(response.data.data);
-          } catch (error) {
-            setError(error.message);
-          }
+  // --------------- call api subCategory --------------
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await axios.get(
+          `http://127.0.0.1:8000/api/product/subcategory/`
+        );
+        setCategories(response.data.data);
+      } catch (error) {
+        setError(error.message);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
+  //  --------------- call api product detail --------------------
+
+  async function ProductDetail(id) {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/product/details/${id}`,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("userToken")}`,
+          },
         }
-    
-        fetchCategories();
-      }, []);
+      );
+      setData(response);
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+    }
+  }
+
+  useEffect(() => {
+    ProductDetail(id);
+  }, []);
+  const productData = dataProduct?.data.data;
+
+  //  --------------- call api Update Product ----------------------
+
+  async function callUpdateProduct(values) {
+    setisLoading(true);
+    const formData = new FormData();
+    formData.append("prodName", values.prodName);
+    formData.append("prodPrice", values.prodPrice);
+    formData.append("prodSubCategory", values.prodSubCategory);
+    formData.append("prodDescription", values.prodDescription);
+    if (values.prodImageThumbnail &&values.prodImageThumbnail instanceof File) {
+      formData.append("prodImageThumbnail", values.prodImageThumbnail);
+    } else if (!values.prodImageThumbnail && productData && productData.prodImageThumbnail) {
+      formData.append("prodImageThumbnail",  productData.prodImageThumbnail);
+    }
+
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:8000/api/product/${id}/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+
+      if (response.data != "") {
+        navigate("/profile");
+        setisLoading(false);
+      } else {
+      }
+    } catch (error) {
+      setisLoading(false);
+      console.error("Error during AddProduct:", error);
+    }
+  }
+  const validationSchema = Yup.object({
+    prodName: Yup.string()
+      .matches(
+        /^[a-zA-Z0-9]{3,35}$/,
+        "product Name must be from 3 to 10 letters"
+      )
+      .required("Required"),
+    prodPrice: Yup.string()
+      .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
+      .required("product Price is Required"),
+    prodSubCategory: Yup.string().required("Category is Required"),
+    prodDescription: Yup.string().required("Description is Required"),
+    // prodImageThumbnail: Yup.mixed().required("Image Is Required"),
+  });
+
+  const UpdateProductForm = useFormik({
+    initialValues: {
+      prodName:"",
+      prodPrice: "",
+      prodSubCategory:"",
+      prodDescription: "",
+      prodImageThumbnail: "",
+    },
+    validationSchema,
+    onSubmit: (values) => callUpdateProduct(values),
+  });
+  useEffect(() => {
+    if (productData) {
+      UpdateProductForm.setValues({
+        prodName: productData.prodName||"",
+        prodPrice: productData.prodPrice||"",
+        prodSubCategory: productData.prodSubCategory||"",
+        prodDescription: productData.prodDescription||"",
+        prodImageThumbnail:productData.prodImageThumbnail||"",
+      });
+    }
+  }, [productData]);
+  // ---------------------------------------------
+
   return (
     <>
       <Helmet>
@@ -36,13 +142,17 @@ export default function UpdateProduct() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_UpdateProduct}`}>&gt; Update Product</span>
+        <span className={`${styles.span_UpdateProduct}`}>
+          &gt; Update Product
+        </span>
       </div>
       <div className="container my-5 py-5">
         <div>
           <div className={`${styles.form_UpdateProduct}`}>
-          
+            {error ? <div className="alert alert-danger"> {error}</div> : ""}
+
             <form
+              onSubmit={UpdateProductForm.handleSubmit}
               encType="multipart/form-data"
             >
               <div className="row gy-4">
@@ -55,13 +165,18 @@ export default function UpdateProduct() {
                       type="text"
                       className="w-100"
                       id="prodName"
-                     
                       name="prodName"
+                      value={UpdateProductForm.values.prodName}
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
                       placeholder="Enter The Product Name"
-                      
-                      
                     />
-                   
+                    {UpdateProductForm.errors.prodName &&
+                    UpdateProductForm.touched.prodName ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodName}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -75,27 +190,20 @@ export default function UpdateProduct() {
                       id="prodPrice"
                       name="prodPrice"
                       placeholder="Enter The Product Price"
+                      value={UpdateProductForm.values.prodPrice}
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
                     />
-                   
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="prodQuantity" className="fs-4 fw-bold">
-                      Product Quantity
-                    </label>
-                    <input
-                      type="number"
-                      className="w-100 "
-                      id="prodQuantity"
-                      name="prodQuantity"
-                      placeholder="Enter The Product Quantity"
-                    />
-                  
+                    {UpdateProductForm.errors.prodPrice &&
+                    UpdateProductForm.touched.prodPrice ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodPrice}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
                       Product Category
@@ -105,6 +213,9 @@ export default function UpdateProduct() {
                       className="w-100 "
                       id="prodSubCategory"
                       name="prodSubCategory"
+                      value={UpdateProductForm.values.prodSubCategory}
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
                     >
                       <option value="">Select Category</option>
                       {Array.isArray(categories) &&
@@ -114,7 +225,12 @@ export default function UpdateProduct() {
                           </option>
                         ))}
                     </select>
-                   
+                    {UpdateProductForm.errors.prodSubCategory &&
+                      UpdateProductForm.touched.prodSubCategory && (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateProductForm.errors.prodSubCategory}
+                        </div>
+                      )}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -127,41 +243,50 @@ export default function UpdateProduct() {
                       id="prodDescription"
                       name="prodDescription"
                       placeholder="Enter The Product Description"
+                      value={UpdateProductForm.values.prodDescription}
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
                     ></textarea>
-                 
+                     {UpdateProductForm.errors.prodDescription &&
+                    UpdateProductForm.touched.prodDescription ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodDescription}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
-                    <label htmlFor="prodImageCover" className="fs-4 fw-bold">
+                    <label
+                      htmlFor="prodImageThumbnail"
+                      className="fs-4 fw-bold"
+                    >
                       Image Cover
                     </label>
                     <input
                       type="file"
                       className="w-100 border"
-                      id="prodImageCover"
-                      name="prodImageCover"
+                      id="prodImageThumbnail"
+                      name="prodImageThumbnail"
+                      onChange={(event) => {
+                        UpdateProductForm.setFieldValue(
+                          "prodImageThumbnail",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={UpdateProductForm.handleBlur}
                     />
 
-                 
+                    {UpdateProductForm.errors.prodImageThumbnail &&
+                    UpdateProductForm.touched.prodImageThumbnail ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodImageThumbnail}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="prodImages" className="fs-4 fw-bold">
-                      Product Images
-                    </label>
-                    <input
-                      type="file"
-                      className="w-100 border"
-                      id="prodImages"
-                      name="prodImages"
-                      multiple
-                    />
-             
-                  </div>
-                </div>
+               
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>

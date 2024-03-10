@@ -73,6 +73,7 @@ export default function AddProduct() {
       .required("product Price is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
+    prodImageThumbnail: Yup.mixed().required("Image Is Required"),
   });
 
   const AddProductForm = useFormik({
@@ -231,10 +232,10 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
 
-                    {AddProductForm.errors.prodImageCover &&
-                    AddProductForm.touched.prodImageCover ? (
+                    {AddProductForm.errors.prodImageThumbnail &&
+                    AddProductForm.touched.prodImageThumbnail ? (
                       <div className="text-danger fs-5 mt-3">
-                        {AddProductForm.errors.prodImageCover}
+                        {AddProductForm.errors.prodImageThumbnail}
                       </div>
                     ) : null}
                   </div>

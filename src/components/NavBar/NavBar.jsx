@@ -26,13 +26,20 @@ function NavBar() {
     }
   }
 
+  // useEffect(() => {
+  //   ProfileData();
+  // }, []);
+
   useEffect(() => {
     ProfileData();
-  }, []);
+  }, [token]); 
 
+  useEffect(() => {
+    setToken(localStorage.getItem("userToken"));
+  }, []);
   const userType = data?.data.message.usertype;
 
-console.log(userType)
+  console.log(userType)
 
 
 
@@ -147,14 +154,6 @@ console.log(userType)
                             className={`${styles.Link_style}`}
                           >
                             Add Product
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/updateProduct"
-                            className={`${styles.Link_style}`}
-                          >
-                            Update Product
                           </Link>
                         </li>
                         <li>
