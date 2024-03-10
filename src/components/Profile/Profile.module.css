@@ -17,3 +17,24 @@
   color: #3f3e3e;
   font-size: 18px;
 }
+.profile img{
+  width:200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-block: 10px;
+  border: 1px solid black;
+}
+.profile .update_button {
+  background-color: #1f1f1f;
+  font-size: 22px;
+  padding: 10px 30px;
+  margin-block: 15px;
+  border-radius: 10px;
+  color: white;
+  transition: all 0.5s;
+}
+.profile .update_button:hover {
+  background-color: #d2ef9a;
+  color: black;
+  cursor: pointer;
+}

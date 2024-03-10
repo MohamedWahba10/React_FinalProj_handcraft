@@ -11,14 +11,10 @@ import Profile from "../components/Profile/Profile";
 import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
-import Cart from "../components/Cart/Cart"
+import Cart from "../components/Cart/Cart";
 import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
 import Checkout from "../components/Checkout/Checkout";
-
-
-
-
-
+import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
 
 export default function Router() {
   return (
@@ -49,19 +45,22 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/login" element={
-          <ProtectedLogin>
-            <Login />
-          </ProtectedLogin>
-
-        } />
-        <Route path="/register" element={
-          <ProtectedLogin>
-            <Register />
-          </ProtectedLogin>
-        } />
-        
-   
+        <Route
+          path="/login"
+          element={
+            <ProtectedLogin>
+              <Login />
+            </ProtectedLogin>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedLogin>
+              <Register />
+            </ProtectedLogin>
+          }
+        />
 
         <Route
           path="/detail"
@@ -94,7 +93,6 @@ export default function Router() {
               <AddProduct />
             </ProtectedRoutes>
           }
-
         />
         <Route
           path="/cart"
@@ -104,7 +102,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
- <Route
+        <Route
           path="/checkout"
           element={
             <ProtectedRoutes>
@@ -112,8 +110,14 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-
-
+           <Route
+          path="/allProduct"
+          element={
+            <ProtectedRoutes>
+              <FeatureProduct/>
+            </ProtectedRoutes>
+          }
+        />
 
         <Route
           path="/updateProduct"
@@ -127,4 +131,3 @@ export default function Router() {
     </Routes>
   );
 }
-

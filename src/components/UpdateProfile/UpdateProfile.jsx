@@ -10,9 +10,12 @@ import Loading from "../Loading/Loading";
 
 export default function UpdateProfile() {
   let navigate = useNavigate();
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [data, setData] = useState(null);
+  const [deleteProfile, setDeleteProfile] = useState(null);
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -24,6 +27,32 @@ export default function UpdateProfile() {
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
+    }
+  }
+
+  async function ProfileDelete() {
+    setIsLoadingDelete(true);
+
+    try {
+
+      const response = await axios.delete(
+        "http://127.0.0.1:8000/api/profile/",
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+
+        localStorage.removeItem("userToken");
+        navigate("/login");
+        setIsLoadingDelete(false);
+      
+      console.log("deleteeeeeeeeee response : ", response);
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+      setIsLoadingDelete(false);
+
     }
   }
 
@@ -59,6 +88,7 @@ export default function UpdateProfile() {
         }
       );
       if (response.data.message === "Data Updated Successfully") {
+        setIsLoading(false);
 
         navigate("/profile");
       }
@@ -277,6 +307,21 @@ export default function UpdateProfile() {
                     )}
                   </div>
                 </form>
+                <div className={`d-flex justify-content-between my-3`}>
+                  {isLoadingDelete ? (
+                    <button type="submit" className={`${styles.update_button}`} disabled >
+                      <i className="fa fa-spinner fa-spin"></i>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={ProfileDelete}
+                      className={`${styles.update_button}`}
+                    >
+                      Delete Account
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
