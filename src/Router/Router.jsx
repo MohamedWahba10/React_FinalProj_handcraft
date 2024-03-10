@@ -11,8 +11,14 @@ import Profile from "../components/Profile/Profile";
 import UpdateProfile from "../components/UpdateProfile/UpdateProfile";
 import AddProduct from "../components/AddProduct/AddProduct";
 import ProtectedLogin from "../components/ProtectedRoutes/ProtectedLogin";
+import Cart from "../components/Cart/Cart"
 import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
-import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
+import Checkout from "../components/Checkout/Checkout";
+
+
+
+
+
 
 export default function Router() {
   return (
@@ -44,22 +50,19 @@ export default function Router() {
           }
         />
         <Route path="/login" element={
-        <ProtectedLogin>
+          <ProtectedLogin>
             <Login />
-        </ProtectedLogin>
-        
-      } />
-        <Route path="/register" element={
-               <ProtectedLogin>
-             <Register />
-           </ProtectedLogin>
-       } />
-        <Route path="/activate/*" element={
-             <ProtectedLogin>
-             <Login />
-         </ProtectedLogin>
-         
+          </ProtectedLogin>
+
         } />
+        <Route path="/register" element={
+          <ProtectedLogin>
+            <Register />
+          </ProtectedLogin>
+        } />
+        
+   
+
         <Route
           path="/detail"
           element={
@@ -88,27 +91,40 @@ export default function Router() {
           path="/addProduct"
           element={
             <ProtectedRoutes>
-              <AddProduct />   
+              <AddProduct />
             </ProtectedRoutes>
           }
-        />  
-          <Route
+
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoutes>
+              <Cart />
+            </ProtectedRoutes>
+          }
+        />
+ <Route
+          path="/checkout"
+          element={
+            <ProtectedRoutes>
+              <Checkout />
+            </ProtectedRoutes>
+          }
+        />
+
+
+
+        <Route
           path="/updateProduct"
           element={
             <ProtectedRoutes>
-              <UpdateProduct />   
+              <UpdateProduct />
             </ProtectedRoutes>
           }
-        />  
-       <Route
-          path="/allProduct"
-          element={
-            <ProtectedRoutes>
-              <FeatureProduct />   
-            </ProtectedRoutes>
-          }
-        /> 
+        />
       </Route>
     </Routes>
   );
 }
+

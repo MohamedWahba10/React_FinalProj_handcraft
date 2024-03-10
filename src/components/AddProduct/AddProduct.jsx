@@ -8,6 +8,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { jwtDecode } from "jwt-decode";
 
+
 export default function AddProduct() {
   const [isLoading, setisLoading] = useState(false);
   let navigate = useNavigate();
@@ -54,15 +55,17 @@ export default function AddProduct() {
   // console.log("userToken:", userToken);
   async function callAddProduct(values) {
     setisLoading(true);
-    // const formData = new FormData();
-    // formData.append("prodName",values.prodName);
-    // formData.append("prodPrice", values.prodPrice);
-    // formData.append("prodQuantity",values.prodQuantity);
-    // formData.append("prodSubCategory",values.prodSubCategory);
-    // formData.append("prodVendor",userData);
-    // formData.append("prodDescription",values.prodDescription);
-    // formData.append("prodImageThumbnail",values.prodImageThumbnail);
+    const formData = new FormData();
+    formData.append("prodName", AddProductForm.values.prodName);
+    formData.append("prodPrice", AddProductForm.values.prodPrice);
+    // formData.append("prodQuantity",  AddProductForm.values.prodQuantity);
+    formData.append("prodSubCategory", AddProductForm.values.prodSubCategory);
+    formData.append("prodVendor",userData);
+    formData.append("prodDescription", AddProductForm.values.prodDescription);
+    formData.append("prodImageThumbnail",  AddProductForm.values.prodImageThumbnail);
 
+
+  
     // prodImagesArray.forEach((image, index) => {
     //   formData.append(`prodImages[${index}]`, image);
     // });
@@ -70,11 +73,9 @@ export default function AddProduct() {
       console.log("MERRRRRRRRRRRRRRRRRRRRRR")
       const response = await axios.post(
         `http://127.0.0.1:8000/api/product/create/`,
-        values,
+        formData,
         {
           headers: {
-            userToken: `${userToken}`,
-            
             "Content-Type": "multipart/form-data",
           },
         }
@@ -102,9 +103,9 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
-    prodQuantity: Yup.string()
-      .matches(/^[1-9][0-9]{0,6}$/, "'product Quantity must be only digits'")
-      .required("product Quantity is Required"),
+    // prodQuantity: Yup.string()
+    //   .matches(/^[1-9][0-9]{0,6}$/, "'product Quantity must be only digits'")
+    //   .required("product Quantity is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
     // prodImageCover: Yup.mixed()
@@ -127,12 +128,12 @@ export default function AddProduct() {
     initialValues: {
       prodName: "",
       prodPrice: "",
-      prodQuantity: "",
+      // prodQuantity: "",
       prodSubCategory: "",
       prodVendor: userData,
       prodDescription: "",
       prodImageThumbnail: "",
-      prodImages: [],
+      // prodImages: [],
     },
     validationSchema,
     onSubmit: (values) => callAddProduct(values),
@@ -214,7 +215,7 @@ export default function AddProduct() {
                     ) : null}
                   </div>
                 </div>
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="prodQuantity" className="fs-4 fw-bold">
                       Product Quantity
@@ -236,7 +237,7 @@ export default function AddProduct() {
                       </div>
                     ) : null}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="col-md-6">
                   <div className="form-group">
@@ -292,14 +293,14 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label htmlFor="prodImageCover" className="fs-4 fw-bold">
+                    <label htmlFor="prodImageThumbnail" className="fs-4 fw-bold">
                       Image Cover
                     </label>
                     <input
                       type="file"
                       className="w-100 border"
-                      id="prodImageCover"
-                      name="prodImageCover"
+                      id="prodImageThumbnail"
+                      name="prodImageThumbnail"
                       // onChange={handleImageCoverChange}
                       onChange={AddProductForm.handleChange}
 
@@ -315,7 +316,7 @@ export default function AddProduct() {
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="prodImages" className="fs-4 fw-bold">
                       Product Images
@@ -338,7 +339,7 @@ export default function AddProduct() {
                         </div>
                       )}
                   </div>
-                </div>
+                </div> */}
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>
@@ -353,7 +354,7 @@ export default function AddProduct() {
                   <button
                     type="submit"
                     className={`${styles.AddProduct_button}`}
-                    disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
+                    // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
                   >
                     Add Product
                   </button>

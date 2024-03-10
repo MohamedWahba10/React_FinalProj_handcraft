@@ -10,21 +10,27 @@ import "slick-carousel/slick/slick-theme.css";
 import './index.css';
 import TokenContextProvider from './Context/Token';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import CartContextProvider from './Context/CartContext';
+
+
 let query = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <QueryClientProvider client={query}>
 
-  <TokenContextProvider>
-    <App />
+  <CartContextProvider>
+    <QueryClientProvider client={query}>
+      <TokenContextProvider>
+        <App />
+      </TokenContextProvider>
+    </QueryClientProvider>
+  </CartContextProvider>
 
-  </TokenContextProvider>
-  </QueryClientProvider>
 
 );
 
 reportWebVitals();
+
 
 
 

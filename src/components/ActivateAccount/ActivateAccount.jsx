@@ -1,34 +1,34 @@
-// import { useEffect } from 'react';
-// import { useNavigate, useLocation } from 'react-router-dom';
-// import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate and useParams
 
-// function ActivateAccount() {
-//     const navigate = useNavigate();
-//     const location = useLocation();
+const VerifyEmailComponent = () => {
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate(); // Initialize useNavigate
+    const { token } = useParams(); // Extract the token from the URL
 
-//     useEffect(() => {
-//         const params = new URLSearchParams(location.search);
-//         const uid = params.get('uid');
-//         const token = params.get('token');
+    useEffect(() => {
+        const handleVerifyEmail = async () => {
+            try {
+                const response = await axios.get(`/verify-email/${token}/`);
+                setMessage(response.data.message);
+                // Redirect to the login page after successful email verification
+                navigate('/login');
+            } catch (error) {
+                console.error('Error verifying email:', error);
+            }
+        };
 
-//         axios.get(`http://localhost:8000/api/activate/?uid=${uid}&token=${token}`)
-//             .then(response => {
-//                 console.log(response.data); // Log the response data
-//                 if (response.data && response.data.message) {
-//                     alert(response.data.message); // Show a success message
-//                     navigate('/login'); // Redirect to the login page
-//                 } else {
-//                     throw new Error('Invalid response');
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error(error); // Log the error
-//                 alert(error.response ? error.response.data.error : 'An error occurred');
-//                 navigate('/'); // Redirect to the home page or another appropriate page
-//             });
-//     }, [navigate, location.search]);
+        if (token) {
+            handleVerifyEmail();
+        }
+    }, [token, navigate]);
 
-//     return null; // You can render a loading spinner or message here
-// }
+    return (
+        <div>
+            <p>{message}</p>
+        </div>
+    );
+};
 
-// export default ActivateAccount;
+export default VerifyEmailComponent;
