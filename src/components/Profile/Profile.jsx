@@ -105,40 +105,54 @@ export default function Profile() {
                     <>
                       <div className="row">
                         {Products?.map((pro) => (
-                          <div key={pro.id} className="col-md-6 cursor-pointer">
+                          <div key={pro.id} className="col-md-4 cursor-pointer">
                             <div className="product py-3 px-2">
                               <Link
-                                to={`/detail/${pro.id}`}
+                                // to={`/detail/${pro.id}`}
+
                                 className="text-decoration-none text-dark"
                               >
-                                <img
-                                  src={pro.prodImageCover}
-                                  className="w-100"
-                                  alt={pro.prodName}
-                                />
-                                <h5 className="text-center text-main pt-3 pb-2">
-                                  {pro.prodSubCategory.subCateName}
-                                </h5>
-                                <h3 className="h6 text-center pb-3">
-                                  {pro.prodName}
-                                </h3>
-                                <div className="d-flex justify-content-between mx-5 align-items-center">
-                                  <p>{pro.prodPrice} EGP</p>
+                                <div className={`${styles.product_info}`}>
+                                  <img
+                                    src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
+                                    className="w-100"
+                                    alt={pro.prodName}
+                                  />
+                                  <div
+                                    className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                                  >
+                                    <div className="d-flex justify-content-end">
+                                      <div className={`${styles.wish_list}`}>
+                                      <i class="fa-solid fa-trash"></i>
+                                      </div>
+                                    </div>
+
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      {userType === "cusromer" ? null : (
+                                        <>
+                                          <Link to={`/updateProduct/${pro.id}`}>
+                                            <button
+                                              className={`${styles.button_style}`}
+                                            >
+                                              Update Product
+                                            </button>
+                                          </Link>
+                                          <Link>
+                                            <button
+                                              className={`${styles.button_style}`}
+                                            >
+                                              QUICK VIEW
+                                            </button>
+                                          </Link>
+                                        </>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               </Link>
-                              <div className="d-flex justify-content-end mx-4 my-3">
-                                <i
-                                  className={`fa-solid fa-heart fs-2 heart-icon`}
-                                ></i>
-                              </div>
-                              <Link
-                              to={`/updateProduct/${pro.id}`}
-                              >
-                              <button className="btn my-2 w-100 bg-primary fs-5 py-2 text-dark">
-                              
-                                Update Product
-                              </button>
-                              </Link>
+
+                              <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                              <p>{pro.prodPrice} EGP</p>
                             </div>
                           </div>
                         ))}
@@ -157,4 +171,11 @@ export default function Profile() {
       )}
     </>
   );
+}
+{
+  /* <Link to={`/updateProduct/${pro.id}`}>
+                                <button className="btn my-2 w-100 bg-primary fs-5 py-2 text-dark">
+                                  Update Product
+                                </button>
+                              </Link> */
 }
