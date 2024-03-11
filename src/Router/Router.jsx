@@ -15,6 +15,7 @@ import Cart from "../components/Cart/Cart";
 import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
 import Checkout from "../components/Checkout/Checkout";
 import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
+import Category from "../components/Category/Category";
 
 export default function Router() {
   return (
@@ -107,6 +108,14 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <Checkout />
+            </ProtectedRoutes>
+          }
+        />
+          <Route
+          path="/category"
+          element={
+            <ProtectedRoutes>
+              <Category />
             </ProtectedRoutes>
           }
         />
