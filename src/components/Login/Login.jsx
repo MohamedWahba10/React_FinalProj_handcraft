@@ -26,17 +26,17 @@ export default function Login() {
         const token = response.data.token;
 
         if (response.data.message == "success" && token && token.length > 0) {
-          Cookies.set('userToken', token); 
+       
           
 
           navigate("/");
           setisLoading(false);
           localStorage.setItem("userToken", token);
-          localStorage.setItem("userData", JSON.stringify(response.data.user));
+          // localStorage.setItem("userData", JSON.stringify(response.data.user));
 
           // localStorage.setItem("userData", response.data.user);
           setToken(token);
-          setUserData(response.data.user);
+          // setUserData(response.data.user);
         } else {
           console.log("data", response.data.message);
         }

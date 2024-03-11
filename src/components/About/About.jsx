@@ -1,76 +1,58 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import { Helmet } from "react-helmet";
-import { jwtDecode } from "jwt-decode";
-import { TokenContext } from "../../Context/Token";
+import React from 'react';
+import styles from './About.module.css'; // Import the CSS module
 
-export default function About() {
-  const userToken = localStorage.getItem("userToken");
-  const userId = jwtDecode(userToken).id;
-  let { userData, setUserData } = useContext(TokenContext);
-  const [categories, setCategories] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    setUserData(localStorage.getItem("userData"));
-  }, []);
-
-  userData = JSON.parse(localStorage.getItem("userData"));
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/subcategory/`
-        );
-        setCategories(response.data.data);
-        console.log('response is .........',response)
-        console.log('data is .........',response.data.data)
-        console.log("categors is................",categories)
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-
-    fetchCategories();
-  }, []);
-  return (
-    <>
-      <Helmet>
-        <title>User</title>
-      </Helmet>
-      <div className="container mb-5 pb-5 overflow-hidden">
-        <h1
-          className="text-main mb-5 fw-bold text-center"
-          style={{ fontSize: "4rem" }}
-        >
-          User
-        </h1>
-        <h1>{userId}</h1>
-        <h1>{userData.usertype}</h1>
-
-        <div className="row gy-5">
-          <div className="col-md-4 cursor-pointer">
-            <div>
-              <div className="text-center fw-bold py-4">
-                <p className="fs-3">
-                  {" "}
-                  Name : {userData.first_name} {userData.last_name}
-                </p>
-                <p className="fs-3">{userData.email}</p>
-              </div>
-            </div>
-          </div>
+const AboutPage = () => {
+    return (
+        <div>
+            <section className={styles['first-section']}>
+                <div className="container">
+                  <h1 className='text-center mb-4'>ABOUT US</h1>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <h2 className={styles['section-title']}>Keep Commerce Human</h2>
+                            <div className={styles['about-image']}></div>
+                        </div>
+                        <div className="col-md-6 mt-4">
+                            <div className={styles['about-text']}>
+                                <p>
+                                    Handcrafted Marketplace is the global marketplace for unique and creative goods. It’s home to a universe of special, extraordinary items, from unique handcrafted pieces to vintage treasures.
+                                </p>
+                                <p>
+                                    In a time of increasing automation, it’s our mission to keep human connection at the heart of commerce. That’s why we built a place where creativity lives and thrives because it’s powered by people. We help our community of sellers turn their ideas into successful businesses. Our platform connects them with millions of buyers looking for an alternative—something special with a human touch, for those moments in life that deserve imagination.
+                                </p>
+                                <p>
+                                    As a company, we strive to lead with our guiding principles and to help spread ideas of sustainability and responsibility whose impact can reach far beyond our own business.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className={styles['second-section']}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-6">
+                       
+                            <div className={styles['about-text']}>
+                                <p>
+                                    Etsy is the global marketplace for unique and creative goods. It’s home to a universe of special, extraordinary items, from unique handcrafted pieces to vintage treasures.
+                                </p>
+                                <p>
+                                    In a time of increasing automation, it’s our mission to keep human connection at the heart of commerce. That’s why we built a place where creativity lives and thrives because it’s powered by people. We help our community of sellers turn their ideas into successful businesses. Our platform connects them with millions of buyers looking for an alternative—something special with a human touch, for those moments in life that deserve imagination.
+                                </p>
+                                <p>
+                                    As a company, we strive to lead with our guiding principles and to help spread ideas of sustainability and responsibility whose impact can reach far beyond our own business.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className={styles['about-image']}></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-        <div className="row">
-          {Array.isArray(categories) && categories.map((cat) => (
-            <div className="col-12" key={cat.id}>
-              <p>CategoryName: {cat.subCateName}</p>
-            </div>
-          ))}
-          {error && <p>Error: {error}</p>}
-        </div>
-      </div>
-    </>
-  );
-}
+    );
+};
+
+export default AboutPage;

@@ -1,44 +1,22 @@
-.header_profile {
+.header_product {
   background-color: #f8f6f0;
 }
 
-.header_profile h1 {
+.header_product h1 {
   font-size: 45px;
   font-weight: bold;
   padding-bottom: 10px;
 }
 
-.header_profile .link_home {
+.header_product .link_home {
   color: #727272;
   font-size: 18px;
 }
 
-.header_profile .span_profile {
+.header_product .span_profile {
   color: #3f3e3e;
   font-size: 18px;
 }
-.profile img{
-  width:200px;
-  height: 200px;
-  border-radius: 50%;
-  margin-block: 10px;
-  border: 1px solid black;
-}
-.profile .update_button {
-  background-color: #1f1f1f;
-  font-size: 22px;
-  padding: 10px 30px;
-  margin-block: 15px;
-  border-radius: 10px;
-  color: white;
-  transition: all 0.5s;
-}
-.profile .update_button:hover {
-  background-color: #d2ef9a;
-  color: black;
-  cursor: pointer;
-}
-
 .product_info {
   border-radius: 15px;
   position: relative;

@@ -1,0 +1,41 @@
+.about-image {
+    background-image: url('../../assets/images/mainSlider/image5.jpg'); 
+    background-size: cover;
+    background-position: center;
+    height: 45rem /* Set the height as needed */
+}
+
+.about-text {
+    padding: 20px;
+}
+
+.first-section {
+    padding-top: 100px; /* Adjust as needed */
+}
+
+.second-section {
+    padding-top: 100px; /* Adjust as needed */
+}
+
+.first-section p,
+.second-section p {
+    font-size: 1.6rem; /* Set the desired font size */
+    font-style: italic; /* Set the desired font style */
+    line-height: 1.5; /* Set the desired line height */
+}
+
+/* Tablet screens */
+@media (max-width: 768px) {
+    .first-section p,
+    .second-section p {
+        font-size: 1.4rem; /* Adjust the font size for tablets */
+    }
+}
+
+/* Mobile screens */
+@media (max-width: 576px) {
+    .first-section p,
+    .second-section p {
+        font-size: 1.2rem; /* Adjust the font size for mobile devices */
+    }
+}

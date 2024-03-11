@@ -6,15 +6,16 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
-import { TokenContext } from "../../Context/Token";
 import Loading from "../Loading/Loading";
 
 export default function UpdateProfile() {
   let navigate = useNavigate();
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [data, setData] = useState(null);
-
+  const [deleteProfile, setDeleteProfile] = useState(null);
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -29,15 +30,39 @@ export default function UpdateProfile() {
     }
   }
 
+  async function ProfileDelete() {
+    setIsLoadingDelete(true);
+
+    try {
+
+      const response = await axios.delete(
+        "http://127.0.0.1:8000/api/profile/",
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+
+        localStorage.removeItem("userToken");
+        navigate("/login");
+        setIsLoadingDelete(false);
+      
+      console.log("deleteeeeeeeeee response : ", response);
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+      setIsLoadingDelete(false);
+
+    }
+  }
+
   useEffect(() => {
     ProfileData();
   }, []);
 
   let userData = data?.data?.message;
-  console.log("userData", userData);
 
   async function callUpdateProfile(values) {
-    console.log("values", values);
     setError("");
     setIsLoading(true);
 
@@ -47,10 +72,11 @@ export default function UpdateProfile() {
       formData.append("last_name", values.last_name);
       formData.append("phone", values.phone);
       formData.append("address", values.address);
-      if (values.image) {
+      if (values.image && values.image instanceof File) {
         formData.append("image", values.image);
+      } else if (!values.image && userData && userData.image) {
+        formData.append("image", userData.image);
       }
-
 
       const response = await axios.put(
         `http://localhost:8000/api/profile/`,
@@ -63,9 +89,9 @@ export default function UpdateProfile() {
         }
       );
       if (response.data.message === "Data Updated Successfully") {
+        setIsLoading(false);
+
         navigate("/profile");
-        localStorage.setItem("userData", JSON.stringify(response.data.user));
-        console.log("dataaaaaaaaaaaaaaaaaaa", response.data.message);
       }
     } catch (error) {
       setError(error.response.data.detail);
@@ -84,8 +110,7 @@ export default function UpdateProfile() {
     phone: Yup.string().matches(/^01[1250][0-9]{8}$/, "invalid"),
     address: Yup.string(),
   });
-
-  const updateProfile = useFormik({
+  let updateProfile = useFormik({
     initialValues: {
       first_name: "",
       last_name: "",
@@ -97,9 +122,6 @@ export default function UpdateProfile() {
     validationSchema,
     onSubmit: (values) => callUpdateProfile(values),
   });
-
- 
-  // Update form values when userData changes
   useEffect(() => {
     if (userData) {
       updateProfile.setValues({
@@ -107,12 +129,11 @@ export default function UpdateProfile() {
         last_name: userData.last_name || "",
         phone: userData.phone || "",
         image: userData.image || "",
-        imageUrl: userData.image || "",
+        imageUrl: userData.imageUrl || "",
         address: userData.address || "",
       });
     }
   }, [userData]);
-
   return (
     <>
       <Helmet>
@@ -132,7 +153,6 @@ export default function UpdateProfile() {
           <div className="container my-5 py-5">
             <div>
               <div className={`${styles.form_update}`}>
-                <h2 className="text-center py-3">Update Profile</h2>
                 {error ? (
                   <div className="alert alert-danger"> {error}</div>
                 ) : (
@@ -147,12 +167,14 @@ export default function UpdateProfile() {
                       <div className="form-group">
                         <img
                           src={userData.imageUrl}
-                          style={{ height: "100px", width: "100px" }}
+                          style={{ height: "150px", width: "150px" }}
                           alt="profile img"
                         />
+                        <br />
+                        <br />
                         <input
                           type="file"
-                          className="w-100"
+                          className="w-100  border"
                           id="image"
                           name="image"
                           onChange={(event) => {
@@ -164,7 +186,7 @@ export default function UpdateProfile() {
                           onBlur={updateProfile.handleBlur}
                         />
                         {updateProfile.errors.image &&
-                          updateProfile.touched.image ? (
+                        updateProfile.touched.image ? (
                           <div className="text-danger fs-5 mt-3">
                             {updateProfile.errors.image}
                           </div>
@@ -188,7 +210,7 @@ export default function UpdateProfile() {
                           onBlur={updateProfile.handleBlur}
                         />
                         {updateProfile.errors.first_name &&
-                          updateProfile.touched.first_name ? (
+                        updateProfile.touched.first_name ? (
                           <div className="text-danger fs-5 mt-3">
                             {updateProfile.errors.first_name}
                           </div>
@@ -211,7 +233,7 @@ export default function UpdateProfile() {
                           onBlur={updateProfile.handleBlur}
                         />
                         {updateProfile.errors.last_name &&
-                          updateProfile.touched.last_name ? (
+                        updateProfile.touched.last_name ? (
                           <div className="text-danger fs-5 mt-3">
                             {updateProfile.errors.last_name}
                           </div>
@@ -235,7 +257,7 @@ export default function UpdateProfile() {
                           onBlur={updateProfile.handleBlur}
                         />
                         {updateProfile.errors.phone &&
-                          updateProfile.touched.phone ? (
+                        updateProfile.touched.phone ? (
                           <div className="text-danger fs-5 mt-3">
                             {updateProfile.errors.phone}
                           </div>
@@ -259,7 +281,7 @@ export default function UpdateProfile() {
                           onBlur={updateProfile.handleBlur}
                         />
                         {updateProfile.errors.address &&
-                          updateProfile.touched.address ? (
+                        updateProfile.touched.address ? (
                           <div className="text-danger fs-5 mt-3">
                             {updateProfile.errors.address}
                           </div>
@@ -286,13 +308,27 @@ export default function UpdateProfile() {
                     )}
                   </div>
                 </form>
+                <div className={`d-flex justify-content-between my-3`}>
+                  {isLoadingDelete ? (
+                    <button type="submit" className={`${styles.update_button}`} disabled >
+                      <i className="fa fa-spinner fa-spin"></i>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={ProfileDelete}
+                      className={`${styles.update_button}`}
+                    >
+                      Delete Account
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </>
       ) : (
         <Loading />
-
       )}
     </>
   );

@@ -37,39 +37,3 @@
   color: black;
   cursor: pointer;
 }
-.new_account {
-  border-left: #3f3e3e 1px solid;
-}
-
-.new_account div {
-  padding-left: 10px;
-}
-.new_account .register_button {
-  background-color: #1f1f1f;
-  font-size: 22px;
-  padding: 10px 30px;
-  margin-block: 15px;
-  border-radius: 10px;
-  color: white;
-  transition: all 0.5s;
-}
-.new_account h3 {
-  font-weight: bold;
-  font-size: 30px;
-}
-.new_account p {
-  line-height: 25px;
-  font-size: 18px;
-  padding-block: 13px;
-}
-.new_account .register_button:hover {
-  background-color: #d2ef9a;
-  color: black;
-  cursor: pointer;
-}
-
-@media screen and (max-width: 768px) {
-  .new_account {
-    border-left: none;
-  }
-}

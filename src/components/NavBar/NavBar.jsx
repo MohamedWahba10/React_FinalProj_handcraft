@@ -3,31 +3,52 @@ import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 function NavBar() {
   
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
-  let { token, setToken, setUserData, userData } = useContext(TokenContext);
-  // const userToken = localStorage.getItem("userToken");
+  let { token, setToken  } = useContext(TokenContext);
+  const [data, setData] = useState(null);
+
+
+  async function ProfileData() {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("userToken")}`,
+        },
+      });
+      setData(response);
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+    }
+  }
+
+  // useEffect(() => {
+  //   ProfileData();
+  // }, []);
 
   useEffect(() => {
-    setUserData(localStorage.getItem("userData"));
-  }, []);
+    ProfileData();
+  }, [token]); 
 
-  // userData = JSON.parse(localStorage.getItem("userData"));
-  // userData = localStorage.getItem("userData");
-  var userDataString = localStorage.getItem("userData");
-  userData = JSON.parse(userDataString);
+  useEffect(() => {
+    setToken(localStorage.getItem("userToken"));
+  }, []);
+  const userType = data?.data.message.usertype;
+
+  console.log(userType)
+
+
+
+
 
   let navigate = useNavigate();
   function logOut() {
     localStorage.removeItem("userToken");
-    localStorage.removeItem("userData");
-    Cookies.remove("userToken");
-    // Cookies.remove('userToken', { path: '/login' });
     setToken(null);
-    setUserData(null);
     navigate("/login");
   }
   setToken(localStorage.getItem("userToken"));
@@ -97,7 +118,7 @@ function NavBar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/">
+                  <Link className={`nav-link ${styles.Link_style}`} to="/allProduct">
                     PRODUCT
                   </Link>
                 </li>
@@ -125,7 +146,7 @@ function NavBar() {
                         Products
                       </Link>
                     </li>
-                    {userData.usertype === "customer" ? null : (
+                    {userType === "customer" ? null : (
                       <>
                         <li>
                           <Link
@@ -133,14 +154,6 @@ function NavBar() {
                             className={`${styles.Link_style}`}
                           >
                             Add Product
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/updateProduct"
-                            className={`${styles.Link_style}`}
-                          >
-                            Update Product
                           </Link>
                         </li>
                         <li>
