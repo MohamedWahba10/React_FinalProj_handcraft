@@ -41,8 +41,6 @@ export default function Register() {
 
         setapiError(err.response.data.ssn)
       }
-
-
       setisLoading(false)
     })
 
