@@ -19,13 +19,14 @@ export default function FeatureProduct() {
     queryFn: getProduct,
   });
 
+
   async function addcart(id) {
 
     let res = await addToCart(id)
-    console.log("heloo add to cart ",res);
-    if(res.data.msg === "Quantity updated in cart"){
+    console.log("heloo add to cart ", res);
+    if (res.data.msg === "Quantity updated in cart") {
       toast.success("product added Successfully")
-    }else{
+    } else {
 
     }
   }
@@ -33,6 +34,7 @@ export default function FeatureProduct() {
   const Products = data?.data?.results;
   console.log("Products:", Products);
 
+ 
   async function getProduct() {
     let response = await axios.get(`http://127.0.0.1:8000/api/product/`, {
       headers: {
@@ -52,7 +54,9 @@ export default function FeatureProduct() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
+
       console.log("response111", response);
+
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
@@ -63,70 +67,91 @@ export default function FeatureProduct() {
     ProfileData();
   }, []);
   const userType = dataUser?.data.message.usertype;
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
+  };
+
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <div className={`${styles.header_product} py-5 mb-5 text-center `}>
-            <h1>Shop</h1>
+    {isLoading ? (
+      <Loading />
+    ) : (
+      <>
+        <div className={`${styles.header_product} py-5 mb-5 text-center `}>
+          <h1>Shop</h1>
 
-            <Link to="/" className="text-decoration-none ">
-              <span className={`${styles.link_home} pe-1 `}>HomePage</span>
-            </Link>
+          <Link to="/" className="text-decoration-none ">
+            <span className={`${styles.link_home} pe-1 `}>HomePage</span>
+          </Link>
 
-            <span className={`${styles.span_profile}`}>&gt;Shop</span>
-          </div>
-          <div className="container mb-5 pb-5 overflow-hidden">
-            <div className="row gy-5">
-              {Products?.map((pro) => (
-                <div key={pro.id} className="col-md-3 cursor-pointer">
-                  <div className="product py-3 px-2">
+          <span className={`${styles.span_profile}`}>&gt;Shop</span>
+        </div>
+        <div className="container mb-5 pb-5 overflow-hidden">
+          <div className="row gy-5">
+            {Products?.map((pro) => (
+              <div key={pro.id} className="col-md-3 cursor-pointer">
+                <div className="product py-3 px-2">
+                  <div className={`${styles.product_info}`}>
+                    <img
+                      src={`${pro.prodImageUrl}`}
+                      className="w-100"
+                      alt={pro.prodName}
+                    />
+                    <div className={`${styles.check_onsale}`}>{pro.prodOnSale ? <>
+                          
+                          <button className="">Sale</button>
+                         </> : null}
+                         
+                    </div>
                     <Link
-                      // to={`/detail/${pro.id}`}
-
+                      to={`/detail`}
                       className="text-decoration-none text-dark"
                     >
-                      <div className={`${styles.product_info}`}>
-                        <img
-                          src={`${pro.prodImageUrl}`}
-                          className="w-100"
-                          alt={pro.prodName}
-                        />
-                        <div
-                          className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                        >
+                      <div
+                        className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                      >
+              
                           <div className="d-flex justify-content-end">
-                            <div className={`${styles.wish_list}`}>
+                            <div
+                              className={`${styles.wish_list}`}
+                              onClick={handleAddToCartClick}
+                            >
                               <i class="fa-regular fa-heart"></i>
                             </div>
                           </div>
+                      
 
-                          <div className="d-flex justify-content-center align-items-center">
-                            <button className={`${styles.button_style}`}>
-                              QUICK VIEW
+                        <div className="d-flex justify-content-center align-items-center">
+                          <button className={`${styles.button_style}`}>
+                            QUICK VIEW
+                          </button>
+                          {userType === "vendor" ? null : (
+                            <button
+                              className={`${styles.button_style}`}
+                              onClick={() => { handleAddToCartClick(); addcart(pro.id); }}
+
+                            >
+                              ADD TO CART
                             </button>
-                            {userType === "vendor" ? null : (
-                              <button onClick={() => addcart(pro.id)} className={`${styles.button_style}`}>
-                                ADD TO CART
-                              </button>
-                            )}
-                          </div>
+                          )}
                         </div>
                       </div>
                     </Link>
-
-                    <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                    <p>{pro.prodPrice} EGP</p>
                   </div>
+
+                  <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                  <p>{pro.prodPrice} EGP</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        </>
-      )}
-    </>
-  );
+        </div>
+      </>
+    )}
+  </>
+      );
 }
+
+
+

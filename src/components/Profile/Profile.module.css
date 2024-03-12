@@ -43,6 +43,8 @@
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  height: 350px;
+
 }
 .product_info img {
   height: 350px;
@@ -86,7 +88,7 @@
   background-color: black;
   color: white;
 }
-.product_info .above_layer .wish_list{
+.product_info .above_layer .delete{
     background-color: white;
     display: flex;
     justify-content: center;
@@ -95,13 +97,13 @@
     border-radius: 50%;
     transition: all 0.5s;
 }
-.product_info .above_layer .wish_list i{
+.product_info .above_layer .delete i{
     color: black;
     font-size: 18px;
 }
-.product_info .above_layer .wish_list:hover{
+.product_info .above_layer .delete:hover{
     background-color: black;
 }
-.product_info .above_layer .wish_list:hover i{
+.product_info .above_layer .delete:hover i{
     color: white;
 }

@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AddProduct() {
   const [isLoading, setisLoading] = useState(false);
@@ -35,10 +36,11 @@ export default function AddProduct() {
     formData.append("prodStock", values.prodStock);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
+    formData.append("prodStock", values.prodStock);
+    formData.append("prodOnSale", values.prodOnSale);
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
 
     try {
-      console.log("MERRRRRRRRRRRRRRRRRRRRRR");
       const response = await axios.post(
         `http://127.0.0.1:8000/api/product/create/`,
         formData,
@@ -49,10 +51,10 @@ export default function AddProduct() {
           },
         }
       );
-      console.log("response : ", response);
 
       if (response.data != "") {
-        navigate("/");
+        toast.success("Product Adding successfully");
+        navigate("/profile");
         setisLoading(false);
       } else {
         console.log("data is ", response.data);
@@ -72,9 +74,10 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
-    prodStock: Yup.string()
-      .matches(/^[1-9][0-9]{0,6}$/, "product items items must be only digits")
-      .required("product items is Required"),
+    prodStock: Yup.string().matches(
+      /^[1-9][0-9]{0,3}$/,
+      "'product Stock must be only digits'"
+    ).required("Product Stock is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
     prodImageThumbnail: Yup.mixed().required("Image Is Required"),
@@ -87,6 +90,8 @@ export default function AddProduct() {
       prodStock: "",
       prodSubCategory: "",
       prodDescription: "",
+      prodStock: "",
+      prodOnSale: false,
       prodImageThumbnail: "",
     },
     validationSchema,
@@ -165,39 +170,6 @@ export default function AddProduct() {
 
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label htmlFor="prodStock" className="fs-4 fw-bold">
-                      on stock
-                    </label>
-                    <input
-                      type="number"
-                      className="w-100 "
-                      id="prodStock"
-                      value={AddProductForm.values.prodStock}
-                      name="prodStock"
-                      placeholder="Enter The Product Price"
-                      onChange={AddProductForm.handleChange}
-                      onBlur={AddProductForm.handleBlur}
-                    />
-                    {AddProductForm.errors.prodStock &&
-                      AddProductForm.touched.prodStock ? (
-                      <div className="text-danger fs-5 mt-3">
-                        {AddProductForm.errors.prodStock}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-                <div className="col-md-12">
-                  <div className="form-group">
                     <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
                       Product Category
                     </label>
@@ -224,6 +196,29 @@ export default function AddProduct() {
                           {AddProductForm.errors.prodSubCategory}
                         </div>
                       )}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodStock" className="fs-4 fw-bold">
+                      Product Stock
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodStock"
+                      value={AddProductForm.values.prodStock}
+                      name="prodStock"
+                      placeholder="Enter The Product Stock"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodStock &&
+                    AddProductForm.touched.prodStock ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodStock}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -276,6 +271,25 @@ export default function AddProduct() {
                         {AddProductForm.errors.prodImageThumbnail}
                       </div>
                     ) : null}
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
+                      Product Sale
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="prodOnSale"
+                      value={AddProductForm.values.prodOnSale}
+                      name="prodOnSale"
+                      placeholder="Enter The Product On Sale"
+                      style={{ width: "25px", height: "30px" }}
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                
                   </div>
                 </div>
               </div>

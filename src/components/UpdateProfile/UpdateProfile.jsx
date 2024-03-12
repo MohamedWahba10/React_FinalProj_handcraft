@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useFormik } from "formik";
 import Loading from "../Loading/Loading";
+import toast from "react-hot-toast";
+import { Modal, Button } from "react-bootstrap";
 
 export default function UpdateProfile() {
   let navigate = useNavigate();
@@ -15,7 +17,8 @@ export default function UpdateProfile() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [data, setData] = useState(null);
-  const [deleteProfile, setDeleteProfile] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -47,8 +50,7 @@ export default function UpdateProfile() {
         localStorage.removeItem("userToken");
         navigate("/login");
         setIsLoadingDelete(false);
-      
-      console.log("deleteeeeeeeeee response : ", response);
+        toast.success("Account Removed Successfully");
     } catch (error) {
       console.error("Failed to fetch profile data", error);
       setIsLoadingDelete(false);
@@ -90,6 +92,7 @@ export default function UpdateProfile() {
       );
       if (response.data.message === "Data Updated Successfully") {
         setIsLoading(false);
+        toast.success("Product Update successfully");
 
         navigate("/profile");
       }
@@ -134,6 +137,15 @@ export default function UpdateProfile() {
       });
     }
   }, [userData]);
+
+
+  const handleConfirmDelete = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setShowConfirmModal(false);
+  };
   return (
     <>
       <Helmet>
@@ -314,13 +326,29 @@ export default function UpdateProfile() {
                       <i className="fa fa-spinner fa-spin"></i>
                     </button>
                   ) : (
+                    <>
                     <button
                       type="button"
-                      onClick={ProfileDelete}
+                      onClick={handleConfirmDelete}
                       className={`${styles.update_button}`}
                     >
                       Delete Account
                     </button>
+                     <Modal show={showConfirmModal} onHide={handleCloseConfirmModal}>
+                     <Modal.Header closeButton>
+                       <Modal.Title>Confirm Deletion</Modal.Title>
+                     </Modal.Header>
+                     <Modal.Body>Are you sure you want to delete your account?</Modal.Body>
+                     <Modal.Footer>
+                       <Button variant="secondary" onClick={handleCloseConfirmModal}>
+                         Cancel
+                       </Button>
+                       <Button variant="danger" onClick={ProfileDelete}>
+                         Delete
+                       </Button>
+                     </Modal.Footer>
+                   </Modal>
+                   </>
                   )}
                 </div>
               </div>
