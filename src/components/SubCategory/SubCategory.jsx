@@ -50,7 +50,7 @@ export default function SubCategory() {
               {subCategory?.filter((subCategoryItem) => 
                   subCategoryItem.subCateParent==categoryId).map((subCategoryItem) =>(
                     <div className="col-md-4" key={subCategoryItem.id}>
-                    <Link to={``}>
+                    <Link to={`/productinsubcategory/${categoryId}/${categoryName}/${subCategoryItem.id}/${subCategoryItem.subCateName}`}>
                       <div className={`${styles.info_category}`}>
                         <img
                           src={`http://127.0.0.1:8000${subCategoryItem.subCateImage}`}

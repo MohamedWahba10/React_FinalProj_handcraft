@@ -19,6 +19,7 @@ import Category from "../components/Category/Category";
 import SubCategory from "../components/SubCategory/SubCategory";
 import ProtectedVendor from "../components/ProtectedRoutes/ProtectedVendor";
 import ProtectedCustomer from "../components/ProtectedRoutes/ProtectedCustomer";
+import ProductINSubCategory from "../components/ProductINSubCategory/ProductINSubCategory";
 
 export default function Router() {
   return (
@@ -133,6 +134,14 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <SubCategory />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/productinsubcategory/:categoryId/:categoryName/:subCategoryId/:subCategoryName"
+          element={
+            <ProtectedRoutes>
+              <ProductINSubCategory/>
             </ProtectedRoutes>
           }
         />
