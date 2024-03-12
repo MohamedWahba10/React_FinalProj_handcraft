@@ -17,6 +17,8 @@ import Checkout from "../components/Checkout/Checkout";
 import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
 import Category from "../components/Category/Category";
 import SubCategory from "../components/SubCategory/SubCategory";
+import ProtectedVendor from "../components/ProtectedRoutes/ProtectedVendor";
+import ProtectedCustomer from "../components/ProtectedRoutes/ProtectedCustomer";
 
 export default function Router() {
   return (
@@ -92,7 +94,9 @@ export default function Router() {
           path="/addProduct"
           element={
             <ProtectedRoutes>
-              <AddProduct />
+              <ProtectedVendor>
+                <AddProduct />
+              </ProtectedVendor>
             </ProtectedRoutes>
           }
         />
@@ -100,7 +104,9 @@ export default function Router() {
           path="/cart"
           element={
             <ProtectedRoutes>
-              <Cart />
+              <ProtectedCustomer>
+                <Cart />
+              </ProtectedCustomer>
             </ProtectedRoutes>
           }
         />
@@ -108,11 +114,13 @@ export default function Router() {
           path="/checkout"
           element={
             <ProtectedRoutes>
-              <Checkout />
+              <ProtectedCustomer>
+                <Checkout />
+              </ProtectedCustomer>
             </ProtectedRoutes>
           }
         />
-          <Route
+        <Route
           path="/category"
           element={
             <ProtectedRoutes>
@@ -120,7 +128,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-           <Route
+        <Route
           path="/subcategory/:categoryId/:categoryName"
           element={
             <ProtectedRoutes>
@@ -128,11 +136,11 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-           <Route
+        <Route
           path="/allProduct"
           element={
             <ProtectedRoutes>
-              <FeatureProduct/>
+              <FeatureProduct />
             </ProtectedRoutes>
           }
         />
@@ -141,7 +149,9 @@ export default function Router() {
           path="/updateProduct/:id"
           element={
             <ProtectedRoutes>
-              <UpdateProduct />
+              <ProtectedVendor>
+                <UpdateProduct />
+              </ProtectedVendor>
             </ProtectedRoutes>
           }
         />

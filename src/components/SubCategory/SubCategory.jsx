@@ -16,9 +16,7 @@ export default function SubCategory() {
     queryFn: getSubCategory,
   });
 
-  console.log("data:", data);
   const subCategory = data?.data?.data;
-  console.log("subCategory:", subCategory);
 
   function getSubCategory() {
     let response = axios.get(
@@ -30,10 +28,10 @@ export default function SubCategory() {
   return (
     <>
       <Helmet>
-        <title>subCategory</title>
+        <title>SubCategory</title>
       </Helmet>
       <div className={`${styles.header_profile} py-5 mb-5 text-center `}>
-        <h1>subCategory</h1>
+        <h1>SubCategory</h1>
 
         <Link to="/" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>

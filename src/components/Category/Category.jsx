@@ -14,9 +14,7 @@ export default function Category() {
     queryFn: getCategory,
   });
 
-  console.log("data:", data);
   const category = data?.data?.data;
-  console.log("category:", category);
 
   function getCategory() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/category/`);
