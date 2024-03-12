@@ -6,6 +6,8 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
+import { Modal, Button } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -31,7 +33,11 @@ export default function Profile() {
   const imageUrl = dataUser?.data.message.imageUrl;
   const userType = dataUser?.data.message.usertype;
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    refetch: refetchProducts,
+  } = useQuery({
     queryKey: "products",
     queryFn: getProduct,
   });
@@ -44,14 +50,60 @@ export default function Profile() {
         Authorization: `Token ${localStorage.getItem("userToken")}`,
       },
     });
+
     return response;
   }
+  async function deleteProduct(id) {
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/product/${id}/`, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("userToken")}`,
+        },
+      });
+      toast.success("Product removed successfully");
+      refetchProducts();
+
+    } catch (error) {
+      console.error("Failed to delete product", error);
+      toast.error("Failed to remove product");
+
+    }
+  }
+
+  const [deleteProductId, setDeleteProductId] = useState(null);
+
+  const confirmDelete = (id) => {
+    setDeleteProductId(id);
+  };
+
+  const cancelDelete = () => {
+    setDeleteProductId(null);
+  };
+
+  const handleDelete = async () => {
+    await deleteProduct(deleteProductId);
+    setDeleteProductId(null);
+  };
 
   return (
     <>
       <Helmet>
         <title>Profile</title>
       </Helmet>
+      <Modal show={deleteProductId !== null} onHide={cancelDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this product?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelDelete}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className={`${styles.header_profile} py-5 mb-5 text-center `}>
         <h1>Your Profile</h1>
 
@@ -127,7 +179,10 @@ export default function Profile() {
                                       className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                                     >
                                       <div className="d-flex justify-content-end">
-                                        <div className={`${styles.wish_list}`}>
+                                        <div
+                                          className={`${styles.delete}`}
+                                          onClick={() => confirmDelete(pro.id)}
+                                        >
                                           <i class="fa-solid fa-trash"></i>
                                         </div>
                                       </div>

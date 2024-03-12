@@ -12,7 +12,6 @@ export default function FeatureProduct() {
   });
 
   const Products = data?.data?.data;
-  console.log("Products:", Products);
 
   function getProduct() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
@@ -32,7 +31,6 @@ export default function FeatureProduct() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
-      console.log("response", response);
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);

@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function AddProduct() {
   const [isLoading, setisLoading] = useState(false);
@@ -37,7 +38,6 @@ export default function AddProduct() {
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
 
     try {
-      console.log("MERRRRRRRRRRRRRRRRRRRRRR");
       const response = await axios.post(
         `http://127.0.0.1:8000/api/product/create/`,
         formData,
@@ -48,10 +48,10 @@ export default function AddProduct() {
           },
         }
       );
-      console.log("response : ", response);
 
       if (response.data != "") {
-        navigate("/");
+        toast.success("Product Adding successfully");
+        navigate("/profile");
         setisLoading(false);
       } else {
         console.log("data is ", response.data);
