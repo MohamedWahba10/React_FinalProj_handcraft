@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styles from "./Cart.module.css";
-import CartContext from '../../Context/CartContext';
+import { CartContext } from "../../Context/CartContext";
+import Loading from "../Loading/Loading";
 
 
 
@@ -9,63 +10,68 @@ export default function Cart() {
 
     let [cartDetails, setcartDetails] = useState({})
 
-    // let { getcart, deleteCartProduct, updateCartProduct ,clearCart } = useContext(CartContext)
-
-    // async function getcartDetails() {
-    //     let {data} = await getcart()
-
-    //     console.log(data);
-    //     setcartDetails(data)
-    // }
+    let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart } = useContext(CartContext)
 
 
-    // async function removeProduct(id) {
-    //     let { data } = deleteCartProduct(id)
-    //     setcartDetails(data)
-    // }
+    async function getcartDetails() {
+        let { data } = await getCart()
 
-    //  async function clearCart() {
-    //     let { data } = clearCart()
-    //     setcartDetails(data) 
-    // }
+        console.log(data);
+        setcartDetails(data)
+    }
 
+    async function removeProduct(id) {
+        let { data } = deleteCartProduct(id)
+        console.log("remove my prod", data);
+        setcartDetails(data)
+        getcartDetails()
+    }
+
+    async function clearallCart() {
+        let { data } = clearCart()
+        setcartDetails(data)
+    }
+
+    function increase(id) {
+        
+     let {data}= increaseCartProduct(id)
+      setcartDetails(data)
+    }
     // function updateProduct(id,count){
-
     //     let {data}= updateCartProduct(id,count)
     //      setcartDetails(data)
     // }
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     getcartDetails()
+        getcartDetails()
 
-    // }, [])
+    }, [])
 
     return (
         <>
             <div>
 
 
-                {/* Cart + Summary */}
-                <section className="bg-light my-5">
+                {cartDetails ? <section className="bg-light my-5">
                     <div className="container">
-                        {/* Cart items */}
+
                         <div className="row">
-                            {/* Cart item 1 */}
+
                             <div className="col-lg-9">
                                 <div className="card border shadow-0">
                                     <div className="m-4">
                                         <div className='d-flex mb-2'>
                                             <h4 className="card-title mb-4">Your shopping cart</h4>
                                             <div>
-                                                <a href="" className="btn btn-light border text-light bg-danger icon-hover-danger ms-3">Clear All</a>
+                                                <button onClick={() => clearallCart()} type="button" className="btn btn-light border text-danger bg-light icon-hover-danger ms-3">Clear All</button>
+
                                             </div>
 
                                         </div>
 
-                                        {/* Cart item details */}
-                                        <div className="row gy-3 mb-4 mt-3">
-                                            {/* Cart item image */}
+                                        {cartDetails.cart_items && cartDetails.cart_items.map((ele) => <div className="row gy-3 mb-4 mt-3">
+
                                             <div className="col-lg-5">
                                                 <div className="me-lg-5">
                                                     <div className="d-flex">
@@ -85,7 +91,7 @@ export default function Cart() {
                                                     <div>   <button className="btn btn-outline-secondary ms-2" >+</button></div>
                                                 </div>
                                                 <div>
-                                                    <p className="h6 mt-2"> $460.00 / per item </p>
+                                                    <p className="h6 mt-2"> {ele.subtotal_price} EGP/ per item </p>
 
                                                 </div>
                                             </div>
@@ -93,15 +99,17 @@ export default function Cart() {
                                             {/* Cart item actions */}
                                             <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                 <div className="float-md-end">
-                                                    <a href="#!" className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></a>
-                                                    <a href="#" className="btn btn-light border text-danger icon-hover-danger ms-3"> Remove</a>
+                                                    <button className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></button>
+                                                    <button onClick={() => (removeProduct(ele.id))} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                    
+                                        </div>)}
 
-                                      
+
+
+
+
 
 
 
@@ -113,7 +121,7 @@ export default function Cart() {
                                     <div className="border-top pt-4 mx-4 mb-4">
 
                                         <div className="d-flex justify-content-between">
-                                            <p className="h5">Total: <span className="text-primary">$1156.00</span></p>
+                                            <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price} EGP</span></p>
                                             <a href="checkout" className="btn text-light bg-dark "> Proceed to checkout</a>
                                         </div>
                                     </div>
@@ -130,7 +138,7 @@ export default function Cart() {
                                         <hr />
                                         <div className="d-flex justify-content-between">
                                             <p className="h6">Quantitiy:</p>
-                                            <p className="h6"> 4 </p>
+                                            <p className="h6"> {cartDetails.total_items_count} </p>
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p className="h6">Delivery:</p>
@@ -139,7 +147,7 @@ export default function Cart() {
                                         <hr />
                                         <div className="d-flex justify-content-between">
                                             <p className="h5">Total:</p>
-                                            <p className="h5">$1156.00</p>
+                                            <p className="h5">{cartDetails.total_items_price} EGP</p>
                                         </div>
                                         <a href="/checkout" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
                                     </div>
@@ -149,8 +157,9 @@ export default function Cart() {
                         </div>
                         {/* Cart items */}
                     </div>
-                </section>
-                {/* Cart + Summary */}
+                </section> : <Loading />}
+
+
             </div>
         </>
     )

@@ -32,6 +32,7 @@ export default function AddProduct() {
     const formData = new FormData();
     formData.append("prodName", values.prodName);
     formData.append("prodPrice", values.prodPrice);
+    formData.append("prodStock", values.prodStock);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
@@ -71,6 +72,9 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
+    prodStock: Yup.string()
+      .matches(/^[1-9][0-9]{0,6}$/, "product items items must be only digits")
+      .required("product items is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
     prodImageThumbnail: Yup.mixed().required("Image Is Required"),
@@ -80,6 +84,7 @@ export default function AddProduct() {
     initialValues: {
       prodName: "",
       prodPrice: "",
+      prodStock: "",
       prodSubCategory: "",
       prodDescription: "",
       prodImageThumbnail: "",
@@ -127,7 +132,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodName &&
-                    AddProductForm.touched.prodName ? (
+                      AddProductForm.touched.prodName ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodName}
                       </div>
@@ -150,13 +155,46 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodPrice &&
-                    AddProductForm.touched.prodPrice ? (
+                      AddProductForm.touched.prodPrice ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodPrice}
                       </div>
                     ) : null}
                   </div>
                 </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodStock" className="fs-4 fw-bold">
+                      on stock
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodStock"
+                      value={AddProductForm.values.prodStock}
+                      name="prodStock"
+                      placeholder="Enter The Product Price"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodStock &&
+                      AddProductForm.touched.prodStock ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodStock}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+
+
+
+
+
+
+
+
 
                 <div className="col-md-12">
                   <div className="form-group">
@@ -203,7 +241,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     ></textarea>
                     {AddProductForm.errors.prodDescription &&
-                    AddProductForm.touched.prodDescription ? (
+                      AddProductForm.touched.prodDescription ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodDescription}
                       </div>
@@ -233,7 +271,7 @@ export default function AddProduct() {
                     />
 
                     {AddProductForm.errors.prodImageThumbnail &&
-                    AddProductForm.touched.prodImageThumbnail ? (
+                      AddProductForm.touched.prodImageThumbnail ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodImageThumbnail}
                       </div>
@@ -254,7 +292,7 @@ export default function AddProduct() {
                   <button
                     type="submit"
                     className={`${styles.AddProduct_button}`}
-                    // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
+                  // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
                   >
                     Add Product
                   </button>

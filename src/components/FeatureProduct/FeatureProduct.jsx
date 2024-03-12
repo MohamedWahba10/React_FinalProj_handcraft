@@ -1,25 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import styles from "./FeatureProduct.module.css";
+import { CartContext } from "../../Context/CartContext";
+import toast from 'react-hot-toast';
+
+
 
 export default function FeatureProduct() {
+
+  let { addToCart } = useContext(CartContext)
+
+
   const { data, isLoading } = useQuery({
     queryKey: "products",
     queryFn: getProduct,
   });
 
-  const Products = data?.data?.data;
+  async function addcart(id) {
+
+    let res = await addToCart(id)
+    console.log("heloo add to cart ",res);
+    if(res.data.msg === "Quantity updated in cart"){
+      toast.success("product added Successfully")
+    }else{
+
+    }
+  }
+
+  const Products = data?.data?.results;
   console.log("Products:", Products);
 
-  function getProduct() {
-    let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
+  async function getProduct() {
+    let response = await axios.get(`http://127.0.0.1:8000/api/product/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("userToken")}`,
       },
     });
+    console.log("my respone==>>", response);
     return response;
   }
   // --------------- userData ------------------------
@@ -32,7 +52,7 @@ export default function FeatureProduct() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
-      console.log("response", response);
+      console.log("response111", response);
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
@@ -71,7 +91,7 @@ export default function FeatureProduct() {
                     >
                       <div className={`${styles.product_info}`}>
                         <img
-                          src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
+                          src={`${pro.prodImageUrl}`}
                           className="w-100"
                           alt={pro.prodName}
                         />
@@ -89,7 +109,7 @@ export default function FeatureProduct() {
                               QUICK VIEW
                             </button>
                             {userType === "vendor" ? null : (
-                              <button className={`${styles.button_style}`}>
+                              <button onClick={() => addcart(pro.id)} className={`${styles.button_style}`}>
                                 ADD TO CART
                               </button>
                             )}
