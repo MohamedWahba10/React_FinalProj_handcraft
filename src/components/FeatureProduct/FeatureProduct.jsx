@@ -11,7 +11,7 @@ export default function FeatureProduct() {
     queryFn: getProduct,
   });
 
-  const Products = data?.data?.data;
+  const Products = data?.data?.results;
 
   function getProduct() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
@@ -41,7 +41,9 @@ export default function FeatureProduct() {
     ProfileData();
   }, []);
   const userType = dataUser?.data.message.usertype;
-
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       {isLoading ? (
@@ -62,22 +64,24 @@ export default function FeatureProduct() {
               {Products?.map((pro) => (
                 <div key={pro.id} className="col-md-3 cursor-pointer">
                   <div className="product py-3 px-2">
-                    <Link
-                      // to={`/detail/${pro.id}`}
-
-                      className="text-decoration-none text-dark"
-                    >
-                      <div className={`${styles.product_info}`}>
-                        <img
-                          src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
-                          className="w-100"
-                          alt={pro.prodName}
-                        />
+                    <div className={`${styles.product_info}`}>
+                      <img
+                        src={`${pro.prodImageUrl}`}
+                        className="w-100"
+                        alt={pro.prodName}
+                      />
+                      <Link
+                        to={`/detail`}
+                        className="text-decoration-none text-dark"
+                      >
                         <div
                           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                         >
                           <div className="d-flex justify-content-end">
-                            <div className={`${styles.wish_list}`}>
+                            <div
+                              className={`${styles.wish_list}`}
+                              onClick={handleAddToCartClick}
+                            >
                               <i class="fa-regular fa-heart"></i>
                             </div>
                           </div>
@@ -87,14 +91,17 @@ export default function FeatureProduct() {
                               QUICK VIEW
                             </button>
                             {userType === "vendor" ? null : (
-                              <button className={`${styles.button_style}`}>
+                              <button
+                                className={`${styles.button_style}`}
+                                onClick={handleAddToCartClick}
+                              >
                                 ADD TO CART
                               </button>
                             )}
                           </div>
                         </div>
-                      </div>
-                    </Link>
+                      </Link>
+                    </div>
 
                     <h4 className="pb-2 pt-2">{pro.prodName}</h4>
                     <p>{pro.prodPrice} EGP</p>

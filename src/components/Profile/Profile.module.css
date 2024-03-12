@@ -43,6 +43,8 @@
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  height: 350px;
+
 }
 .product_info img {
   height: 350px;

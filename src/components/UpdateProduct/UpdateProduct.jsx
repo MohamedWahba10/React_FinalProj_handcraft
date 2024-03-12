@@ -63,10 +63,19 @@ export default function UpdateProduct() {
     formData.append("prodPrice", values.prodPrice);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
-    if (values.prodImageThumbnail &&values.prodImageThumbnail instanceof File) {
+    formData.append("prodStock", values.prodStock);
+    formData.append("prodOnSale", values.prodOnSale);
+    if (
+      values.prodImageThumbnail &&
+      values.prodImageThumbnail instanceof File
+    ) {
       formData.append("prodImageThumbnail", values.prodImageThumbnail);
-    } else if (!values.prodImageThumbnail && productData && productData.prodImageThumbnail) {
-      formData.append("prodImageThumbnail",  productData.prodImageThumbnail);
+    } else if (
+      !values.prodImageThumbnail &&
+      productData &&
+      productData.prodImageThumbnail
+    ) {
+      formData.append("prodImageThumbnail", productData.prodImageThumbnail);
     }
 
     try {
@@ -103,16 +112,21 @@ export default function UpdateProduct() {
       .required("product Price is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
+    prodStock: Yup.string()
+      .matches(/^[1-9][0-9]{0,3}$/, "'product Stock must be only digits'")
+      .required("product Stock is Required"),
     // prodImageThumbnail: Yup.mixed().required("Image Is Required"),
   });
 
   const UpdateProductForm = useFormik({
     initialValues: {
-      prodName:"",
+      prodName: "",
       prodPrice: "",
-      prodSubCategory:"",
+      prodSubCategory: "",
       prodDescription: "",
       prodImageThumbnail: "",
+      prodStock: "",
+      prodOnSale: "",
     },
     validationSchema,
     onSubmit: (values) => callUpdateProduct(values),
@@ -120,11 +134,13 @@ export default function UpdateProduct() {
   useEffect(() => {
     if (productData) {
       UpdateProductForm.setValues({
-        prodName: productData.prodName||"",
-        prodPrice: productData.prodPrice||"",
-        prodSubCategory: productData.prodSubCategory||"",
-        prodDescription: productData.prodDescription||"",
-        prodImageThumbnail:productData.prodImageThumbnail||"",
+        prodName: productData.prodName || "",
+        prodPrice: productData.prodPrice || "",
+        prodSubCategory: productData.prodSubCategory || "",
+        prodDescription: productData.prodDescription || "",
+        prodImageThumbnail: productData.prodImageThumbnail || "",
+        prodStock: productData.prodStock || "",
+        prodOnSale: productData.prodOnSale || "",
       });
     }
   }, [productData]);
@@ -138,8 +154,8 @@ export default function UpdateProduct() {
       <div className={`${styles.header_UpdateProduct} py-5 mb-5 text-center `}>
         <h1>Update Product</h1>
 
-        <Link to="/" className="text-decoration-none ">
-          <span className={`${styles.link_home} pe-1 `}>HomePage</span>
+        <Link to="/profile" className="text-decoration-none ">
+          <span className={`${styles.link_home} pe-1 `}>Profile</span>
         </Link>
 
         <span className={`${styles.span_UpdateProduct}`}>
@@ -203,7 +219,7 @@ export default function UpdateProduct() {
                   </div>
                 </div>
 
-                <div className="col-md-12">
+                <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
                       Product Category
@@ -233,6 +249,29 @@ export default function UpdateProduct() {
                       )}
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodStock" className="fs-4 fw-bold">
+                      Product Stock
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodStock"
+                      value={UpdateProductForm.values.prodStock}
+                      name="prodStock"
+                      placeholder="Enter The Product Stock"
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+                    {UpdateProductForm.errors.prodStock &&
+                    UpdateProductForm.touched.prodStock ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodStock}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
                 <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="prodDescription" className="fs-4 fw-bold">
@@ -247,7 +286,7 @@ export default function UpdateProduct() {
                       onChange={UpdateProductForm.handleChange}
                       onBlur={UpdateProductForm.handleBlur}
                     ></textarea>
-                     {UpdateProductForm.errors.prodDescription &&
+                    {UpdateProductForm.errors.prodDescription &&
                     UpdateProductForm.touched.prodDescription ? (
                       <div className="text-danger fs-5 mt-3">
                         {UpdateProductForm.errors.prodDescription}
@@ -285,8 +324,26 @@ export default function UpdateProduct() {
                     ) : null}
                   </div>
                 </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
+                      Product Sale
+                    </label>
 
-               
+                    <input
+                      type="checkbox"
+                      id="prodOnSale"
+                      checked={UpdateProductForm.values.prodOnSale} 
+                      value={UpdateProductForm.values.prodOnSale}
+
+                      name="prodOnSale"
+                      style={{ width: "25px", height: "30px" }}
+                      placeholder="Enter The Product On Sale"
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>

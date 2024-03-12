@@ -21,6 +21,8 @@
   border-radius: 15px;
   position: relative;
   overflow: hidden;
+  height: 350px;
+
 }
 .product_info img {
   height: 350px;
@@ -38,6 +40,7 @@
   height: 350px;
   z-index: 66;
   width: 100%;
+  background-color: red;
 }
 .product_info:hover img {
   transform: scale(1.2);

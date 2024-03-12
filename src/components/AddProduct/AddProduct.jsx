@@ -35,6 +35,8 @@ export default function AddProduct() {
     formData.append("prodPrice", values.prodPrice);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
+    formData.append("prodStock", values.prodStock);
+    formData.append("prodOnSale", values.prodOnSale);
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
 
     try {
@@ -71,6 +73,10 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
+    prodStock: Yup.string().matches(
+      /^[1-9][0-9]{0,3}$/,
+      "'product Stock must be only digits'"
+    ).required("Product Stock is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
     prodImageThumbnail: Yup.mixed().required("Image Is Required"),
@@ -82,6 +88,8 @@ export default function AddProduct() {
       prodPrice: "",
       prodSubCategory: "",
       prodDescription: "",
+      prodStock: "",
+      prodOnSale: false,
       prodImageThumbnail: "",
     },
     validationSchema,
@@ -158,7 +166,7 @@ export default function AddProduct() {
                   </div>
                 </div>
 
-                <div className="col-md-12">
+                <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="prodSubCategory" className="fs-4 fw-bold">
                       Product Category
@@ -186,6 +194,29 @@ export default function AddProduct() {
                           {AddProductForm.errors.prodSubCategory}
                         </div>
                       )}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="prodStock" className="fs-4 fw-bold">
+                      Product Stock
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodStock"
+                      value={AddProductForm.values.prodStock}
+                      name="prodStock"
+                      placeholder="Enter The Product Stock"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodStock &&
+                    AddProductForm.touched.prodStock ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodStock}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -238,6 +269,25 @@ export default function AddProduct() {
                         {AddProductForm.errors.prodImageThumbnail}
                       </div>
                     ) : null}
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
+                      Product Sale
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="prodOnSale"
+                      value={AddProductForm.values.prodOnSale}
+                      name="prodOnSale"
+                      placeholder="Enter The Product On Sale"
+                      style={{ width: "25px", height: "30px" }}
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                
                   </div>
                 </div>
               </div>
