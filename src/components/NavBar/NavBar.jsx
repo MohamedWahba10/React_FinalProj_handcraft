@@ -4,14 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 function NavBar() {
-  
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
-  let { token, setToken  } = useContext(TokenContext);
-  const [data, setData] = useState(null);
-
+  const [layerVisibleSearch, setLayerVisibleSearch] = useState(false);
+  let { token, setToken } = useContext(TokenContext);
+  const [userData, setData] = useState(null);
 
   async function ProfileData() {
     try {
@@ -32,18 +32,14 @@ function NavBar() {
 
   useEffect(() => {
     ProfileData();
-  }, [token]); 
+  }, [token]);
 
   useEffect(() => {
     setToken(localStorage.getItem("userToken"));
   }, []);
-  const userType = data?.data.message.usertype;
+  const userType = userData?.data.message.usertype;
 
-  console.log(userType)
-
-
-
-
+  console.log(userType);
 
   let navigate = useNavigate();
   function logOut() {
@@ -62,12 +58,49 @@ function NavBar() {
   function viewWishList() {
     setLayerVisibleWishList(!layerVisibleWishList);
   }
+  function viewSearch() {
+    setLayerVisibleSearch(!layerVisibleSearch);
+  }
   function closeLayerWishList() {
     setLayerVisibleWishList(false);
+  }
+  function closeLayerSearch() {
+    setLayerVisibleSearch(false);
   }
   function handleInnerLayerClick(e) {
     e.stopPropagation();
   }
+  // ---------------------------------- search ---------------------------------
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const { data, isLoading } = useQuery({
+    queryKey: "products",
+    queryFn: getProduct,
+  });
+
+  useEffect(() => {
+    if (Products) {
+      const filtered = Products.filter((product) =>
+        product.prodName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [data, searchQuery]);
+
+  const Products = data?.data?.results;
+
+  function getProduct() {
+    let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("userToken")}`,
+      },
+    });
+    return response;
+  }
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <>
@@ -118,7 +151,10 @@ function NavBar() {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/allProduct">
+                  <Link
+                    className={`nav-link ${styles.Link_style}`}
+                    to="/allProduct"
+                  >
                     PRODUCT
                   </Link>
                 </li>
@@ -190,10 +226,17 @@ function NavBar() {
                   onClick={() => viewWishList()}
                 ></i>
               </div>
-              {userType === "customer" ?
-              <Link to="/cart" className={`${styles.cursor_pointer}`}>
-                <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
-              </Link>:null}
+              {userType === "customer" ? (
+                <Link to="/cart" className={`${styles.cursor_pointer}`}>
+                  <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
+                </Link>
+              ) : null}
+              <div className={`${styles.cursor_pointer} navbar-brand`}>
+                <i
+                  class="fa-solid fa-magnifying-glass fs-4"
+                  onClick={() => viewSearch()}
+                ></i>
+              </div>
             </>
           ) : null}
         </div>
@@ -257,7 +300,7 @@ function NavBar() {
           </div>
         </div>
       )}
-
+      {/* .................... wish list ....................... */}
       {layerVisibleWishList && (
         <div
           className={`${styles.above_layer_wish}`}
@@ -293,6 +336,101 @@ function NavBar() {
                 OR CONTINUE SHOPPING
               </span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ......................search............................ */}
+
+      {layerVisibleSearch && (
+        <div
+          className={`${styles.above_layer_wish}`}
+          onClick={closeLayerSearch}
+        >
+          <div
+            className={`${styles.inner_layer_search} pt-5 position-relative `}
+            onClick={handleInnerLayerClick}
+          >
+            <div className="d-flex justify-content-end ">
+              <i
+                class={`fa-solid fa-xmark px-5  fs-3 ${styles.cursor_pointer}`}
+                onClick={closeLayerSearch}
+              ></i>
+            </div>
+            <div className=" px-5">
+              <input
+                type="text"
+                className={`${styles.search_input}`}
+                placeholder="Search By Name Product"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="container my-4">
+              <div className="row gy-5 ">
+                {filteredProducts?.map((pro) => (
+                  <div key={pro.id} className="col-md-3 cursor-pointer">
+                    <div className="product ">
+                      <div className={`${styles.product_info}`}>
+                        <img
+                          src={`${pro.prodImageUrl}`}
+                          className="w-100"
+                          alt={pro.prodName}
+                        />
+                        <Link
+                          to={`/detail`}
+                          className="text-decoration-none text-dark "
+                        >
+                          <div
+                            className={`${styles.above_layer} p-3 d-flex  align-items-end  flex-column justify-content-between `}
+                          >
+                            <div className="d-flex justify-content-end">
+                              <div
+                                className={`${styles.wish_list}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                <i class="fa-regular fa-heart"></i>
+                              </div>
+                            </div>
+
+                            <div className="d-flex justify-content-center align-items-center">
+                              <button className={`${styles.button_style}`}>
+                                QUICK VIEW
+                              </button>
+                              {userType === "vendor" ? null : (
+                                <button
+                                  className={`${styles.button_style}`}
+                                  onClick={handleAddToCartClick}
+                                >
+                                  ADD TO CART
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+
+                      <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                      <p>{pro.prodPrice} EGP</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* <div className={`${styles.wish_list_buttons}  `}>
+              <button
+                className={`${styles.wish_style_button} d-block  fixed-bottom `}
+              >
+                <Link
+                  className={`${styles.wish_style_link}`}
+                  to="/"
+                  onClick={closeLayer}
+                >
+                  View Result Search
+                </Link>
+              </button>
+            </div> */}
           </div>
         </div>
       )}
