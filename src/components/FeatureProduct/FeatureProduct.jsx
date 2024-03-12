@@ -70,6 +70,12 @@ export default function FeatureProduct() {
                         className="w-100"
                         alt={pro.prodName}
                       />
+                      <div className={`${styles.check_onsale}`}>{pro.prodOnSale ? <>
+                            
+                            <button className="">Sale</button>
+                           </> : null}
+                           
+                      </div>
                       <Link
                         to={`/detail`}
                         className="text-decoration-none text-dark"
@@ -77,14 +83,16 @@ export default function FeatureProduct() {
                         <div
                           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                         >
-                          <div className="d-flex justify-content-end">
-                            <div
-                              className={`${styles.wish_list}`}
-                              onClick={handleAddToCartClick}
-                            >
-                              <i class="fa-regular fa-heart"></i>
+                
+                            <div className="d-flex justify-content-end">
+                              <div
+                                className={`${styles.wish_list}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                <i class="fa-regular fa-heart"></i>
+                              </div>
                             </div>
-                          </div>
+                        
 
                           <div className="d-flex justify-content-center align-items-center">
                             <button className={`${styles.button_style}`}>

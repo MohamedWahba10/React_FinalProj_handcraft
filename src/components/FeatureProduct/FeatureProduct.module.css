@@ -85,3 +85,24 @@
 .product_info .above_layer .wish_list:hover i{
     color: white;
 }
+
+.check_onsale{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+
+  transition: all 0.5s ease 0.5s;
+  background-color: transparent;
+  border-radius: 15px;
+  height: 350px;
+  z-index:30;
+  width: 100%;
+}
+.check_onsale button{
+  border:none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 15px;
+  background-color: black;
+  color: white;
+}

@@ -32,11 +32,7 @@ export default function Login() {
           navigate("/");
           setisLoading(false);
           localStorage.setItem("userToken", token);
-          // localStorage.setItem("userData", JSON.stringify(response.data.user));
-
-          // localStorage.setItem("userData", response.data.user);
           setToken(token);
-          // setUserData(response.data.user);
         } else {
           console.log("data", response.data.message);
         }

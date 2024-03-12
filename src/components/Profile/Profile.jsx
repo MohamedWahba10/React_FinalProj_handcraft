@@ -35,27 +35,49 @@ export default function Profile() {
   const imageUrl = dataUser?.data.message.imageUrl;
   const userType = dataUser?.data.message.usertype;
   const userData = dataUser?.data?.message;
-
+  const [isLoading,setIsLoading]=useState(true);
   console.log("userData", userData);
-  const {
-    data,
-    isLoading,
-    refetch: refetchProducts,
-  } = useQuery({
-    queryKey: "products",
-    queryFn: getProduct,
-  });
-
-  const Products = data?.data;
-  console.log("product vendorrrrrr", Products);
-  function getProduct() {
-    let response = axios.get(`http://127.0.0.1:8000/api/product/vendor/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("userToken")}`,
-      },
-    });
-    return response;
+  // const {
+  //   data,
+  //   isLoading,
+  //   refetch: refetchProducts,
+  //   isFetching,
+  //   isFetched
+  // } = useQuery({
+  //   queryKey: "products",
+  //   queryFn: getProduct,
+  // });
+// console.log("isFetching",isFetching)
+// console.log("isFetched",isFetched)
+  // const Products = data?.data;
+  // console.log("product vendorrrrrr", Products);
+  const [allData,setAllData]=useState([])
+  async function getProduct() {
+    setIsLoading(true);
+    try {
+      let {data} = await axios.get(`http://127.0.0.1:8000/api/product/vendor/`, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("userToken")}`,
+        },
+      });
+      console.log("response Product vendor");
+      setAllData(data)
+      console.log("DAtttaaaaaaaaaaa",data)
+      setIsLoading(false);
+      return data;
+    } catch (error) {
+      setIsLoading(false);
+      // handle error
+      console.error("Error fetching product:", error);
+      return null; // or throw error if necessary
+    }
   }
+  console.log("ALLLLLLLLLLDATAAAAAAAAAAA",allData)
+const Products = allData;
+  console.log("product vendorrrrrr", Products);
+    useEffect(() => {
+    getProduct(); // Corrected to use a function within useEffect
+  }, []);
   async function deleteProduct(id) {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/product/${id}/`, {
@@ -64,7 +86,8 @@ export default function Profile() {
         },
       });
       toast.success("Product removed successfully");
-      refetchProducts();
+      // refetchProducts();
+      getProduct()
     } catch (error) {
       console.error("Failed to delete product", error);
       toast.error("Failed to remove product");

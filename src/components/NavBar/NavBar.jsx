@@ -140,7 +140,7 @@ function NavBar() {
                     HOME
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className={`nav-link ${styles.Link_style}`} to="/">
                     FEATURE
                   </Link>
@@ -149,20 +149,20 @@ function NavBar() {
                   <Link className={`nav-link ${styles.Link_style}`} to="/">
                     Shop
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${styles.Link_style}`}
                     to="/allProduct"
                   >
-                    PRODUCT
+                    SHOP
                   </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link className={`nav-link ${styles.Link_style}`} to="/">
                     BLOG
                   </Link>
-                </li>
+                </li> */}
 
                 <li class={`${styles.submenu} nav-item`}>
                   <Link
@@ -357,7 +357,7 @@ function NavBar() {
                 onClick={closeLayerSearch}
               ></i>
             </div>
-            <div className=" px-5">
+            <div className="container">
               <input
                 type="text"
                 className={`${styles.search_input}`}
