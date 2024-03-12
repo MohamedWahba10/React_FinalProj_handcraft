@@ -142,6 +142,11 @@ function NavBar() {
                       </Link>
                     </li>
                     <li>
+                      <Link to="/category" className={`${styles.Link_style}`}>
+                        Categories
+                      </Link>
+                    </li>
+                    <li>
                       <Link to="/detail" className={`${styles.Link_style}`}>
                         Products
                       </Link>
@@ -185,9 +190,10 @@ function NavBar() {
                   onClick={() => viewWishList()}
                 ></i>
               </div>
+              {userType === "customer" ?
               <Link to="/cart" className={`${styles.cursor_pointer}`}>
                 <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
-              </Link>
+              </Link>:null}
             </>
           ) : null}
         </div>

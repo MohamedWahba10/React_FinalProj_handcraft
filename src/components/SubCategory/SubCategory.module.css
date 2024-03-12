@@ -1,0 +1,50 @@
+.header_profile {
+    background-color: #f8f6f0;
+  }
+  
+  .header_profile h1 {
+    font-size: 45px;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  
+  .header_profile .link_home {
+    color: #727272;
+    font-size: 18px;
+  }
+  
+  .header_profile .span_profile {
+    color: #3f3e3e;
+    font-size: 18px;
+  }
+  
+  .info_category{ 
+    cursor: pointer;
+    border-radius: 10px;
+    position: relative;
+  }
+  .info_category .img_category{ 
+    cursor: pointer;
+    height: 300px;
+    border-radius: 10px;
+
+  }
+
+  .info_category .category_name{
+    height: 300px;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 22;
+    display: flex;
+  align-items: end;
+  }
+  .info_category .category_name .name_of_category{
+    background-color: black;
+    color: white;
+    padding: 12px 13px;
+    margin-block: 20px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    
+  }
