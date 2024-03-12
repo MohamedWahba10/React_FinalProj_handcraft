@@ -45,6 +45,7 @@ export default function Category() {
             <div className="row gy-4">
               {category?.map((categoryItem) => (
                 <div className="col-md-4" key={categoryItem.id}>
+                  <Link to={`/subcategory/${categoryItem.id}/${categoryItem.cateName}`}>
                   <div className={`${styles.info_category}`}>
                     <img
                       src={`http://127.0.0.1:8000${categoryItem.cateImage}`}
@@ -57,6 +58,9 @@ export default function Category() {
                       </h6>
                     </div>
                   </div>
+                  
+                  </Link>
+            
                 </div>
               ))}
             </div>

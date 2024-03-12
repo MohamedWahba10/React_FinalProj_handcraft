@@ -16,6 +16,7 @@ import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
 import Checkout from "../components/Checkout/Checkout";
 import FeatureProduct from "../components/FeatureProduct/FeatureProduct";
 import Category from "../components/Category/Category";
+import SubCategory from "../components/SubCategory/SubCategory";
 
 export default function Router() {
   return (
@@ -116,6 +117,14 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <Category />
+            </ProtectedRoutes>
+          }
+        />
+           <Route
+          path="/subcategory/:categoryId/:categoryName"
+          element={
+            <ProtectedRoutes>
+              <SubCategory />
             </ProtectedRoutes>
           }
         />

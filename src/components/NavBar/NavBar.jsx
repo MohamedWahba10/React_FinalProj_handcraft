@@ -142,6 +142,11 @@ function NavBar() {
                       </Link>
                     </li>
                     <li>
+                      <Link to="/category" className={`${styles.Link_style}`}>
+                        Categories
+                      </Link>
+                    </li>
+                    <li>
                       <Link to="/detail" className={`${styles.Link_style}`}>
                         Products
                       </Link>
