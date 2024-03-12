@@ -6,9 +6,10 @@ import CartContext from '../../Context/CartContext';
 
 export default function Cart() {
 
+
     let [cartDetails, setcartDetails] = useState({})
 
-    // let { getcart, deleteCartProduct,updateCartProduct ,clearCart } = useContext(CartContext)
+    // let { getcart, deleteCartProduct, updateCartProduct ,clearCart } = useContext(CartContext)
 
     // async function getcartDetails() {
     //     let {data} = await getcart()
@@ -25,7 +26,7 @@ export default function Cart() {
 
     //  async function clearCart() {
     //     let { data } = clearCart()
-    //     setcartDetails(data)
+    //     setcartDetails(data) 
     // }
 
     // function updateProduct(id,count){

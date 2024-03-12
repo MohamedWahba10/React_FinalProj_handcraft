@@ -50,7 +50,7 @@ function clearCart() {
 }
 
 
-function updateCartProduct(id, count) {
+function updateCartProduct(id , count) {
 
 
 
