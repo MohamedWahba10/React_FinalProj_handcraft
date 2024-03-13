@@ -44,22 +44,14 @@ const Checkout = () => {
 
 
     let validationSchema = Yup.object({
-        first_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
-        last_name: Yup.string().matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters").required('Required'),
-        email: Yup.string().email('Invalid email address').required('Required'),
-        city: Yup.string().required('Required'),
+
         phone: Yup.string().matches(/^(011|010|012|015)\d{8}$/, "Phone number is invalid").required('Required'),
         address: Yup.string().required('Required')
     })
 
 
-
     const formik = useFormik({
         initialValues: {
-            first_name: '',
-            last_name: '',
-            email: '',
-            city: '',
             phone: '',
             address: ''
         },
@@ -108,59 +100,51 @@ const Checkout = () => {
 
                             <form onSubmit={formik.handleSubmit} className="mb-0">
                                 <div className="row mb-4">
+
+                                </div>
+                                <div className="row mb-4">
+
                                     <div className="col">
-                                        <div className="form-outline">
-                                            <input type="text" id="first_name" name="first_name" className="form-control input-custom" placeholder="First Name" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.first_name} />
-                                            {formik.touched.first_name && formik.errors.first_name ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.first_name}</div>
-                                            ) : null}
+                                        <div className="input-group form-outline">
+                                            <span className="input-group-text"><i className="fas fa-phone"></i></span>
+                                            <input
+                                                type="text"
+                                                id="phone"
+                                                name="phone"
+                                                className="form-control input-custom"
+                                                placeholder="Phone"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.phone}
+                                            />
                                         </div>
+                                        {formik.touched.phone && formik.errors.phone ? (
+                                            <div className="text-danger fs-5 mt-3">{formik.errors.phone}</div>
+                                        ) : null}
                                     </div>
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <input type="text" id="last_name" name="last_name" className="form-control input-custom" placeholder="Last Name" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.last_name} />
-                                            {formik.touched.last_name && formik.errors.last_name ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.last_name}</div>
-                                            ) : null}
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div className="row mb-4">
                                     <div className="col">
-                                        <div className="form-outline">
-                                            <input type="text" id="city" name="city" className="form-control input-custom" placeholder="City" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.city} />
-                                            {formik.touched.city && formik.errors.city ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.city}</div>
-                                            ) : null}
+                                        <div className="input-group form-outline">
+                                            <span className="input-group-text"><i className="fas fa-map-marker-alt"></i></span>
+                                            <input
+                                                type="text"
+                                                id="address"
+                                                name="address"
+                                                className="form-control input-custom"
+                                                placeholder="Address"
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                value={formik.values.address}
+                                            />
                                         </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <input type="text" id="phone" name="phone" className="form-control input-custom" placeholder="Phone" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phone} />
-                                            {formik.touched.phone && formik.errors.phone ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.phone}</div>
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row mb-4">
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <input type="text" id="address" name="address" className="form-control input-custom" placeholder="Address" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address} />
-                                            {formik.touched.address && formik.errors.address ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.address}</div>
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                    <div className="col">
-                                        <div className="form-outline">
-                                            <input type="email" id="email" name="email" className="form-control input-custom" placeholder="Email" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
-                                            {formik.touched.email && formik.errors.email ? (
-                                                <div className="text-danger fs-5 mt-3">{formik.errors.email}</div>
-                                            ) : null}
-                                        </div>
+                                        {formik.touched.address && formik.errors.address ? (
+                                            <div className="text-danger fs-5 mt-3">{formik.errors.address}</div>
+                                        ) : null}
                                     </div>
                                 </div>
+
                                 <div className="float-end">
                                     <button type="submit" className="btn btn-primary btn-rounded bg-black">Place order</button>
                                 </div>
