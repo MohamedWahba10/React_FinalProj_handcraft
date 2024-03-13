@@ -2,7 +2,7 @@ import { createContext } from "react";
 import axios from 'axios';
 
 
-let CartContext = createContext();
+export let CartContext = createContext();
 
 
 
@@ -11,55 +11,53 @@ let headers = {
 };
 
 function addToCart(id) {
-
     console.log("leoooooo leoooo");
 
-    return axios.post(" API el wa2eef 3ala KHaled beihh ", {
-        productid: id
+    return axios.post(`http://127.0.0.1:8000/api/cart/add/`, {
+        item: id,
+        quantity: 0
     }, {
         headers: headers
-    }
-    ).then((res) => res).catch((err) => err)
+    }).then((res) => res).catch((err) => err);
 }
 
 function getCart() {
 
-
-    return axios.get(" API el wa2eef 3ala KHaled beihh ", {
+    return axios.get(`http://127.0.0.1:8000/api/cart/list/`, {
         headers: headers
     }
     ).then((res) => res).catch((err) => err)
 }
 
 function deleteCartProduct(id) {
-
-
-    return axios.delete(`API el wa2eef 3ala KHaled beihh/${id}`, {
+    return axios.delete(`http://127.0.0.1:8000/api/cart/delete/${id}`, {
         headers: headers
-    }
-    ).then((res) => res).catch((err) => err)
+    }).then((res) => res).catch((err) => err);
 }
+
 
 function clearCart() {
 
 
-    return axios.delete(`API el wa2eef 3ala KHaled beihh`, {
+    return axios.delete(`http://127.0.0.1:8000/api/cart/delete-all/`, { 
         headers: headers
     }
     ).then((res) => res).catch((err) => err)
 }
 
 
-function updateCartProduct(id, count) {
+function increaseCartProduct(id) {
 
-
-
-    return axios.put(`API el wa2eef 3ala KHaled beihh/${id}`, {
-        productid: id
-    },
+    return axios.put(`http://127.0.0.1:8000/api/cart/addmore/${id}`,
         {
-            count: count
-        },
+            headers: headers
+        }
+    ).then((res) => res).catch((err) => err)
+}
+
+function decreaseCartProduct(id) {
+
+    return axios.put(`http://127.0.0.1:8000/api/cart/remove/${id}`,
         {
             headers: headers
         }
@@ -68,7 +66,7 @@ function updateCartProduct(id, count) {
 
 export default function CartContextProvider(props) {
 
-    return <CartContext.Provider value={{ addToCart, getCart, deleteCartProduct, updateCartProduct ,clearCart }}>
+    return <CartContext.Provider value={{ addToCart, getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct,clearCart }}>
         {props.children}
 
 

@@ -33,6 +33,7 @@ export default function AddProduct() {
     const formData = new FormData();
     formData.append("prodName", values.prodName);
     formData.append("prodPrice", values.prodPrice);
+    formData.append("prodStock", values.prodStock);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodStock", values.prodStock);
@@ -86,6 +87,7 @@ export default function AddProduct() {
     initialValues: {
       prodName: "",
       prodPrice: "",
+      prodStock: "",
       prodSubCategory: "",
       prodDescription: "",
       prodStock: "",
@@ -135,7 +137,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodName &&
-                    AddProductForm.touched.prodName ? (
+                      AddProductForm.touched.prodName ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodName}
                       </div>
@@ -158,7 +160,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodPrice &&
-                    AddProductForm.touched.prodPrice ? (
+                      AddProductForm.touched.prodPrice ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodPrice}
                       </div>
@@ -234,7 +236,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     ></textarea>
                     {AddProductForm.errors.prodDescription &&
-                    AddProductForm.touched.prodDescription ? (
+                      AddProductForm.touched.prodDescription ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodDescription}
                       </div>
@@ -264,7 +266,7 @@ export default function AddProduct() {
                     />
 
                     {AddProductForm.errors.prodImageThumbnail &&
-                    AddProductForm.touched.prodImageThumbnail ? (
+                      AddProductForm.touched.prodImageThumbnail ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodImageThumbnail}
                       </div>
@@ -304,7 +306,7 @@ export default function AddProduct() {
                   <button
                     type="submit"
                     className={`${styles.AddProduct_button}`}
-                    // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
+                  // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
                   >
                     Add Product
                   </button>
