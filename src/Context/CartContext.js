@@ -36,6 +36,7 @@ function deleteCartProduct(id) {
 }
 
 
+
 function clearCart() {
 
 
@@ -53,11 +54,14 @@ function increaseCartProduct(id) {
     });
 }
 
-function decreaseCartProduct(id) {
-    return axios.put(`http://127.0.0.1:8000/api/cart/remove/${id}`, null, {  
+function decreaseCartProduct(id)  {
+    return axios.put(`http://127.0.0.1:8000/api/cart/remove/${id}`, null, { 
         headers: headers
-    }).then((res) => res.data).catch((err) => err);
+    }).then((res) => res.data).catch((err) => {
+        throw new Error("decrease");
+    });
 }
+
 
 
 export default function CartContextProvider(props) {
