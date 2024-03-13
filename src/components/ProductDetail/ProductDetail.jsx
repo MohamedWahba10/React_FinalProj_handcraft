@@ -33,32 +33,7 @@ export default function ProductDetail() {
   const detailPro = data?.data?.data;
   console.log("dataProoooo", detailPro);
 
-  // -------sub category----------------------------
-
-  // const [dataSubCategory, setDataSubCategory] = useState(null);
-  // const [categoryIsLoaging, setCategoryIsLoaging] = useState(true);
-  // async function SubCategory() {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://127.0.0.1:8000/api/product/subcategory/${detailPro.prodSubCategory}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Token ${localStorage.getItem("userToken")}`,
-  //         },
-  //       }
-  //     );
-  //     setDataSubCategory(response);
-  //     setCategoryIsLoaging(false);
-  //   } catch (error) {
-  //     console.error("Failed to fetch profile data", error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   SubCategory();
-  // }, []);
-  // const dataSub = dataSubCategory?.data.data;
-
+ 
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
@@ -83,16 +58,12 @@ export default function ProductDetail() {
   const userType = dataUser?.data.message.usertype;
   console.log("userData", userType);
 
-  // if (dataSub === undefined) {
-  //   return <Loading />;
-  // }
-
-  //
+ 
 
   return (
     <>
       <div className="container mb-5 pb-5 overflow-hidden">
-        {isLoading  && userLoading ? (
+        {isLoading && userLoading ? (
           <Loading />
         ) : (
           <div className="row gy-5" key={detailPro.id}>
@@ -100,10 +71,10 @@ export default function ProductDetail() {
               <div className="py-3 px-2 my-4">
                 <Slider {...settings} className="w-100">
                   {[
-                    detailPro.prodImageOne,
-                    detailPro.prodImageTwo,
-                    detailPro.prodImageThree,
-                    detailPro.prodImageFour,
+                    detailPro?.prodImageOne,
+                    detailPro?.prodImageTwo,
+                    detailPro?.prodImageThree,
+                    detailPro?.prodImageFour,
                   ].map((ele) => (
                     <img
                       src={`http://127.0.0.1:8000${ele}`}
@@ -123,7 +94,7 @@ export default function ProductDetail() {
                     ></i>
                   </div>
                 </div>
-                {/* <h5 className="pb-2">{dataSub.subCateName}</h5> */}
+                <h5 className="pb-2">{detailPro.prodSubCategory.subCateName}</h5>
                 <h3 className=" pb-3">{detailPro.prodName}</h3>
                 {/* <p>
                   <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
@@ -137,14 +108,13 @@ export default function ProductDetail() {
 
                 <p>{detailPro.prodDescription}</p>
                 {userType === "vendor" ? (
-                  <Link to='/addProduct'>
-                  <button
-                    className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
-                  >
-                    ADD PROUDUCT
-                  </button>
+                  <Link to="/addProduct">
+                    <button
+                      className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                    >
+                      ADD PROUDUCT
+                    </button>
                   </Link>
-                  
                 ) : (
                   <button
                     className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
@@ -152,13 +122,13 @@ export default function ProductDetail() {
                     ADD TO CART
                   </button>
                 )}
-                <Link to={`vendorProduct/${detailPro.prodVendor.id}`}>
-                 <button
+                <Link to={`/vendorProduct/${detailPro.prodVendor.id}/${detailPro.prodVendor.shopname}`}>
+                  <button
                     className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                   >
                     View Product Vendor {detailPro.prodVendor.shopname}
                   </button>
-                  </Link>
+                </Link>
               </div>
             </div>
           </div>

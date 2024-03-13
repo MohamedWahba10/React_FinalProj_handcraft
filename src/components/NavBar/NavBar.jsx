@@ -94,14 +94,12 @@ function NavBar() {
   }, [data, searchQuery]);
 
   const Products = data?.data?.results;
-console.log("PRODUCTTTTTTTT",Products)
   function getProduct() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("userToken")}`,
       },
     });
-    console.log("RESPOVSE IS >>>>>>>>>>>>>>",response)
     return response;
   }
   const handleAddToCartClick = (e) => {

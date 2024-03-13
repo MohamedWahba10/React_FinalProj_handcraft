@@ -60,7 +60,7 @@ export default function Profile() {
 const Products = allData;
   console.log("product vendorrrrrr", Products);
     useEffect(() => {
-    getProduct(); // Corrected to use a function within useEffect
+    getProduct(); 
   }, []);
   async function deleteProduct(id) {
     try {
