@@ -8,6 +8,7 @@ import RecipeReviewCard from "../test/RecipeReviewCard";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Loading/Loading";
+import CategorySlider from "../CategorySlider/CatrgorySlider";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -20,8 +21,6 @@ export default function Home() {
   // async function addCart(id) {
   //  let res= await addToCart(id)
   // }
-
-
 
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
@@ -64,12 +63,12 @@ export default function Home() {
 
   return (
     <>
-      {isLoading && userLoading? (
+      {isLoading && userLoading ? (
         <Loading />
       ) : (
         <>
           <MainSlider />
-
+          <CategorySlider/>
           {/* <RecipeReviewCard /> */}
 
           <div className="container my-5">
@@ -105,7 +104,9 @@ export default function Home() {
                   if (pro.prodOnSale) {
                     return (
                       <div key={index} className="col-lg-3 col-md-6 col-12">
-                        <div className={`${styles.card_sale} card ${styles.product}`}>
+                        <div
+                          className={`${styles.card_sale} card ${styles.product}`}
+                        >
                           <div>
                             <img
                               src={pro.prodImageUrl}
@@ -125,16 +126,15 @@ export default function Home() {
                             <h5 className="card-title">{pro.prodName}</h5>
                             <p className="card-text">{pro.prodPrice} EGP</p>
                           </div>
-                          {userType==='vendor'?null:
-                          
-                          <div className="d-flex justify-content-center ">
-                          <button className={`${styles.btn} my-2 fs-5 py-2 `}>
-                          ADD TO CART
-                          </button>
-                          </div>
-                          }
-                         
-                       
+                          {userType === "vendor" ? null : (
+                            <div className="d-flex justify-content-center ">
+                              <button
+                                className={`${styles.btn} my-2 fs-5 py-2 `}
+                              >
+                                ADD TO CART
+                              </button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     );

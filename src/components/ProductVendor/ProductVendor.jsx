@@ -3,12 +3,14 @@ import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import styles from "./FeatureProduct.module.css";
+import styles from "./ProductVendor.module.css";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
-export default function FeatureProduct() {
+export default function ProductVendor() {
   let { addToCart } = useContext(CartContext);
+  const { vendorid, shopname } = useParams();
 
   const { data, isLoading } = useQuery({
     queryKey: "products",
@@ -18,17 +20,17 @@ export default function FeatureProduct() {
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
-    if (res.data.msg === "added") {
+    if (res.data.msg === "Quantity updated in cart") {
       toast.success("product added Successfully");
     } else {
     }
   }
 
-  const Products = data?.data?.results;
+  const Products = data?.data?.data;
   console.log("Products:", Products);
 
   async function getProduct() {
-    let response = await axios.get(`http://127.0.0.1:8000/api/product/`, {
+    let response = await axios.get(`http://127.0.0.1:8000/api/product/vendor/${vendorid}/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("userToken")}`,
       },
@@ -71,28 +73,28 @@ export default function FeatureProduct() {
       ) : (
         <>
           <div className={`${styles.header_product} py-5 mb-5 text-center `}>
-            <h1>Shop</h1>
+            <h1>Products Vendor {shopname}</h1>
 
             <Link to="/" className="text-decoration-none ">
               <span className={`${styles.link_home} pe-1 `}>HomePage</span>
             </Link>
 
-            <span className={`${styles.span_profile}`}>&gt;Shop</span>
+            <span className={`${styles.span_profile}`}>&gt;product</span>
           </div>
           <div className="container mb-5 pb-5 overflow-hidden">
             <div className="row gy-5">
               {Products?.map((pro) => (
-                <div key={pro.product.id} className="col-md-3 cursor-pointer">
+                <div key={pro.id} className="col-md-3 cursor-pointer">
                   <div className="product py-3 px-2">
                     <div className={`${styles.product_info}`}>
                       <img
-                        src={`${pro.product.prodImageUrl}`}
+                        src={`${pro.prodImageUrl}`}
                         className="w-100"
-                        alt={pro.product.prodName}
+                        alt={pro.prodName}
                       />
                     
                       <Link
-                        to={`/detail/${pro.product.id}`}
+                        to={`/detail/${pro.id}`}
                         className="text-decoration-none text-dark"
                       >
                         <div
@@ -115,7 +117,7 @@ export default function FeatureProduct() {
                               <div onClick={handleAddToCartClick}>
                                 <button
                                   className={`${styles.button_style}`}
-                                  onClick={() => addcart(pro.product.id)}
+                                  onClick={() => addcart(pro.id)}
                                 >
                                   ADD TO CART
                                 </button>
@@ -126,8 +128,8 @@ export default function FeatureProduct() {
                       </Link>
                     </div>
 
-                    <h4 className="pb-2 pt-2">{pro.product.prodName}</h4>
-                    <p>{pro.product.prodPrice} EGP</p>
+                    <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                    <p>{pro.prodPrice} EGP</p>
                   </div>
                 </div>
               ))}

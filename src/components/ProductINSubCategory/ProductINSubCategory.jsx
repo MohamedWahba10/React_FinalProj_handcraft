@@ -36,7 +36,7 @@ export default function ProductINSubCategory() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
-      console.log("response", response);
+      console.log("responseee", response);
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
@@ -47,7 +47,9 @@ export default function ProductINSubCategory() {
     ProfileData();
   }, []);
   const userType = dataUser?.data.message.usertype;
-
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <Helmet>
@@ -80,45 +82,35 @@ export default function ProductINSubCategory() {
             <div className="row gy-4">
               {product
                 ?.filter(
-                  (productItem) => productItem.prodSubCategory == subCategoryId
+                  (productItem) =>
+                    productItem.prodSubCategory.id == subCategoryId
                 )
                 .map((productItem) => (
-                  //   <div className="col-md-4" key={productItem.id}>
-                  //     <Link to={``}>
-                  //       <div className={`${styles.info_category}`}>
-                  //         <img
-                  //           src={`http://127.0.0.1:8000${productItem.prodImageThumbnail}`}
-                  //           alt={productItem.prodName}
-                  //           className={`${styles.img_category}`}
-                  //         />
-                  //         <div className={`${styles.category_name}`}>
-                  //           <h6 className={`${styles.name_of_category}`}>
-                  //             {productItem.prodName}
-                  //           </h6>
-                  //         </div>
-                  //       </div>
-                  //     </Link>
-                  //   </div>
-                  <div key={productItem.id} className="col-md-3 cursor-pointer">
+                  <div
+                    key={productItem.product.id}
+                    className="col-md-3 cursor-pointer"
+                  >
                     <div className="product py-3 px-2">
                       <Link
-                        // to={`/detail/${pro.id}`}
-
+                        to={`/detail/${productItem.product.id}`}
                         className="text-decoration-none text-dark"
                       >
                         <div className={`${styles.product_info}`}>
                           <img
-                            src={`${productItem.prodImageUrl}`}
+                            src={`${productItem.product.prodImageUrl}`}
                             className="w-100"
-                            alt={productItem.prodName}
+                            alt={productItem.product.prodName}
                           />
                           <div
                             className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                           >
-                            <div className="d-flex justify-content-end">
+                            <div className="d-flex justify-content-end" >
+                              <div onClick={handleAddToCartClick}>
                               <div className={`${styles.wish_list}`}>
                                 <i class="fa-regular fa-heart"></i>
                               </div>
+                              </div>
+                          
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
@@ -126,17 +118,26 @@ export default function ProductINSubCategory() {
                                 QUICK VIEW
                               </button>
                               {userType === "vendor" ? null : (
-                                <button className={`${styles.button_style}`}>
-                                  ADD TO CART
-                                </button>
+                                <div
+                                onClick={handleAddToCartClick}
+                                >
+                                  <button 
+                                  
+                                  
+                                  className={`${styles.button_style}`}>
+                                    ADD TO CART
+                                  </button>
+                                </div>
                               )}
                             </div>
                           </div>
                         </div>
                       </Link>
 
-                      <h4 className="pb-2 pt-2">{productItem.prodName}</h4>
-                      <p>{productItem.prodPrice} EGP</p>
+                      <h4 className="pb-2 pt-2">
+                        {productItem.product.prodName}
+                      </h4>
+                      <p>{productItem.product.prodPrice} EGP</p>
                     </div>
                   </div>
                 ))}

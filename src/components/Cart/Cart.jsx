@@ -20,29 +20,35 @@ export default function Cart() {
         setcartDetails(data)
     }
 
-    async function removeProduct(id) {
-        let { data } = deleteCartProduct(id)
+    async function removeProduct(id, e) {
+        e.preventDefault();
+        let { data } = await deleteCartProduct(id)
         console.log("remove my prod", data);
         setcartDetails(data)
-        // getcartDetails()
+        getcartDetails()
     }
-
-    async function clearallCart() {
-        let { data } = clearCart()
+    async function clearallCart(e) {
+        e.preventDefault();
+        let { data } = await clearCart()
         setcartDetails(data)
+        getcartDetails()
     }
-
-    function increase(id) {
-        
-     let {data}= increaseCartProduct(id)
-      setcartDetails(data)
+    async function increase(id, e) {
+        e.preventDefault();
+        let data = await increaseCartProduct(id);
+        console.log("increase,", data);
+        setcartDetails(data);
+        getcartDetails();
     }
-
-    function decrease(id) {
-        
-        let {data}= decreaseCartProduct(id)
-         setcartDetails(data)
-       }
+    
+    async function decrease(id, e) {
+        e.preventDefault();
+        let { data } = await decreaseCartProduct(id);
+        setcartDetails(data);
+        getcartDetails();
+    }
+    
+    
     
     // function updateProduct(id,count){
     //     let {data}= updateCartProduct(id,count)
@@ -71,7 +77,7 @@ export default function Cart() {
                                         <div className='d-flex mb-2'>
                                             <h4 className="card-title mb-4">Your shopping cart</h4>
                                             <div>
-                                                <button onClick={() => clearallCart()} type="button" className="btn btn-light border text-danger bg-light icon-hover-danger ms-3">Clear All</button>
+                                            <button onClick={(e) => clearallCart(e)} type="button" className="btn btn-light border text-danger bg-light icon-hover-danger ms-3">Clear All</button>
 
                                             </div>
 
@@ -82,10 +88,10 @@ export default function Cart() {
                                             <div className="col-lg-5">
                                                 <div className="me-lg-5">
                                                     <div className="d-flex">
-                                                        <img src={require("../../assets/images/mainSlider/image5.jpg")} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
+                                                        <img src={ele.item_image} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
                                                         <div className="">
-                                                            <a href="#" className="nav-link">Winter jacket for men and lady</a>
-                                                            <p className="text-muted">Yellow, Jeans</p>
+                                                            <a href="#" className="nav-link">{ele.item_name}</a>
+                                                            <p className="text-muted"><span className='fw-bold'>Description :</span> {ele.item_description}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -93,12 +99,13 @@ export default function Cart() {
                                             {/* Cart item quantity and price */}
                                             <div className="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                                                 <div className="me-4 d-flex">
-                                                    <div><button onClick={()=> decrease(ele.id)}  className="btn btn-outline-secondary me-2" >-</button></div>
-                                                    <div className='mt-1'> <span >5</span></div>
-                                                    <div><button onClick={()=> increase(ele.id)} className="btn btn-outline-secondary ms-2" >+</button></div>
+                                                    <div><button onClick={(e) => decrease(ele.id, e)} className="btn btn-outline-secondary me-2">-</button></div>
+                                                    <div className='mt-1'><span>{ele.quantity}</span></div>
+                                                    <div><button onClick={(e) => increase(ele.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
                                                 </div>
+
                                                 <div>
-                                                    <p className="h6 mt-2"> {ele.subtotal_price} EGP/ per item </p>
+                                                    <p className="h6 mt-2"> {ele.item_price} EGP/ per item </p>
 
                                                 </div>
                                             </div>
@@ -107,7 +114,7 @@ export default function Cart() {
                                             <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                 <div className="float-md-end">
                                                     <button className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></button>
-                                                    <button onClick={() => (removeProduct(ele.id))} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
+                                                    <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
                                                 </div>
                                             </div>
 
@@ -149,7 +156,7 @@ export default function Cart() {
                                         </div>
                                         <div className="d-flex justify-content-between">
                                             <p className="h6">Delivery:</p>
-                                            <p className="h6">Free</p>
+                                            <p className="h6">50 EGP</p>
                                         </div>
                                         <hr />
                                         <div className="d-flex justify-content-between">
