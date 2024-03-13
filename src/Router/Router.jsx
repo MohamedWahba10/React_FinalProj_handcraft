@@ -20,6 +20,7 @@ import SubCategory from "../components/SubCategory/SubCategory";
 import ProtectedVendor from "../components/ProtectedRoutes/ProtectedVendor";
 import ProtectedCustomer from "../components/ProtectedRoutes/ProtectedCustomer";
 import ProductINSubCategory from "../components/ProductINSubCategory/ProductINSubCategory";
+import NotFound from "../components/NotFound/NotFound";
 
 export default function Router() {
   return (
@@ -68,7 +69,7 @@ export default function Router() {
         />
 
         <Route
-          path="/detail"
+          path="/detail/:id"
           element={
             <ProtectedRoutes>
               <ProductDetail />
@@ -141,7 +142,7 @@ export default function Router() {
           path="/productinsubcategory/:categoryId/:categoryName/:subCategoryId/:subCategoryName"
           element={
             <ProtectedRoutes>
-              <ProductINSubCategory/>
+              <ProductINSubCategory />
             </ProtectedRoutes>
           }
         />
@@ -161,6 +162,14 @@ export default function Router() {
               <ProtectedVendor>
                 <UpdateProduct />
               </ProtectedVendor>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoutes>
+              <NotFound/>
             </ProtectedRoutes>
           }
         />

@@ -98,7 +98,7 @@ export default function FeatureProduct() {
                         ) : null}
                       </div>
                       <Link
-                        to={`/detail`}
+                        to={`/detail/${pro.id}`}
                         className="text-decoration-none text-dark"
                       >
                         <div
@@ -118,17 +118,14 @@ export default function FeatureProduct() {
                               QUICK VIEW
                             </button>
                             {userType === "vendor" ? null : (
-                              <div onClick={
-                                handleAddToCartClick
-                              }>
-<button
-                                className={`${styles.button_style}`}
-                                onClick={() => addcart(pro.id)}
-                              >
-                                ADD TO CART
-                              </button>
+                              <div onClick={handleAddToCartClick}>
+                                <button
+                                  className={`${styles.button_style}`}
+                                  onClick={() => addcart(pro.id)}
+                                >
+                                  ADD TO CART
+                                </button>
                               </div>
-                              
                             )}
                           </div>
                         </div>

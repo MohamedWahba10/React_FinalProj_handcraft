@@ -74,33 +74,40 @@ function NavBar() {
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { data, isLoading } = useQuery({
+  const { data, isLoading,isFetched } = useQuery({
     queryKey: "products",
     queryFn: getProduct,
   });
+  useEffect(() => {
+    if (isFetched) {
+      console.log("Data fetching is completed");
+    }
+  }, [isFetched]);
 
   useEffect(() => {
     if (Products) {
       const filtered = Products.filter((product) =>
-        product.prodName.toLowerCase().includes(searchQuery.toLowerCase())
+        product.product.prodName.includes(searchQuery.toLowerCase())
       );
       setFilteredProducts(filtered);
     }
   }, [data, searchQuery]);
 
   const Products = data?.data?.results;
-
+console.log("PRODUCTTTTTTTT",Products)
   function getProduct() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/`, {
       headers: {
         Authorization: `Token ${localStorage.getItem("userToken")}`,
       },
     });
+    console.log("RESPOVSE IS >>>>>>>>>>>>>>",response)
     return response;
   }
   const handleAddToCartClick = (e) => {
     e.preventDefault();
   };
+
 
   return (
     <>
@@ -140,16 +147,7 @@ function NavBar() {
                     HOME
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/">
-                    FEATURE
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/">
-                    Shop
-                  </Link>
-                </li> */}
+               
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${styles.Link_style}`}
@@ -158,11 +156,7 @@ function NavBar() {
                     SHOP
                   </Link>
                 </li>
-                {/* <li className="nav-item">
-                  <Link className={`nav-link ${styles.Link_style}`} to="/">
-                    BLOG
-                  </Link>
-                </li> */}
+          
 
                 <li class={`${styles.submenu} nav-item`}>
                   <Link
@@ -183,7 +177,7 @@ function NavBar() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/detail" className={`${styles.Link_style}`}>
+                      <Link to="/allProduct" className={`${styles.Link_style}`}>
                         Products
                       </Link>
                     </li>
@@ -197,19 +191,11 @@ function NavBar() {
                             Add Product
                           </Link>
                         </li>
-                        <li>
-                          <Link to="/detail" className={`${styles.Link_style}`}>
-                            Detail
-                          </Link>
-                        </li>
+                  
                       </>
                     )}
 
-                    <li>
-                      <Link to="/" className={`${styles.Link_style}`}>
-                        Single Product
-                      </Link>
-                    </li>
+                   
                   </ul>
                 </li>
               </ul>
@@ -226,17 +212,19 @@ function NavBar() {
                   onClick={() => viewWishList()}
                 ></i>
               </div>
+           
               {userType === "customer" ? (
                 <Link to="/cart" className={`${styles.cursor_pointer}`}>
                   <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
                 </Link>
               ) : null}
-              <div className={`${styles.cursor_pointer} navbar-brand`}>
+                 <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
                 <i
                   class="fa-solid fa-magnifying-glass fs-4"
                   onClick={() => viewSearch()}
                 ></i>
               </div>
+            
             </>
           ) : null}
         </div>
@@ -369,16 +357,16 @@ function NavBar() {
             <div className="container my-4">
               <div className="row gy-5 ">
                 {filteredProducts?.map((pro) => (
-                  <div key={pro.id} className="col-md-3 cursor-pointer">
+                  <div key={pro.product.id} className="col-md-3 cursor-pointer">
                     <div className="product ">
                       <div className={`${styles.product_info}`}>
                         <img
-                          src={`${pro.prodImageUrl}`}
+                          src={`${pro.product.prodImageUrl}`}
                           className="w-100"
-                          alt={pro.prodName}
+                          alt={pro.product.prodName}
                         />
                         <Link
-                          to={`/detail`}
+                          to={`/detail/${pro.product.id}`}
                           className="text-decoration-none text-dark "
                         >
                           <div
@@ -410,8 +398,8 @@ function NavBar() {
                         </Link>
                       </div>
 
-                      <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                      <p>{pro.prodPrice} EGP</p>
+                      <h4 className="pb-2 pt-2">{pro.product.prodName}</h4>
+                      <p>{pro.product.prodPrice} EGP</p>
                     </div>
                   </div>
                 ))}

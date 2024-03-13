@@ -37,8 +37,11 @@ export default function AddProduct() {
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodStock", values.prodStock);
-    formData.append("prodOnSale", values.prodOnSale);
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
+    formData.append("prodImageOne", values.prodImageOne);
+    formData.append("prodImageTwo", values.prodImageTwo);
+    formData.append("prodImageThree", values.prodImageThree);
+    formData.append("prodImageFour", values.prodImageFour);
 
     try {
       const response = await axios.post(
@@ -74,13 +77,16 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
-    prodStock: Yup.string().matches(
-      /^[1-9][0-9]{0,3}$/,
-      "'product Stock must be only digits'"
-    ).required("Product Stock is Required"),
+    prodStock: Yup.string()
+      .matches(/^[1-9][0-9]{0,3}$/, "'product Stock must be only digits'")
+      .required("Product Stock is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),
     prodImageThumbnail: Yup.mixed().required("Image Is Required"),
+    prodImageOne: Yup.mixed().required("Image Is Required"),
+    prodImageTwo: Yup.mixed().required("Image Is Required"),
+    prodImageThree: Yup.mixed().required("Image Is Required"),
+    prodImageFour: Yup.mixed().required("Image Is Required"),
   });
 
   const AddProductForm = useFormik({
@@ -91,8 +97,11 @@ export default function AddProduct() {
       prodSubCategory: "",
       prodDescription: "",
       prodStock: "",
-      prodOnSale: false,
       prodImageThumbnail: "",
+      prodImageOne: "",
+      prodImageTwo: "",
+      prodImageThree: "",
+      prodImageFour: "",
     },
     validationSchema,
     onSubmit: (values) => callAddProduct(values),
@@ -137,7 +146,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodName &&
-                      AddProductForm.touched.prodName ? (
+                    AddProductForm.touched.prodName ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodName}
                       </div>
@@ -160,7 +169,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     />
                     {AddProductForm.errors.prodPrice &&
-                      AddProductForm.touched.prodPrice ? (
+                    AddProductForm.touched.prodPrice ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodPrice}
                       </div>
@@ -236,7 +245,7 @@ export default function AddProduct() {
                       onBlur={AddProductForm.handleBlur}
                     ></textarea>
                     {AddProductForm.errors.prodDescription &&
-                      AddProductForm.touched.prodDescription ? (
+                    AddProductForm.touched.prodDescription ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodDescription}
                       </div>
@@ -266,32 +275,137 @@ export default function AddProduct() {
                     />
 
                     {AddProductForm.errors.prodImageThumbnail &&
-                      AddProductForm.touched.prodImageThumbnail ? (
+                    AddProductForm.touched.prodImageThumbnail ? (
                       <div className="text-danger fs-5 mt-3">
                         {AddProductForm.errors.prodImageThumbnail}
                       </div>
                     ) : null}
                   </div>
                 </div>
-                <div className="col-md-12">
+                {/* //----------------list images ---------------------------------------------- */}
+                <div className="col-md-6">
                   <div className="form-group">
-                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
-                      Product Sale
+                    <label
+                      htmlFor="prodImageOne"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number One
                     </label>
                     <input
-                      type="checkbox"
-                      id="prodOnSale"
-                      value={AddProductForm.values.prodOnSale}
-                      name="prodOnSale"
-                      placeholder="Enter The Product On Sale"
-                      style={{ width: "25px", height: "30px" }}
-                      onChange={AddProductForm.handleChange}
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageOne"
+                      name="prodImageOne"
+                      onChange={(event) => {
+                        AddProductForm.setFieldValue(
+                          "prodImageOne",
+                          event.currentTarget.files[0]
+                        );
+                      }}
                       onBlur={AddProductForm.handleBlur}
                     />
 
-                
+                    {AddProductForm.errors.prodImageOne &&
+                    AddProductForm.touched.prodImageOne ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodImageOne}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageTwo"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Two
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageTwo"
+                      name="prodImageTwo"
+                      onChange={(event) => {
+                        AddProductForm.setFieldValue(
+                          "prodImageTwo",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                    {AddProductForm.errors.prodImageTwo &&
+                    AddProductForm.touched.prodImageTwo ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodImageTwo}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageThree"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Three
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageThree"
+                      name="prodImageThree"
+                      onChange={(event) => {
+                        AddProductForm.setFieldValue(
+                          "prodImageThree",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                    {AddProductForm.errors.prodImageThree &&
+                    AddProductForm.touched.prodImageThree ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodImageThree}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageFour"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Four
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageFour"
+                      name="prodImageFour"
+                      onChange={(event) => {
+                        AddProductForm.setFieldValue(
+                          "prodImageFour",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+
+                    {AddProductForm.errors.prodImageFour &&
+                    AddProductForm.touched.prodImageFour ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodImageFour}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>
@@ -306,7 +420,7 @@ export default function AddProduct() {
                   <button
                     type="submit"
                     className={`${styles.AddProduct_button}`}
-                  // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
+                    // disabled={!(AddProductForm.isValid && AddProductForm.dirty)}
                   >
                     Add Product
                   </button>

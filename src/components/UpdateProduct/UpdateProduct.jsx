@@ -64,7 +64,6 @@ export default function UpdateProduct() {
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodStock", values.prodStock);
-    formData.append("prodOnSale", values.prodOnSale);
     if (
       values.prodImageThumbnail &&
       values.prodImageThumbnail instanceof File
@@ -77,6 +76,61 @@ export default function UpdateProduct() {
     ) {
       formData.append("prodImageThumbnail", productData.prodImageThumbnail);
     }
+
+
+
+    if (
+      values.prodImageOne &&
+      values.prodImageOne instanceof File
+    ) {
+      formData.append("prodImageOne", values.prodImageOne);
+    } else if (
+      !values.prodImageOne &&
+      productData &&
+      productData.prodImageOne
+    ) {
+      formData.append("prodImageOne", productData.prodImageOne);
+    }
+
+
+
+    if (
+      values.prodImageTwo &&
+      values.prodImageTwo instanceof File
+    ) {
+      formData.append("prodImageTwo", values.prodImageTwo);
+    } else if (
+      !values.prodImageTwo &&
+      productData &&
+      productData.prodImageTwo
+    ) {
+      formData.append("prodImageTwo", productData.prodImageTwo);
+    }
+    if (
+      values.prodImageThree &&
+      values.prodImageThree instanceof File
+    ) {
+      formData.append("prodImageThree", values.prodImageThree);
+    } else if (
+      !values.prodImageThree &&
+      productData &&
+      productData.prodImageThree
+    ) {
+      formData.append("prodImageThree", productData.prodImageThree);
+    }
+    if (
+      values.prodImageFour &&
+      values.prodImageFour instanceof File
+    ) {
+      formData.append("prodImageFour", values.prodImageFour);
+    } else if (
+      !values.prodImageFour &&
+      productData &&
+      productData.prodImageFour
+    ) {
+      formData.append("prodImageFour", productData.prodImageFour);
+    }
+
 
     try {
       const response = await axios.put(
@@ -126,7 +180,10 @@ export default function UpdateProduct() {
       prodDescription: "",
       prodImageThumbnail: "",
       prodStock: "",
-      prodOnSale: "",
+      prodImageOne: "",
+      prodImageTwo: "",
+      prodImageThree: "",
+      prodImageFour: "",
     },
     validationSchema,
     onSubmit: (values) => callUpdateProduct(values),
@@ -140,7 +197,10 @@ export default function UpdateProduct() {
         prodDescription: productData.prodDescription || "",
         prodImageThumbnail: productData.prodImageThumbnail || "",
         prodStock: productData.prodStock || "",
-        prodOnSale: productData.prodOnSale || "",
+        prodImageOne:productData.prodImageOne || "",
+        prodImageTwo: productData.prodImageTwo ||"",
+        prodImageThree:productData.prodImageThree || "",
+        prodImageFour: productData.prodImageFour ||"",
       });
     }
   }, [productData]);
@@ -324,26 +384,137 @@ export default function UpdateProduct() {
                     ) : null}
                   </div>
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-6">
                   <div className="form-group">
-                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
-                      Product Sale
+                    <label
+                      htmlFor="prodImageOne"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number One
                     </label>
-
                     <input
-                      type="checkbox"
-                      id="prodOnSale"
-                      checked={UpdateProductForm.values.prodOnSale} 
-                      value={UpdateProductForm.values.prodOnSale}
-
-                      name="prodOnSale"
-                      style={{ width: "25px", height: "30px" }}
-                      placeholder="Enter The Product On Sale"
-                      onChange={UpdateProductForm.handleChange}
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageOne"
+                      name="prodImageOne"
+                      onChange={(event) => {
+                        UpdateProductForm.setFieldValue(
+                          "prodImageOne",
+                          event.currentTarget.files[0]
+                        );
+                      }}
                       onBlur={UpdateProductForm.handleBlur}
                     />
+
+                    {UpdateProductForm.errors.prodImageOne &&
+                    UpdateProductForm.touched.prodImageOne ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodImageOne}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageTwo"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Two
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageTwo"
+                      name="prodImageTwo"
+                      onChange={(event) => {
+                        UpdateProductForm.setFieldValue(
+                          "prodImageTwo",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+
+                    {UpdateProductForm.errors.prodImageTwo &&
+                    UpdateProductForm.touched.prodImageTwo ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodImageTwo}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageThree"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Three
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageThree"
+                      name="prodImageThree"
+                      onChange={(event) => {
+                        UpdateProductForm.setFieldValue(
+                          "prodImageThree",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+
+                    {UpdateProductForm.errors.prodImageThree &&
+                    UpdateProductForm.touched.prodImageThree ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodImageThree}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label
+                      htmlFor="prodImageFour"
+                      className="fs-4 fw-bold"
+                    >
+                      Image Number Four
+                    </label>
+                    <input
+                      type="file"
+                      className="w-100 border"
+                      id="prodImageFour"
+                      name="prodImageFour"
+                      onChange={(event) => {
+                        UpdateProductForm.setFieldValue(
+                          "prodImageFour",
+                          event.currentTarget.files[0]
+                        );
+                      }}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+
+                    {UpdateProductForm.errors.prodImageFour &&
+                    UpdateProductForm.touched.prodImageFour ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {UpdateProductForm.errors.prodImageFour}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>

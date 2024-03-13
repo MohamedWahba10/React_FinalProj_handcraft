@@ -36,7 +36,7 @@ export default function ProductINSubCategory() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
-      console.log("response", response);
+      console.log("responseee", response);
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);

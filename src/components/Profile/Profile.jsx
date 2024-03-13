@@ -10,7 +10,6 @@ import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 export default function Profile() {
-  const navigate = useNavigate();
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
@@ -37,20 +36,7 @@ export default function Profile() {
   const userData = dataUser?.data?.message;
   const [isLoading,setIsLoading]=useState(true);
   console.log("userData", userData);
-  // const {
-  //   data,
-  //   isLoading,
-  //   refetch: refetchProducts,
-  //   isFetching,
-  //   isFetched
-  // } = useQuery({
-  //   queryKey: "products",
-  //   queryFn: getProduct,
-  // });
-// console.log("isFetching",isFetching)
-// console.log("isFetched",isFetched)
-  // const Products = data?.data;
-  // console.log("product vendorrrrrr", Products);
+
   const [allData,setAllData]=useState([])
   async function getProduct() {
     setIsLoading(true);
@@ -62,7 +48,6 @@ export default function Profile() {
       });
       console.log("response Product vendor");
       setAllData(data)
-      console.log("DAtttaaaaaaaaaaa",data)
       setIsLoading(false);
       return data;
     } catch (error) {
@@ -72,7 +57,6 @@ export default function Profile() {
       return null; // or throw error if necessary
     }
   }
-  console.log("ALLLLLLLLLLDATAAAAAAAAAAA",allData)
 const Products = allData;
   console.log("product vendorrrrrr", Products);
     useEffect(() => {
@@ -107,6 +91,9 @@ const Products = allData;
   const handleDelete = async () => {
     await deleteProduct(deleteProductId);
     setDeleteProductId(null);
+  };
+  const handleAddToCartClick = (e) => {
+    e.preventDefault();
   };
 
   return (
@@ -226,7 +213,7 @@ const Products = allData;
                               >
                                 <div className="product py-3 px-2">
                                   <Link
-                                    // to={`/detail/${pro.id}`}
+                                    to={`/detail/${pro.id}`}
 
                                     className="text-decoration-none text-dark"
                                   >
@@ -239,7 +226,7 @@ const Products = allData;
                                       <div
                                         className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                                       >
-                                        <div className="d-flex justify-content-end">
+                                        <div className="d-flex justify-content-end"  onClick={handleAddToCartClick}>
                                           <div
                                             className={`${styles.delete}`}
                                             onClick={() =>
@@ -255,6 +242,7 @@ const Products = allData;
                                             <>
                                               <Link
                                                 to={`/updateProduct/${pro.id}`}
+                                                
                                               >
                                                 <button
                                                   className={`${styles.button_style}  fs-6`}
@@ -262,7 +250,7 @@ const Products = allData;
                                                   Update Product
                                                 </button>
                                               </Link>
-                                              <Link>
+                                              <Link to={`/detail/${pro.id}`}>
                                                 <button
                                                   className={`${styles.button_style} fs-6`}
                                                 >

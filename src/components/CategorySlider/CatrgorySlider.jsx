@@ -24,19 +24,19 @@ export default function CategorySlider() {
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 5
+          slidesToShow: 4
         }
       },
       {
         breakpoint: 992,
         settings: {
-          slidesToShow:4
+          slidesToShow:3
         }
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow:3
+          slidesToShow:2
         }
       },
       {
