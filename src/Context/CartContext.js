@@ -11,7 +11,7 @@ let headers = {
 };
 
 function addToCart(id) {
-    console.log("leoooooo leoooo");
+   
 
     return axios.post(`http://127.0.0.1:8000/api/cart/add/`, {
         item: id,
@@ -45,31 +45,24 @@ function clearCart() {
     ).then((res) => res).catch((err) => err)
 }
 
-
 function increaseCartProduct(id) {
-
-    return axios.put(`http://127.0.0.1:8000/api/cart/addmore/${id}`,
-        {
-            headers: headers
-        }
-    ).then((res) => res).catch((err) => err)
+    return axios.put(`http://127.0.0.1:8000/api/cart/addmore/${id}`, null, {
+        headers: headers
+    }).then((res) => res.data).catch((err) => {
+        throw new Error("Quantity cannot be increased further, exceeds prodStock limit");
+    });
 }
 
 function decreaseCartProduct(id) {
-
-    return axios.put(`http://127.0.0.1:8000/api/cart/remove/${id}`,
-        {
-            headers: headers
-        }
-    ).then((res) => res).catch((err) => err)
+    return axios.put(`http://127.0.0.1:8000/api/cart/remove/${id}`, null, {  
+        headers: headers
+    }).then((res) => res.data).catch((err) => err);
 }
+
 
 export default function CartContextProvider(props) {
 
     return <CartContext.Provider value={{ addToCart, getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct,clearCart }}>
         {props.children}
-
-
-
     </CartContext.Provider>
 }

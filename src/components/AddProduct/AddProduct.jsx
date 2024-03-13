@@ -56,7 +56,7 @@ export default function AddProduct() {
       );
 
       if (response.data != "") {
-        toast.success("Product Addi successfully");
+        toast.success("Product Added successfully");
         navigate("/profile");
         setisLoading(false);
       } else {
