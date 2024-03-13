@@ -24,7 +24,7 @@ export default function Cart() {
         let { data } = deleteCartProduct(id)
         console.log("remove my prod", data);
         setcartDetails(data)
-        getcartDetails()
+        // getcartDetails()
     }
 
     async function clearallCart() {
@@ -37,6 +37,13 @@ export default function Cart() {
      let {data}= increaseCartProduct(id)
       setcartDetails(data)
     }
+
+    function decrease(id) {
+        
+        let {data}= decreaseCartProduct(id)
+         setcartDetails(data)
+       }
+    
     // function updateProduct(id,count){
     //     let {data}= updateCartProduct(id,count)
     //      setcartDetails(data)
@@ -86,9 +93,9 @@ export default function Cart() {
                                             {/* Cart item quantity and price */}
                                             <div className="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                                                 <div className="me-4 d-flex">
-                                                    <div><button className="btn btn-outline-secondary me-2" >-</button></div>
-                                                    <div className='mt-1'>    <span >5</span></div>
-                                                    <div>   <button className="btn btn-outline-secondary ms-2" >+</button></div>
+                                                    <div><button onClick={()=> decrease(ele.id)}  className="btn btn-outline-secondary me-2" >-</button></div>
+                                                    <div className='mt-1'> <span >5</span></div>
+                                                    <div><button onClick={()=> increase(ele.id)} className="btn btn-outline-secondary ms-2" >+</button></div>
                                                 </div>
                                                 <div>
                                                     <p className="h6 mt-2"> {ele.subtotal_price} EGP/ per item </p>

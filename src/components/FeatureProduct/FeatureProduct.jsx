@@ -121,14 +121,14 @@ export default function FeatureProduct() {
                               <div onClick={
                                 handleAddToCartClick
                               }>
-<button
-                                className={`${styles.button_style}`}
-                                onClick={() => addcart(pro.id)}
-                              >
-                                ADD TO CART
-                              </button>
+                                <button
+                                  className={`${styles.button_style}`}
+                                  onClick={() => addcart(pro.id)}
+                                >
+                                  ADD TO CART
+                                </button>
                               </div>
-                              
+
                             )}
                           </div>
                         </div>
