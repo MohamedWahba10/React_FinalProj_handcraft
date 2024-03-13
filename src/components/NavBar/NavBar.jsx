@@ -5,6 +5,7 @@ import { TokenContext } from "../../Context/Token";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -23,8 +24,20 @@ function NavBar() {
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
+      if (
+        error.response.data.data === "expired_token." ||
+        error.response.data.message === "msg Please login again"
+      ) {
+          toast.error(`${error.response.data.data}`);
+          toast.error(`${error.response.data.message}`);
+          localStorage.removeItem('userToken')
+          navigate("/login");
+
+        
+      }
     }
   }
+
 
   // useEffect(() => {
   //   ProfileData();
@@ -74,7 +87,7 @@ function NavBar() {
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { data, isLoading,isFetched } = useQuery({
+  const { data, isLoading, isFetched } = useQuery({
     queryKey: "products",
     queryFn: getProduct,
   });
@@ -106,9 +119,11 @@ function NavBar() {
     e.preventDefault();
   };
 
-
   return (
     <>
+
+    
+
       <nav className={`navbar navbar-expand-lg  py-4 px-2 ${styles.nav_style}`}>
         <div className="container">
           {token ? (
@@ -145,7 +160,7 @@ function NavBar() {
                     HOME
                   </Link>
                 </li>
-               
+
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${styles.Link_style}`}
@@ -154,7 +169,6 @@ function NavBar() {
                     SHOP
                   </Link>
                 </li>
-          
 
                 <li class={`${styles.submenu} nav-item`}>
                   <Link
@@ -189,11 +203,8 @@ function NavBar() {
                             Add Product
                           </Link>
                         </li>
-                  
                       </>
                     )}
-
-                   
                   </ul>
                 </li>
               </ul>
@@ -210,19 +221,18 @@ function NavBar() {
                   onClick={() => viewWishList()}
                 ></i>
               </div>
-           
+
               {userType === "customer" ? (
                 <Link to="/cart" className={`${styles.cursor_pointer}`}>
                   <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
                 </Link>
               ) : null}
-                 <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
+              <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
                 <i
                   class="fa-solid fa-magnifying-glass fs-4"
                   onClick={() => viewSearch()}
                 ></i>
               </div>
-            
             </>
           ) : null}
         </div>

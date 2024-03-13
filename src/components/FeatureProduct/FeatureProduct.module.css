@@ -67,7 +67,7 @@
   color: white;
 }
 .product_info .above_layer .wish_list{
-    background-color: white;
+    /* background-color: white; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,7 +80,7 @@
     font-size: 18px;
 }
 .product_info .above_layer .wish_list:hover{
-    background-color: black;
+    background-color: black !important;
 }
 .product_info .above_layer .wish_list:hover i{
     color: white;

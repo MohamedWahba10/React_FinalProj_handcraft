@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import styles from "./FeatureProduct.module.css";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { FavoriteContext } from "../../Context/FavoriteContext";
 
 export default function FeatureProduct() {
   let { addToCart } = useContext(CartContext);
@@ -14,7 +15,37 @@ export default function FeatureProduct() {
     queryKey: "products",
     queryFn: getProduct,
   });
+  let {addToFavorite,deleteFavoriteProduct,getFavorite} = useContext(FavoriteContext);
+  async function addfavorite(id) {
+    let res = await addToFavorite(id);
+    console.log("heloo add to favorite ", res);
+    if (res.data.message === "Product was added to favorites.") {
+      toast.success("Product Added Favorite Successfully");
+    } else {
+      toast.error("ERROR")
+    }
+  }
 
+  async function deletefavorite(id) {
+    let res = await deleteFavoriteProduct(id);
+    console.log("heloo remove to favorite ", res);
+    if (res.data.message === "Product was removed from favorites.") {
+      toast.success("Product Removed Favorite Successfully");
+    } else {
+      toast.error("ERROR")
+    }
+  }
+
+  async function getfavorite() {
+    let res = await getFavorite();
+    console.log("heloo allllllllll to favorite ", res);
+    // if (res.data.message === "Product was added to favorites.") {
+    //   toast.success("Product Added Favorite Successfully");
+    // } else {
+    //   toast.error("ERROR")
+    // }
+  }
+ 
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
@@ -23,6 +54,8 @@ export default function FeatureProduct() {
     } else {
     }
   }
+
+
 
   const Products = data?.data?.results;
  
@@ -99,12 +132,17 @@ export default function FeatureProduct() {
                           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                         >
                           <div className="d-flex justify-content-end">
+                            <div  onClick={handleAddToCartClick}>
+
                             <div
-                              className={`${styles.wish_list}`}
-                              onClick={handleAddToCartClick}
+                              className={`${styles.wish_list}  bg-light `}
+                              
+                              onClick={() => addfavorite(pro.product.id)}
                             >
                               <i class="fa-regular fa-heart"></i>
                             </div>
+                            </div>
+                         
                           </div>
 
                           <div className="d-flex justify-content-center align-items-center">

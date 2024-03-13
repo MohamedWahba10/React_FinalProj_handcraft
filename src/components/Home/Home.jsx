@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import CategorySlider from "../CategorySlider/CatrgorySlider";
+import FilterProduct from "../FilterProduct/FilterProduct";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -69,6 +70,7 @@ export default function Home() {
         <>
           <MainSlider />
           <CategorySlider/>
+          <FilterProduct />
           {/* <RecipeReviewCard /> */}
 
           <div className="container my-5">

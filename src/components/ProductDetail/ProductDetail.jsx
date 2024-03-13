@@ -66,7 +66,7 @@ export default function ProductDetail() {
         {isLoading && userLoading ? (
           <Loading />
         ) : (
-          <div className="row gy-5" key={detailPro.id}>
+          <div className="row gy-5" key={detailPro?.id}>
             <div className="col-md-5 cursor-pointer">
               <div className="py-3 px-2 my-4">
                 <Slider {...settings} className="w-100">
@@ -79,7 +79,7 @@ export default function ProductDetail() {
                     <img
                       src={`http://127.0.0.1:8000${ele}`}
                       className={`w-100 ${styles.img_style}`}
-                      alt={detailPro.prodName}
+                      alt={detailPro?.prodName}
                     />
                   ))}
                 </Slider>
@@ -94,19 +94,19 @@ export default function ProductDetail() {
                     ></i>
                   </div>
                 </div>
-                <h5 className="pb-2">{detailPro.prodSubCategory.subCateName}</h5>
-                <h3 className=" pb-3">{detailPro.prodName}</h3>
+                <h5 className="pb-2">{detailPro?.prodSubCategory.subCateName}</h5>
+                <h3 className=" pb-3">{detailPro?.prodName}</h3>
                 {/* <p>
                   <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
                   <span className="fs-4">{detailPro.ratingsAverage}</span>
                 </p> */}
                 <h5 className="pb-2">
-                  Created By {detailPro.prodVendor.shopname}
+                  Created By {detailPro?.prodVendor.shopname}
                 </h5>
 
-                <p className="fs-4">{detailPro.prodPrice}EGP </p>
+                <p className="fs-4">{detailPro?.prodPrice}EGP </p>
 
-                <p>{detailPro.prodDescription}</p>
+                <p>{detailPro?.prodDescription}</p>
                 {userType === "vendor" ? (
                   <Link to="/addProduct">
                     <button
@@ -122,11 +122,11 @@ export default function ProductDetail() {
                     ADD TO CART
                   </button>
                 )}
-                <Link to={`/vendorProduct/${detailPro.prodVendor.id}/${detailPro.prodVendor.shopname}`}>
+                <Link to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}>
                   <button
                     className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                   >
-                    View Product Vendor {detailPro.prodVendor.shopname}
+                    View Product Vendor {detailPro?.prodVendor.shopname}
                   </button>
                 </Link>
               </div>
