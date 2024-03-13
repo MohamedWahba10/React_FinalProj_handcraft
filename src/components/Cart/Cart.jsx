@@ -9,6 +9,7 @@ export default function Cart() {
 
 
     let [cartDetails, setcartDetails] = useState({})
+    const [apiError, setapiError] = useState("")
 
     let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart } = useContext(CartContext)
 
@@ -18,12 +19,13 @@ export default function Cart() {
 
         console.log(data);
         setcartDetails(data)
+        setapiError("")   // this is to remove the error message when user re-try again  
     }
 
     async function removeProduct(id, e) {
         e.preventDefault();
         let { data } = await deleteCartProduct(id)
-        console.log("remove my prod", data);
+        console.log("remove my prod", data.response);
         setcartDetails(data)
         getcartDetails()
     }
@@ -33,23 +35,43 @@ export default function Cart() {
         setcartDetails(data)
         getcartDetails()
     }
+    // async function increase(id, e) {
+    //     e.preventDefault();
+    //     try {
+    //         let  data  = await increaseCartProduct(id);
+    //         console.log(data);
+    //         // console.log(data.data.msg);
+    //       //  setcartDetails(data);
+    //         getcartDetails();
+    //     } catch (err) {
+    //         console.log("heelooo", err);
+    //         if (err.response && err.response.data && err.response.data.msg === "Quantity cannot be increased further, exceeds prodStock limit") {
+    //             setapiError(err.response.data.msg);
+    //         } 
+    //     }
+    // }
+    
     async function increase(id, e) {
         e.preventDefault();
-        let data = await increaseCartProduct(id);
-        console.log("increase,", data);
-        setcartDetails(data);
-        getcartDetails();
+        try {
+            let data = await increaseCartProduct(id);
+            console.log(data);
+            getcartDetails();
+        } catch (err) {
+           
+            setapiError("Quantity cannot be increased further, exceeds prodStock limit");
+        }
     }
-    
+
     async function decrease(id, e) {
         e.preventDefault();
         let { data } = await decreaseCartProduct(id);
         setcartDetails(data);
         getcartDetails();
     }
-    
-    
-    
+
+
+
     // function updateProduct(id,count){
     //     let {data}= updateCartProduct(id,count)
     //      setcartDetails(data)
@@ -77,11 +99,13 @@ export default function Cart() {
                                         <div className='d-flex mb-2'>
                                             <h4 className="card-title mb-4">Your shopping cart</h4>
                                             <div>
-                                            <button onClick={(e) => clearallCart(e)} type="button" className="btn btn-light border text-danger bg-light icon-hover-danger ms-3">Clear All</button>
+                                                <button onClick={(e) => clearallCart(e)} type="button" className="btn btn-light border text-danger bg-light icon-hover-danger ms-3">Clear All</button>
 
                                             </div>
 
                                         </div>
+                                        {apiError && <div className="alert alert-danger">{apiError}</div>}
+
 
                                         {cartDetails.cart_items && cartDetails.cart_items.map((ele) => <div className="row gy-3 mb-4 mt-3">
 
@@ -101,7 +125,11 @@ export default function Cart() {
                                                 <div className="me-4 d-flex">
                                                     <div><button onClick={(e) => decrease(ele.id, e)} className="btn btn-outline-secondary me-2">-</button></div>
                                                     <div className='mt-1'><span>{ele.quantity}</span></div>
-                                                    <div><button onClick={(e) => increase(ele.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+                                            
+                                                  
+                                                    <div>
+                                                        <button onClick={(e) => increase(ele.id, e)} className="btn btn-outline-secondary ms-2">+</button>
+                                                    </div>
                                                 </div>
 
                                                 <div>

@@ -25,7 +25,7 @@ export default function FeatureProduct() {
   }
 
   const Products = data?.data?.results;
-  console.log("Products:", Products);
+ 
 
   async function getProduct() {
     let response = await axios.get(`http://127.0.0.1:8000/api/product/`, {
@@ -47,7 +47,7 @@ export default function FeatureProduct() {
         },
       });
 
-      console.log("response111", response);
+   
 
       setData(response);
     } catch (error) {

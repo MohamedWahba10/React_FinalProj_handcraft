@@ -11,7 +11,7 @@ let headers = {
 };
 
 function addToCart(id) {
-    console.log("leoooooo leoooo");
+   
 
     return axios.post(`http://127.0.0.1:8000/api/cart/add/`, {
         item: id,
@@ -48,7 +48,9 @@ function clearCart() {
 function increaseCartProduct(id) {
     return axios.put(`http://127.0.0.1:8000/api/cart/addmore/${id}`, null, {
         headers: headers
-    }).then((res) => res.data).catch((err) => err);
+    }).then((res) => res.data).catch((err) => {
+        throw new Error("Quantity cannot be increased further, exceeds prodStock limit");
+    });
 }
 
 function decreaseCartProduct(id) {
