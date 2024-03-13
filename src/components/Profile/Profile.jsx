@@ -12,7 +12,6 @@ import toast from "react-hot-toast";
 export default function Profile() {
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
-
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {

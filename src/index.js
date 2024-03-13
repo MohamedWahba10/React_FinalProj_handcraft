@@ -11,6 +11,7 @@ import './index.css';
 import TokenContextProvider from './Context/Token';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import CartContextProvider from './Context/CartContext';
+import FavoriteContextProvider from './Context/FavoriteContext';
 
 
 let query = new QueryClient()
@@ -19,11 +20,14 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <CartContextProvider>
+    <FavoriteContextProvider>
     <QueryClientProvider client={query}>
       <TokenContextProvider>
         <App />
       </TokenContextProvider>
     </QueryClientProvider>
+    </FavoriteContextProvider>
+   
   </CartContextProvider>
 
 

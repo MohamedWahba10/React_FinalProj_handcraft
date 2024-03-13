@@ -158,7 +158,7 @@ export default function UpdateProduct() {
     prodName: Yup.string()
       .matches(
         /^[a-zA-Z0-9]{3,35}$/,
-        "product Name must be from 3 to 10 letters"
+        "product Name must be from 3 to 35 letters"
       )
       .required("Required"),
     prodPrice: Yup.string()
