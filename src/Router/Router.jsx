@@ -22,6 +22,7 @@ import ProtectedCustomer from "../components/ProtectedRoutes/ProtectedCustomer";
 import ProductINSubCategory from "../components/ProductINSubCategory/ProductINSubCategory";
 import NotFound from "../components/NotFound/NotFound";
 import ProductVendor from "../components/ProductVendor/ProductVendor";
+import Favorite from "../components/Favorite/Favorite";
 
 export default function Router() {
   return (
@@ -118,6 +119,16 @@ export default function Router() {
             <ProtectedRoutes>
               <ProtectedCustomer>
                 <Cart />
+              </ProtectedCustomer>
+            </ProtectedRoutes>
+          }
+        />
+                <Route
+          path="/favorite"
+          element={
+            <ProtectedRoutes>
+              <ProtectedCustomer>
+                <Favorite />
               </ProtectedCustomer>
             </ProtectedRoutes>
           }

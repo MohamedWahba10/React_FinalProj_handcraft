@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./ProductINSubCategory.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -6,6 +6,8 @@ import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import { FavoriteContext } from "../../Context/FavoriteContext";
 
 export default function ProductINSubCategory() {
   const { subCategoryId, subCategoryName, categoryName, categoryId } =
@@ -50,6 +52,47 @@ export default function ProductINSubCategory() {
   const handleAddToCartClick = (e) => {
     e.preventDefault();
   };
+
+  // ------------------------------------favorite ------------------------------------------------------------------
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
+    useContext(FavoriteContext);
+  async function addfavorite(id) {
+    let res = await addToFavorite(id);
+    console.log("heloo add to favorite ", res);
+    if (res?.data?.message === "Product was added to favorites.") {
+      toast.success("Product Added Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error(res.data.message);
+    }
+  }
+
+  async function deletefavorite(id) {
+    let res = await deleteFavoriteProduct(id);
+    console.log("heloo remove to favorite ", res);
+    if (res?.data?.message === "Product was removed from favorites.") {
+      toast.success("Product Removed Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error("ERROR");
+    }
+  }
+  const [dataFavorite, setDataFavorite] = useState(null);
+
+  async function getfavorite() {
+    try {
+      let res = await getFavorite();
+      console.log("hello all to favorite", res);
+      setDataFavorite(res.data.favorite_products);
+      console.log("dataFavoeite", dataFavorite);
+    } catch (error) {
+      console.error("Error while fetching favorite:", error);
+    }
+  }
+  useEffect(() => {
+    getfavorite();
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -104,30 +147,44 @@ export default function ProductINSubCategory() {
                           <div
                             className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                           >
-                            <div className="d-flex justify-content-end" >
+                            <div className="d-flex justify-content-end">
                               <div onClick={handleAddToCartClick}>
-                              {userType === "vendor" ? null : (
-                              <div className={`${styles.wish_list}`}>
-                                <i class="fa-regular fa-heart"></i>
+                                {userType === "vendor" ? null : (
+                                  <div>
+                                    {dataFavorite?.find(
+                                      (favProduct) =>
+                                        favProduct.id === productItem.product.id
+                                    ) ? (
+                                      <div
+                                        className={`${styles.wish_list} bg-danger`}
+                                        onClick={() =>
+                                          deletefavorite(productItem.product.id)
+                                        }
+                                      >
+                                        <i className="fa-regular fa-heart text-white"></i>
+                                      </div>
+                                    ) : (
+                                      <div
+                                        className={`${styles.wish_list}`}
+                                        onClick={() =>
+                                          addfavorite(productItem.product.id)
+                                        }
+                                      >
+                                        <i className="fa-regular fa-heart"></i>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
                               </div>
-                              )}
-                              </div>
-                          
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
-             
                               <button className={`${styles.button_style}`}>
                                 QUICK VIEW
                               </button>
                               {userType === "vendor" ? null : (
-                                <div
-                                onClick={handleAddToCartClick}
-                                >
-                                  <button 
-                                  
-                                  
-                                  className={`${styles.button_style}`}>
+                                <div onClick={handleAddToCartClick}>
+                                  <button className={`${styles.button_style}`}>
                                     ADD TO CART
                                   </button>
                                 </div>

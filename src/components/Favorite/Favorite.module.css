@@ -1,0 +1,108 @@
+.header_product {
+    background-color: #f8f6f0;
+  }
+  
+  .header_product h1 {
+    font-size: 45px;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  
+  .header_product .link_home {
+    color: #727272;
+    font-size: 18px;
+  }
+  
+  .header_product .span_profile {
+    color: #3f3e3e;
+    font-size: 18px;
+  }
+  .product_info {
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+  
+  }
+  .product_info img {
+    height: 350px;
+    border-radius: 15px;
+    transition: 0.5s all;
+  }
+  .product_info .above_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: all 0.5s ease 0.5s;
+    background-color: transparent;
+    border-radius: 15px;
+    height: 350px;
+    z-index: 66;
+    width: 100%;
+  }
+  .product_info:hover img {
+    transform: scale(1.2);
+  }
+  .product_info:hover .above_layer {
+    opacity: 1;
+  }
+  .product_info:not(:hover) img {
+      transition-delay:0.5s;
+  }
+  .product_info:not(:hover) .above_layer {
+    transition-delay: 0s;
+  }
+  .product_info .above_layer .button_style {
+    background-color: white;
+    padding: 10px;
+    color: black;
+    border-radius: 7px;
+    border: none;
+    transition: all 0.5s ease;
+    margin-inline: 7px;
+  }
+  .product_info .above_layer .button_style:hover {
+    background-color: black;
+    color: white;
+  }
+  .product_info .above_layer .wish_list{
+      /* background-color: white; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-radius: 50%;
+      transition: all 0.5s;
+  }
+  .product_info .above_layer .wish_list i{
+      color: black;
+      font-size: 18px;
+  }
+  .product_info .above_layer .wish_list:hover{
+      background-color: black !important;
+  }
+  .product_info .above_layer .wish_list:hover i{
+      color: white;
+  }
+  
+  .check_onsale{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  
+    transition: all 0.5s ease 0.5s;
+    background-color: transparent;
+    border-radius: 15px;
+    height: 350px;
+    z-index:30;
+    width: 100%;
+  }
+  .check_onsale button{
+    border:none;
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 15px;
+    background-color: black;
+    color: white;
+  }

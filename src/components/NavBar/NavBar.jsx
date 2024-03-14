@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { FavoriteContext } from "../../Context/FavoriteContext";
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -24,18 +25,13 @@ function NavBar() {
       setData(response);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
-      if (
-        error.response.data.data === "expired_token."
-      ) {
-          toast(`Please Login Agin`);
-          localStorage.removeItem('userToken')
-          navigate("/login");
-
-        
+      if (error.response.data.data === "expired_token.") {
+        toast(`Please Login Agin`);
+        localStorage.removeItem("userToken");
+        navigate("/login");
       }
     }
   }
-
 
   // useEffect(() => {
   //   ProfileData();
@@ -116,12 +112,49 @@ function NavBar() {
   const handleAddToCartClick = (e) => {
     e.preventDefault();
   };
+  // ------------------------------------favorite ------------------------------------------------------------------
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
+    useContext(FavoriteContext);
+  async function addfavorite(id) {
+    let res = await addToFavorite(id);
+    console.log("heloo add to favorite ", res);
+    if (res?.data?.message === "Product was added to favorites.") {
+      toast.success("Product Added Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error(res.data.message);
+    }
+  }
+
+  async function deletefavorite(id) {
+    let res = await deleteFavoriteProduct(id);
+    console.log("heloo remove to favorite ", res);
+    if (res?.data?.message === "Product was removed from favorites.") {
+      toast.success("Product Removed Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error("ERROR");
+    }
+  }
+  const [dataFavorite, setDataFavorite] = useState(null);
+
+  async function getfavorite() {
+    try {
+      let res = await getFavorite();
+      console.log("hello all to favorite", res);
+      setDataFavorite(res.data.favorite_products);
+      console.log("dataFavoeite", dataFavorite);
+    } catch (error) {
+      console.error("Error while fetching favorite:", error);
+    }
+  }
+  useEffect(() => {
+    getfavorite();
+  }, []);
+
 
   return (
     <>
-
-    
-
       <nav className={`navbar navbar-expand-lg  py-4 px-2 ${styles.nav_style}`}>
         <div className="container">
           {token ? (
@@ -213,19 +246,21 @@ function NavBar() {
           </div>
           {token ? (
             <>
-           
-
               {userType === "customer" ? (
                 <>
-                   <div className={`${styles.cursor_pointer} navbar-brand`}>
-                   <i
-                     class="fa-regular fa-heart fs-3"
-                     onClick={() => viewWishList()}
-                   ></i>
-                 </div>
-                <Link to="/cart" className={`${styles.cursor_pointer}`}>
-                  <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
-                </Link>
+                  <div className={`${styles.cursor_pointer} navbar-brand`}>
+                    <Link to="/favorite" className="text-black">
+                    
+                    <i
+                      class="fa-regular fa-heart fs-3"
+                      // onClick={() => viewWishList()}
+                    ></i>
+                    </Link>
+                  
+                  </div>
+                  <Link to="/cart" className={`${styles.cursor_pointer}`}>
+                    <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
+                  </Link>
                 </>
               ) : null}
               <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
@@ -298,7 +333,7 @@ function NavBar() {
         </div>
       )}
       {/* .................... wish list ....................... */}
-      {layerVisibleWishList && (
+      {/* {layerVisibleWishList && (
         <div
           className={`${styles.above_layer_wish}`}
           onClick={closeLayerWishList}
@@ -335,7 +370,7 @@ function NavBar() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* ......................search............................ */}
 
@@ -379,37 +414,55 @@ function NavBar() {
                           className="text-decoration-none text-dark "
                         >
                           <div
-                            className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                            className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between align-items-end `}
                           >
-                            <div className="d-flex justify-content-end">
-                            {userType === "vendor" ? null : (
-                              <div
-                                className={`${styles.wish_list}`}
-                                onClick={handleAddToCartClick}
-                              >
-                                <i class="fa-regular fa-heart"></i>
-                              </div>
-                            )}
+                            <div className="d-flex justify-content-start align-items-end">
+                              {userType === "vendor" ? null : (
+                                <div
+                                  // className={`${styles.wish_list}`}
+                                  onClick={handleAddToCartClick}
+                                >
+                                   {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === pro.product.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_list} bg-danger`}
+                                    onClick={() =>
+                                      deletefavorite(pro.product.id)
+                                    }
+                                  >
+                                    <i className="fa-regular fa-heart text-white"></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_list} bg-light`}
+                                    onClick={() => addfavorite(pro.product.id)}
+                                  >
+                                    <i className="fa-regular fa-heart"></i>
+                                  </div>
+                                )}
+                                </div>
+                              )}
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
                               <div>
-                              <button className={`${styles.button_style}`}>
-                                QUICK VIEW
-                              </button>
-                              </div>
-                          
-                              <div>
-                              {userType === "vendor" ? null : (
-                                <button
-                                  className={`${styles.button_style}`}
-                                  onClick={handleAddToCartClick}
-                                >
-                                  ADD TO CART
+                                <button className={`${styles.button_style}`}>
+                                  QUICK VIEW
                                 </button>
-                              )}
                               </div>
-                             
+
+                              <div>
+                                {userType === "vendor" ? null : (
+                                  <button
+                                    className={`${styles.button_style}`}
+                                    onClick={handleAddToCartClick}
+                                  >
+                                    ADD TO CART
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </Link>

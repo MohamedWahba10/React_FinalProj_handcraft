@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./FilterProduct.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { FavoriteContext } from "../../Context/FavoriteContext";
 
 export default function FilterProduct() {
   const [dataUser, setData] = useState(null);
@@ -46,7 +48,6 @@ export default function FilterProduct() {
 
   const [searchVendorShopName, setSearchVendorShopName] = useState("");
 
-
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
@@ -64,16 +65,7 @@ export default function FilterProduct() {
     return true;
   };
 
-
-
-
-
-
-
-
   // ////////////////////////////////
-
-
 
   const [selectedCategory, setSelectedCategory] = useState(0);
 
@@ -83,24 +75,40 @@ export default function FilterProduct() {
       setFilteredProducts(allProducts);
     } else if (selectedCategory === 1 && data) {
       const filtered = data.data.results.filter((product) =>
-        product.product.prodName.toLowerCase().includes(searchQuery.toLowerCase())
+        product.product.prodName
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
       );
       setFilteredProducts(filtered);
     } else if (selectedCategory === 2 && data) {
       const filtered = data.data.results.filter((product) =>
-        product.prodSubCategory.subCateName.toLowerCase().includes(searchQueryCategory.toLowerCase())
+        product.prodSubCategory.subCateName
+          .toLowerCase()
+          .includes(searchQueryCategory.toLowerCase())
       );
       setFilteredProducts(filtered);
     } else if (selectedCategory === 3 && data) {
       const filtered = data.data.results.filter((product) =>
-        product.vendor.shopname.toLowerCase().includes(searchVendorShopName.toLowerCase())
+        product.vendor.shopname
+          .toLowerCase()
+          .includes(searchVendorShopName.toLowerCase())
       );
       setFilteredProducts(filtered);
     } else if (selectedCategory === 4 && data) {
-      const filtered = data.data.results.filter((product) => filterByPrice(product));
+      const filtered = data.data.results.filter((product) =>
+        filterByPrice(product)
+      );
       setFilteredProducts(filtered);
     }
-  }, [selectedCategory, data, searchQuery, searchQueryCategory, searchVendorShopName, minPrice, maxPrice]);
+  }, [
+    selectedCategory,
+    data,
+    searchQuery,
+    searchQueryCategory,
+    searchVendorShopName,
+    minPrice,
+    maxPrice,
+  ]);
   // //////////////////////////////////////////////////////////////////////////////////
   const Products = data?.data?.results;
   function getProduct() {
@@ -118,14 +126,51 @@ export default function FilterProduct() {
   const handleCategoryClick = (index) => {
     setSelectedCategory(index);
   };
+
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
+    useContext(FavoriteContext);
+  async function addfavorite(id) {
+    let res = await addToFavorite(id);
+    console.log("heloo add to favorite ", res);
+    if (res?.data?.message === "Product was added to favorites.") {
+      toast.success("Product Added Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error(res.data.message);
+    }
+  }
+
+  async function deletefavorite(id) {
+    let res = await deleteFavoriteProduct(id);
+    console.log("heloo remove to favorite ", res);
+    if (res?.data?.message === "Product was removed from favorites.") {
+      toast.success("Product Removed Favorite Successfully");
+      getfavorite();
+    } else {
+      toast.error("ERROR");
+    }
+  }
+  const [dataFavorite, setDataFavorite] = useState(null);
+
+  async function getfavorite() {
+    try {
+      let res = await getFavorite();
+      console.log("hello all to favorite", res);
+      setDataFavorite(res.data.favorite_products);
+      console.log("dataFavoeite", dataFavorite);
+    } catch (error) {
+      console.error("Error while fetching favorite:", error);
+    }
+  }
+  useEffect(() => {
+    getfavorite();
+  }, []);
+
   return (
     <>
-
-
-
       <div
         className={`d-flex container  mx-auto border-none rounded-2 bg-secondary cursor-pointer rounded border-secondary p-2 mb-4 bg-light justify-content-between text-black ${styles.cursor_pointer}`}
-        style={{color: "grey" }}
+        style={{ color: "grey" }}
       >
         {[
           "ALL",
@@ -159,25 +204,25 @@ export default function FilterProduct() {
           />
         ) : null}
         {selectedCategory === 2 ? (
-            <input
-              type="text"
-              className={`${styles.search_input}`}
-              placeholder="Search By Category Name"
-              value={searchQueryCategory}
-              onChange={(e) => setSearchQueryCategory(e.target.value)}
-            />
+          <input
+            type="text"
+            className={`${styles.search_input}`}
+            placeholder="Search By Category Name"
+            value={searchQueryCategory}
+            onChange={(e) => setSearchQueryCategory(e.target.value)}
+          />
         ) : null}
-            {selectedCategory === 3 ? (
-             <input
-             type="text"
-             className={`${styles.search_input}`}
-             placeholder="Search By Vendor Shop Name"
-             value={searchVendorShopName}
-             onChange={(e) => setSearchVendorShopName(e.target.value)}
-           />
+        {selectedCategory === 3 ? (
+          <input
+            type="text"
+            className={`${styles.search_input}`}
+            placeholder="Search By Vendor Shop Name"
+            value={searchVendorShopName}
+            onChange={(e) => setSearchVendorShopName(e.target.value)}
+          />
         ) : null}
-            {selectedCategory === 4 ? (
-            <div className="row gy-3">
+        {selectedCategory === 4 ? (
+          <div className="row gy-3">
             <div className="col-md-6">
               <input
                 type="number"
@@ -225,14 +270,33 @@ export default function FilterProduct() {
                           className={`${styles.above_layer}  p-3 d-flex flex-column justify-content-between `}
                         >
                           <div className="d-flex justify-content-end">
-                          {userType === "vendor" ? null : (
-                            <div
-                              className={`${styles.wish_list}`}
-                              onClick={handleAddToCartClick}
-                            >
-                              <i class="fa-regular fa-heart"></i>
-                            </div>
-                          )}
+                            {userType === "vendor" ? null : (
+                              <div
+                                // className={`${styles.wish_list}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === pro.product.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_list} bg-danger`}
+                                    onClick={() =>
+                                      deletefavorite(pro.product.id)
+                                    }
+                                  >
+                                    <i className="fa-regular fa-heart text-white"></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_list} `}
+                                    onClick={() => addfavorite(pro.product.id)}
+                                  >
+                                    <i className="fa-regular fa-heart "></i>
+                                  </div>
+                                )}{" "}
+                              </div>
+                            )}
                           </div>
 
                           <div className="d-flex justify-content-center align-items-center">
