@@ -33,10 +33,14 @@ export default function AddProduct() {
     const formData = new FormData();
     formData.append("prodName", values.prodName);
     formData.append("prodPrice", values.prodPrice);
-    formData.append("prodStock", values.prodStock);
+    // formData.append("prodStock", values.prodStock);
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodStock", values.prodStock);
+    formData.append("prodOnSale", values.prodOnSale);
+    formData.append("prodOnSale", values.prodOnSale);
+    formData.append("prodDiscountPercentage", values.prodDiscountPercentage === "" ?0 : values.prodDiscountPercentage);
+    console.log("Prosuct discount", values.prodDiscountPercentage)
     formData.append("prodImageThumbnail", values.prodImageThumbnail);
     formData.append("prodImageOne", values.prodImageOne);
     formData.append("prodImageTwo", values.prodImageTwo);
@@ -77,6 +81,13 @@ export default function AddProduct() {
     prodPrice: Yup.string()
       .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
+      prodDiscountPercentage: Yup.string().when('prodOnSale', {
+        is:true,
+        then: () => Yup.string().matches(/^[1-9][0-9]{0,6}$/, "'product prodDiscountPercentage must be only digits'").required('Product DiscountPercentage is required'),
+        otherwise: () => Yup.string().notRequired()
+      }),
+  
+
     prodStock: Yup.string()
       .matches(/^[1-9][0-9]{0,3}$/, "'product Stock must be only digits'")
       .required("Product Stock is Required"),
@@ -87,16 +98,18 @@ export default function AddProduct() {
     prodImageTwo: Yup.mixed().required("Image Is Required"),
     prodImageThree: Yup.mixed().required("Image Is Required"),
     prodImageFour: Yup.mixed().required("Image Is Required"),
+
   });
 
   const AddProductForm = useFormik({
     initialValues: {
       prodName: "",
       prodPrice: "",
-      prodStock: "",
       prodSubCategory: "",
       prodDescription: "",
       prodStock: "",
+      prodOnSale: false,
+      prodDiscountPercentage:"",
       prodImageThumbnail: "",
       prodImageOne: "",
       prodImageTwo: "",
@@ -230,6 +243,7 @@ export default function AddProduct() {
                     ) : null}
                   </div>
                 </div>
+                
                 <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="prodDescription" className="fs-4 fw-bold">
@@ -285,10 +299,7 @@ export default function AddProduct() {
                 {/* //----------------list images ---------------------------------------------- */}
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageOne"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageOne" className="fs-4 fw-bold">
                       Image Number One
                     </label>
                     <input
@@ -315,10 +326,7 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageTwo"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageTwo" className="fs-4 fw-bold">
                       Image Number Two
                     </label>
                     <input
@@ -346,10 +354,7 @@ export default function AddProduct() {
 
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageThree"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageThree" className="fs-4 fw-bold">
                       Image Number Three
                     </label>
                     <input
@@ -376,10 +381,7 @@ export default function AddProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageFour"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageFour" className="fs-4 fw-bold">
                       Image Number Four
                     </label>
                     <input
@@ -405,9 +407,59 @@ export default function AddProduct() {
                   </div>
                 </div>
 
-
+                {/* -------------------on Sales---------------------------- */}
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
+                      Product Sale
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="prodOnSale"
+                      value={AddProductForm.values.prodOnSale}
+                      name="prodOnSale"
+                      placeholder="Enter The Product On Sale"
+                      style={{ width: "25px", height: "30px" }}
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                
+                  </div>
+                </div>
+                {/* ---------------------- */}
+                {AddProductForm.values.prodOnSale?
+                (
+                  <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodDiscountPercentage" className="fs-4 fw-bold">
+                      Product Discount Percentage
+                    </label>
+                    <input
+                      type="number"
+                      className="w-100 "
+                      id="prodDiscountPercentage"
+                      value={AddProductForm.values.prodDiscountPercentage}
+                      name="prodDiscountPercentage"
+                      placeholder="Enter The Product Discount Precentage"
+                      onChange={AddProductForm.handleChange}
+                      onBlur={AddProductForm.handleBlur}
+                    />
+                    {AddProductForm.errors.prodDiscountPercentage &&
+                    AddProductForm.touched.prodDiscountPercentage ? (
+                      <div className="text-danger fs-5 mt-3">
+                        {AddProductForm.errors.prodDiscountPercentage}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                )
+                
+              
+              :null
+                
+                }
+               
               </div>
-
               <div className={`d-flex justify-content-between my-3`}>
                 {isLoading ? (
                   <button

@@ -25,11 +25,9 @@ function NavBar() {
     } catch (error) {
       console.error("Failed to fetch profile data", error);
       if (
-        error.response.data.data === "expired_token." ||
-        error.response.data.message === "msg Please login again"
+        error.response.data.data === "expired_token."
       ) {
-          toast.error(`${error.response.data.data}`);
-          toast.error(`${error.response.data.message}`);
+          toast(`Please Login Agin`);
           localStorage.removeItem('userToken')
           navigate("/login");
 
