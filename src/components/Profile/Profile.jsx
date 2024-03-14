@@ -143,11 +143,23 @@ const Products = allData;
                   {dataUser?.data.message.last_name}
                 </h4>
                 <div>
+                  
                   <Link to="/updateProfile">
                     <button className={`fs-5 py-2 ${styles.update_button}`}>
                       UPDATE PROFILE
                     </button>
                   </Link>
+                  <div>
+                  <Link to="/changePassword">
+                    <button
+                      type="button"
+                      className={`${styles.login_button}`}
+                      // disabled={!(loginForm.isValid && loginForm.dirty)}
+                    >
+                      Change Password
+                    </button>
+                  </Link>
+                </div>
                 </div>
                 {userType === "vendor" ? (
                   <>

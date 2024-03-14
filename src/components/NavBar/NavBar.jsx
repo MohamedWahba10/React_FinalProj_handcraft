@@ -171,7 +171,7 @@ function NavBar() {
             </button>
           ) : null}
           <Link
-            className={`${styles.Link_style} navbar-brand fw-bold pe-3 fs-4`}
+            className={`${styles.handcrafted} navbar-brand fw-bold pe-3 fs-4`}
             to="/"
           >
             HandCrafted Marketplace
@@ -436,7 +436,7 @@ function NavBar() {
                                   </div>
                                 ) : (
                                   <div
-                                    className={`${styles.wish_list} bg-light`}
+                                    className={`${styles.wish_list}`}
                                     onClick={() => addfavorite(pro.product.id)}
                                   >
                                     <i className="fa-regular fa-heart"></i>

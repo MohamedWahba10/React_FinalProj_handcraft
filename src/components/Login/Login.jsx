@@ -6,13 +6,13 @@ import * as Yup from "yup";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { TokenContext } from "../../Context/Token";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 export default function Login() {
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
   let navigate = useNavigate();
-  let { setToken, setUserData} = useContext(TokenContext);
+  let { setToken, setUserData } = useContext(TokenContext);
   async function callLogin(reqBody) {
     setError("");
     setisLoading(true);
@@ -26,9 +26,6 @@ export default function Login() {
         const token = response.data.token;
 
         if (response.data.message == "success" && token && token.length > 0) {
-       
-          
-
           navigate("/");
           setisLoading(false);
           localStorage.setItem("userToken", token);
@@ -74,8 +71,8 @@ export default function Login() {
       <div className={`${styles.header_login} py-5 mb-5 text-center `}>
         <h1>Login</h1>
 
-        <Link to="/" className="text-decoration-none ">
-          <span className={`${styles.link_home} pe-1 `}>HomePage</span>
+        <Link to="/register" className="text-decoration-none ">
+          <span className={`${styles.link_home} pe-1 `}>Register</span>
         </Link>
 
         <span className={`${styles.span_login}`}>&gt; Login</span>
@@ -122,20 +119,22 @@ export default function Login() {
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>
-                {isLoading ? (
-                  <button type="submit" className={`${styles.login_button}`}>
-                    <i className="fa fa-spinner fa-spin"></i>
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className={`${styles.login_button}`}
-                    disabled={!(loginForm.isValid && loginForm.dirty)}
-                  >
-                     LOGIN
-                  </button>
-                )}
-
+                <div>
+                  {isLoading ? (
+                    <button type="submit" className={`${styles.login_button}`}>
+                      <i className="fa fa-spinner fa-spin"></i>
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className={`${styles.login_button}`}
+                      disabled={!(loginForm.isValid && loginForm.dirty)}
+                    >
+                      LOGIN
+                    </button>
+                  )}
+                </div>
+               
               </div>
             </form>
           </div>

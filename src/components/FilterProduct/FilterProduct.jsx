@@ -183,8 +183,8 @@ export default function FilterProduct() {
             key={index}
             className={`p-2 ${
               selectedCategory === index
-                ? "border border-secondary-emphasis rounded-4 rounded bg-secondary-emphasis shadow"
-                : ""
+                ? "border border-secondary-emphasis rounded-4 rounded fs-5 bg-secondary-emphasis shadow"
+                : "fs-6"
             }`}
             onClick={() => handleCategoryClick(index)}
           >
@@ -254,9 +254,11 @@ export default function FilterProduct() {
           <div className="container my-4">
             <div className="row gy-5 ">
               {filteredProducts?.map((pro) => (
-                <div key={pro.product.id} className="col-md-3 cursor-pointer">
-                  <div className="product ">
-                    <div className={`${styles.product_info}`}>
+                <div key={pro.product.id} className={`col-md-3 cursor-pointer`}>
+                  <div className={` ${styles.product}`}>
+                    <div
+                      className={`${styles.product_info} ${styles.product} w-100`}
+                    >
                       <img
                         src={`${pro.product.prodImageUrl}`}
                         className="w-100"
@@ -269,7 +271,65 @@ export default function FilterProduct() {
                         <div
                           className={`${styles.above_layer}  p-3 d-flex flex-column justify-content-between `}
                         >
-                          <div className="d-flex justify-content-end">
+                          {/* <div className="d-flex justify-content-end">
+                            {userType === "vendor" ? null : (
+                              <div
+                                // className={`${styles.wish_list}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === pro.product.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_list} bg-danger`}
+                                    onClick={() =>
+                                      deletefavorite(pro.product.id)
+                                    }
+                                  >
+                                    <i className="fa-regular fa-heart text-white"></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_list} `}
+                                    onClick={() => addfavorite(pro.product.id)}
+                                  >
+                                    <i className="fa-regular fa-heart "></i>
+                                  </div>
+                                )}{" "}
+                              </div>
+                            )}
+                          </div> */}
+
+                          {/* <div className="d-flex justify-content-center align-items-center">
+                            <button className={`${styles.button_style}`}>
+                              QUICK VIEW
+                            </button>
+                            {userType === "vendor" ? null : (
+                              <button
+                                className={`${styles.button_style}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                ADD TO CART
+                              </button>
+                            )}
+                          </div> */}
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="px-2">
+                      <h4 className="pb-1 pt-2">{pro.product.prodName}</h4>
+                      <div className="d-flex justify-content-between align-content-center">
+                        <h6 className="pb-1">
+                          {" "}
+                          {pro.prodSubCategory.subCateName}
+                        </h6>
+                        <p>{pro.product.prodPrice} EGP</p>
+                      </div>
+                      <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
+                      <div className="my-2">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
                             {userType === "vendor" ? null : (
                               <div
                                 // className={`${styles.wish_list}`}
@@ -298,29 +358,20 @@ export default function FilterProduct() {
                               </div>
                             )}
                           </div>
-
-                          <div className="d-flex justify-content-center align-items-center">
-                            <button className={`${styles.button_style}`}>
-                              QUICK VIEW
+                          <div>
+                          {userType === "vendor" ? null : (
+                            <button
+                              className={`${styles.button_style} ${styles.cart}`}
+                              onClick={handleAddToCartClick}
+                            >
+                              <i class="fa-solid fa-cart-shopping cart"></i>
                             </button>
-                            {userType === "vendor" ? null : (
-                              <button
-                                className={`${styles.button_style}`}
-                                onClick={handleAddToCartClick}
-                              >
-                                ADD TO CART
-                              </button>
-                            )}
+                          )}
                           </div>
+                          
                         </div>
-                      </Link>
+                      </div>
                     </div>
-
-                    <h4 className="pb-1 pt-2">{pro.product.prodName}</h4>
-                    <h6 className="pb-1"> {pro.prodSubCategory.subCateName}</h6>
-                    <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
-
-                    <p>{pro.product.prodPrice} EGP</p>
                   </div>
                 </div>
               ))}

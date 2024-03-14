@@ -67,6 +67,7 @@ export default function AddProduct() {
         console.log("data is ", response.data);
       }
     } catch (error) {
+      setError(error.response.data.prodImageFour||error.response.data.prodImageOne||error.response.data.prodImageTwo||error.response.data.prodImageThumbnail||error.response.data.prodImageThree)
       setisLoading(false);
       console.error("Error during AddProduct:", error);
     }
@@ -74,7 +75,7 @@ export default function AddProduct() {
   const validationSchema = Yup.object({
     prodName: Yup.string()
       .matches(
-        /^[a-zA-Z0-9]{3,35}$/,
+        /^(?!\s)(?!.*\s$)[a-zA-Z0-9\s]{3,40}$/,
         "product Name must be from 3 to 35 letters"
       )
       .required("Required"),

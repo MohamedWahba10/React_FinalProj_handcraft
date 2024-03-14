@@ -97,6 +97,23 @@ export default function ProductDetail() {
     getfavorite();
   }, []);
 
+let [avgRate,setAvgRate] =useState(null)
+  async function getAvgRate() {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/product/product_r/${id}/`, {
+      
+      });
+      setAvgRate( response?.data?.average_Rate)
+     
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+    }
+  }
+  useEffect(() => {
+    getAvgRate();
+  }, []);
+
+  
   return (
     <>
       <div className="container mb-5 pb-5 overflow-hidden">
@@ -122,7 +139,7 @@ export default function ProductDetail() {
                 </Slider>
               </div>
             </div>
-            <div className="col-md-6 offset-1 py-3 px-2 my-4">
+            <div className="col-md-6 offset-md-1 py-3 px-2 my-4">
               <div className="w-100 py-3 px-2 my-5">
                 <div className="mx-4 my-3 ">
                   {userType === "vendor" ? null : (
@@ -153,10 +170,14 @@ export default function ProductDetail() {
                     {detailPro?.prodSubCategory.subCateName}
                   </h5>
                   <h3 className=" pb-3">{detailPro?.prodName}</h3>
-                  {/* <p>
+                  {avgRate?
+                  <p>
                   <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
-                  <span className="fs-4">{detailPro.ratingsAverage}</span>
-                </p> */}
+                  <span className="fs-4">{avgRate}</span>
+                </p>
+                
+                :null}
+                  
                   <h5 className="pb-2">
                     Created By {detailPro?.prodVendor.shopname}
                   </h5>
@@ -186,6 +207,15 @@ export default function ProductDetail() {
                       className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                     >
                       View Product Vendor {detailPro?.prodVendor.shopname}
+                    </button>
+                  </Link>
+                  <Link
+                    to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}
+                  >
+                    <button
+                      className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                    >
+                     Rate Product {detailPro?.prodName}
                     </button>
                   </Link>
                 </div>

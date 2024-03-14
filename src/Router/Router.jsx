@@ -23,6 +23,9 @@ import ProductINSubCategory from "../components/ProductINSubCategory/ProductINSu
 import NotFound from "../components/NotFound/NotFound";
 import ProductVendor from "../components/ProductVendor/ProductVendor";
 import Favorite from "../components/Favorite/Favorite";
+import ChangePassword from "../components/ChangePassword/ChangePassword";
+import RatingProduct from "../components/Rating/Rating";
+// import ChangePassword from "../components/ChangePassword/ChangPassword";
 
 export default function Router() {
   return (
@@ -62,6 +65,15 @@ export default function Router() {
           }
         />
         <Route
+          path="/changePassword"
+          element={
+            <ProtectedRoutes>
+              <ChangePassword />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
           path="/register"
           element={
             <ProtectedLogin>
@@ -99,7 +111,7 @@ export default function Router() {
           path="/vendorProduct/:vendorid/:shopname"
           element={
             <ProtectedRoutes>
-              <ProductVendor/>
+              <ProductVendor />
             </ProtectedRoutes>
           }
         />
@@ -123,7 +135,17 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-                <Route
+         <Route
+          path="/rateProduct/:id/:prodName"
+          element={
+            <ProtectedRoutes>
+              <ProtectedCustomer>
+                <RatingProduct/>
+              </ProtectedCustomer>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
           path="/favorite"
           element={
             <ProtectedRoutes>
