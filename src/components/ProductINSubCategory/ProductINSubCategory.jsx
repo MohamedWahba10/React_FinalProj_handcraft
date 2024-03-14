@@ -106,14 +106,17 @@ export default function ProductINSubCategory() {
                           >
                             <div className="d-flex justify-content-end" >
                               <div onClick={handleAddToCartClick}>
+                              {userType === "vendor" ? null : (
                               <div className={`${styles.wish_list}`}>
                                 <i class="fa-regular fa-heart"></i>
                               </div>
+                              )}
                               </div>
                           
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
+             
                               <button className={`${styles.button_style}`}>
                                 QUICK VIEW
                               </button>

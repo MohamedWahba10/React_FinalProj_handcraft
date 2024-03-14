@@ -222,15 +222,17 @@ export default function FilterProduct() {
                         className="text-decoration-none text-dark "
                       >
                         <div
-                          className={`${styles.above_layer} p-3 d-flex  align-items-end  flex-column justify-content-between `}
+                          className={`${styles.above_layer}  p-3 d-flex flex-column justify-content-between `}
                         >
                           <div className="d-flex justify-content-end">
+                          {userType === "vendor" ? null : (
                             <div
                               className={`${styles.wish_list}`}
                               onClick={handleAddToCartClick}
                             >
                               <i class="fa-regular fa-heart"></i>
                             </div>
+                          )}
                           </div>
 
                           <div className="d-flex justify-content-center align-items-center">

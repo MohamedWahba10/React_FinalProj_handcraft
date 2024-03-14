@@ -213,17 +213,20 @@ function NavBar() {
           </div>
           {token ? (
             <>
-              <div className={`${styles.cursor_pointer} navbar-brand`}>
-                <i
-                  class="fa-regular fa-heart fs-3"
-                  onClick={() => viewWishList()}
-                ></i>
-              </div>
+           
 
               {userType === "customer" ? (
+                <>
+                   <div className={`${styles.cursor_pointer} navbar-brand`}>
+                   <i
+                     class="fa-regular fa-heart fs-3"
+                     onClick={() => viewWishList()}
+                   ></i>
+                 </div>
                 <Link to="/cart" className={`${styles.cursor_pointer}`}>
                   <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
                 </Link>
+                </>
               ) : null}
               <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
                 <i
@@ -376,21 +379,27 @@ function NavBar() {
                           className="text-decoration-none text-dark "
                         >
                           <div
-                            className={`${styles.above_layer} p-3 d-flex  align-items-end  flex-column justify-content-between `}
+                            className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                           >
                             <div className="d-flex justify-content-end">
+                            {userType === "vendor" ? null : (
                               <div
                                 className={`${styles.wish_list}`}
                                 onClick={handleAddToCartClick}
                               >
                                 <i class="fa-regular fa-heart"></i>
                               </div>
+                            )}
                             </div>
 
                             <div className="d-flex justify-content-center align-items-center">
+                              <div>
                               <button className={`${styles.button_style}`}>
                                 QUICK VIEW
                               </button>
+                              </div>
+                          
+                              <div>
                               {userType === "vendor" ? null : (
                                 <button
                                   className={`${styles.button_style}`}
@@ -399,6 +408,8 @@ function NavBar() {
                                   ADD TO CART
                                 </button>
                               )}
+                              </div>
+                             
                             </div>
                           </div>
                         </Link>
