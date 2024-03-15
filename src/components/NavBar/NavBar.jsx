@@ -152,7 +152,6 @@ function NavBar() {
     getfavorite();
   }, []);
 
-
   return (
     <>
       <nav className={`navbar navbar-expand-lg  py-4 px-2 ${styles.nav_style}`}>
@@ -191,7 +190,11 @@ function NavBar() {
                     HOME
                   </Link>
                 </li>
-
+                <li className="nav-item">
+                  <Link to="/about" className={`nav-link ${styles.Link_style}`}>
+                    ABOUT US
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${styles.Link_style}`}
@@ -201,43 +204,42 @@ function NavBar() {
                   </Link>
                 </li>
 
-                <li class={`${styles.submenu} nav-item`}>
+                {/* <li class={`${styles.submenu} nav-item`}>
                   <Link
                     to="javascript:;"
                     className={`${styles.Link_style} text-black text-decoration-none nav-link`}
                   >
                     PAGES
                   </Link>
-                  <ul>
-                    <li>
-                      <Link to="/about" className={`${styles.Link_style}`}>
-                        About Us
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/category" className={`${styles.Link_style}`}>
-                        Categories
-                      </Link>
-                    </li>
-                    <li>
+                  <ul> */}
+
+                <li>
+                  <Link
+                    to="/category"
+                    className={`nav-link ${styles.Link_style}`}
+                  >
+                    CATEGORIES
+                  </Link>
+                </li>
+                {/* <li>
                       <Link to="/allProduct" className={`${styles.Link_style}`}>
                         Products
                       </Link>
+                    </li> */}
+                {userType === "customer" ? null : (
+                  <>
+                    <li>
+                      <Link
+                        to="/addProduct"
+                        className={`nav-link ${styles.Link_style}`}
+                      >
+                        ADD PRODUCT
+                      </Link>
                     </li>
-                    {userType === "customer" ? null : (
-                      <>
-                        <li>
-                          <Link
-                            to="/addProduct"
-                            className={`${styles.Link_style}`}
-                          >
-                            Add Product
-                          </Link>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </li>
+                  </>
+                )}
+                {/* </ul>
+                </li> */}
               </ul>
             </div>
           ) : null}
@@ -250,13 +252,11 @@ function NavBar() {
                 <>
                   <div className={`${styles.cursor_pointer} navbar-brand`}>
                     <Link to="/favorite" className="text-black">
-                    
-                    <i
-                      class="fa-regular fa-heart fs-3"
-                      // onClick={() => viewWishList()}
-                    ></i>
+                      <i
+                        class="fa-regular fa-heart fs-3"
+                        // onClick={() => viewWishList()}
+                      ></i>
                     </Link>
-                  
                   </div>
                   <Link to="/cart" className={`${styles.cursor_pointer}`}>
                     <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
@@ -422,26 +422,28 @@ function NavBar() {
                                   // className={`${styles.wish_list}`}
                                   onClick={handleAddToCartClick}
                                 >
-                                   {dataFavorite?.find(
-                                  (favProduct) =>
-                                    favProduct.id === pro.product.id
-                                ) ? (
-                                  <div
-                                    className={`${styles.wish_list} bg-danger`}
-                                    onClick={() =>
-                                      deletefavorite(pro.product.id)
-                                    }
-                                  >
-                                    <i className="fa-regular fa-heart text-white"></i>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`${styles.wish_list}`}
-                                    onClick={() => addfavorite(pro.product.id)}
-                                  >
-                                    <i className="fa-regular fa-heart"></i>
-                                  </div>
-                                )}
+                                  {dataFavorite?.find(
+                                    (favProduct) =>
+                                      favProduct.id === pro.product.id
+                                  ) ? (
+                                    <div
+                                      className={`${styles.wish_list} bg-danger`}
+                                      onClick={() =>
+                                        deletefavorite(pro.product.id)
+                                      }
+                                    >
+                                      <i className="fa-regular fa-heart text-white"></i>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`${styles.wish_list}`}
+                                      onClick={() =>
+                                        addfavorite(pro.product.id)
+                                      }
+                                    >
+                                      <i className="fa-regular fa-heart"></i>
+                                    </div>
+                                  )}
                                 </div>
                               )}
                             </div>
