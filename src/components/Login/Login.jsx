@@ -128,11 +128,22 @@ export default function Login() {
                     <button
                       type="submit"
                       className={`${styles.login_button}`}
-                      disabled={!(loginForm.isValid && loginForm.dirty)}
+                      // disabled={!(loginForm.isValid && loginForm.dirty)}
                     >
                       LOGIN
                     </button>
                   )}
+                </div>
+                <div>
+                  <Link to="/forgetPassword">
+                  <button
+                      type="button"
+                      className={`${styles.login_button}`}
+                      // disabled={!(loginForm.isValid && loginForm.dirty)}
+                    >
+                      Forget Password
+                    </button>
+                  </Link>
                 </div>
                
               </div>

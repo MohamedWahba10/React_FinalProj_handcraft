@@ -27,8 +27,10 @@ import Favorite from "../components/Favorite/Favorite";
 import ChangePassword from "../components/ChangePassword/ChangePassword";
 import RatingProduct from "../components/Rating/Rating";
 import NewProduct from "../components/NewsProduct/NewPoduct";
+import ForgetPassword from "../components/ForgetPassword/ForgetPassword";
+import ResetCode from "../components/ResetCode/ResetCode";
+import ResetPassword from "../components/ResetPassword/ResetPassword";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
-
 
 export default function Router() {
   return (
@@ -84,6 +86,31 @@ export default function Router() {
             </ProtectedLogin>
           }
         />
+        <Route
+          path="/forgetPassword"
+          element={
+            <ProtectedLogin>
+              <ForgetPassword />
+            </ProtectedLogin>
+          }
+        />
+        <Route
+          path="/resetCode"
+          element={
+            <ProtectedLogin>
+              <ResetCode />
+            </ProtectedLogin>
+          }
+        />
+
+        <Route
+          path="/resetPassword"
+          element={
+            <ProtectedLogin>
+              <ResetPassword />
+            </ProtectedLogin>
+          }
+        />
 
         <Route
           path="/detail/:id"
@@ -93,7 +120,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-           <Route
+        <Route
           path="/newproduct"
           element={
             <ProtectedRoutes>
@@ -146,12 +173,12 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/rateProduct/:id/:prodName"
           element={
             <ProtectedRoutes>
               <ProtectedCustomer>
-                <RatingProduct/>
+                <RatingProduct />
               </ProtectedCustomer>
             </ProtectedRoutes>
           }
@@ -186,8 +213,6 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-
-
 
         <Route
           path="/category"
