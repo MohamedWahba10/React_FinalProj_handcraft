@@ -1,68 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from "./Checkout.module.css";
 import { Helmet } from 'react-helmet';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import { CartContext } from "../../Context/CartContext";
+import Payment from '../Payment/Payment';
 
 const Checkout = () => {
 
+    let [cartDetails, setcartDetails] = useState({})
+    const [apiError, setApiError] = useState("");
+    const navigate = useNavigate();
+    let { getCart, order } = useContext(CartContext)
+    let [cartID, setcartID] = useState()
 
+    async function getcartDetails() {
+        try {
+            let { data } = await getCart()
 
-    const [apiError, setapiError] = useState("")
+            if (data) {
+                setcartDetails(data)
 
-
-
-
-    async function order(values) {
-
-
-        console.log(values);
-        // setapiError("")   // this is to remove the error message when user re-try again  
-        // setisLoading(true)
-
-        // Set ssn to null if usertype is 'customer'
-
-
-
-        let { data } = await axios.post(`APIIII`, values).catch((err) => {
-            console.log("heelooo", err);
-
-            // setisLoading(false)
-        })
-
-        if (data.message === "success") {
-            // setisLoading(false)
-
+            }
+        } catch (error) {
+            console.error("Error fetching cart details:", error);
         }
-
     }
 
+    async function payment(values) {
+        await order(values);
+        navigate("/payment");
+    }
+    
+    // async function order(values) {
+    //     let data = await axios.post(`http://127.0.0.1:8000/api/order/new/`, values, {
+    //         headers: headers
+    //     }).then((res) => res).catch((err) => err);
+
+    //     console.log("=>>>", data.data.id);
+    //     setcartID(data.data.id) 
+
+    // }
 
     let validationSchema = Yup.object({
-
-        phone: Yup.string().matches(/^(011|010|012|015)\d{8}$/, "Phone number is invalid").required('Required'),
+        phone_number: Yup.string().matches(/^(011|010|012|015)\d{8}$/, "Phone number is invalid").required('Required'),
         address: Yup.string().required('Required')
-    })
-
+    });
 
     const formik = useFormik({
         initialValues: {
-            phone: '',
+            phone_number: '',
             address: ''
         },
         validationSchema: validationSchema,
-
-
-        onSubmit: (values) => order(values)
+        onSubmit: (values) => payment(values)
     });
 
+    // useEffect(() => {
+    //     getcartDetails()
 
-
+    // }, [])
     return (
         <>
             <Helmet>
@@ -93,36 +92,28 @@ const Checkout = () => {
                             <div className="text-center mb-3 pb-2 mt-3">
                                 <h4 style={{ color: '#495057' }}>Delivery Details</h4>
                             </div>
-
-
-
-
-
-                            <form onSubmit={formik.handleSubmit} className="mb-0">
+                            <form onSubmit={formik.handleSubmit} className="mb-0" action={`http://127.0.0.1:8000/api/order/create-checkout-session/1/`}
+                                method="POST">
+                                <div className="row mb-4"></div>
                                 <div className="row mb-4">
-
-                                </div>
-                                <div className="row mb-4">
-
                                     <div className="col">
                                         <div className="input-group form-outline">
                                             <span className="input-group-text"><i className="fas fa-phone"></i></span>
                                             <input
                                                 type="text"
-                                                id="phone"
-                                                name="phone"
+                                                id="phone_number"
+                                                name="phone_number"
                                                 className="form-control input-custom"
                                                 placeholder="Phone"
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                value={formik.values.phone}
+                                                value={formik.values.phone_number}
                                             />
                                         </div>
-                                        {formik.touched.phone && formik.errors.phone ? (
-                                            <div className="text-danger fs-5 mt-3">{formik.errors.phone}</div>
+                                        {formik.touched.phone_number && formik.errors.phone_number ? (
+                                            <div className="text-danger fs-5 mt-3">{formik.errors.phone_number}</div>
                                         ) : null}
                                     </div>
-
                                 </div>
                                 <div className="row mb-4">
                                     <div className="col">
@@ -149,11 +140,12 @@ const Checkout = () => {
                                     <button type="submit" className="btn btn-primary btn-rounded bg-black">Place order</button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div>
+        
+          
         </>
     );
 };

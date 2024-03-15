@@ -10,6 +10,7 @@ import axios from "axios";
 import Loading from "../Loading/Loading";
 import CategorySlider from "../CategorySlider/CatrgorySlider";
 import FilterProduct from "../FilterProduct/FilterProduct";
+import NewProduct from "../NewsProduct/NewPoduct";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -71,6 +72,7 @@ export default function Home() {
           <MainSlider />
           <CategorySlider/>
           <FilterProduct />
+          <NewProduct/>
           {/* <RecipeReviewCard /> */}
 
           <div className="container my-5">

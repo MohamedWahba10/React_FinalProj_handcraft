@@ -22,10 +22,13 @@ import ProtectedCustomer from "../components/ProtectedRoutes/ProtectedCustomer";
 import ProductINSubCategory from "../components/ProductINSubCategory/ProductINSubCategory";
 import NotFound from "../components/NotFound/NotFound";
 import ProductVendor from "../components/ProductVendor/ProductVendor";
+import Payment from "../components/Payment/Payment";
 import Favorite from "../components/Favorite/Favorite";
 import ChangePassword from "../components/ChangePassword/ChangePassword";
 import RatingProduct from "../components/Rating/Rating";
+import NewProduct from "../components/NewsProduct/NewPoduct";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
+
 
 export default function Router() {
   return (
@@ -87,6 +90,14 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <ProductDetail />
+            </ProtectedRoutes>
+          }
+        />
+           <Route
+          path="/newproduct"
+          element={
+            <ProtectedRoutes>
+              <NewProduct />
             </ProtectedRoutes>
           }
         />
@@ -165,6 +176,19 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoutes>
+              <ProtectedCustomer>
+                <Payment />
+              </ProtectedCustomer>
+            </ProtectedRoutes>
+          }
+        />
+
+
+
         <Route
           path="/category"
           element={

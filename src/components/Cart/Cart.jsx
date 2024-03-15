@@ -6,7 +6,7 @@ import img1 from "../../assets/images/noun-empty-cart-3592882.png";
 
 export default function Cart() {
     let [cartDetails, setcartDetails] = useState({})
-    const [apiError, setapiError] = useState("")
+    let [apiError, setapiError] = useState("")
     let [isLoading, setIsLoading] = useState(true);
     let [isEmpty, setisEmpty] = useState(true)
     
