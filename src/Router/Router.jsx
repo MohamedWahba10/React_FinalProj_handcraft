@@ -26,6 +26,7 @@ import Payment from "../components/Payment/Payment";
 import Favorite from "../components/Favorite/Favorite";
 import ChangePassword from "../components/ChangePassword/ChangePassword";
 import RatingProduct from "../components/Rating/Rating";
+import NewProduct from "../components/NewsProduct/NewPoduct";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 
 
@@ -89,6 +90,14 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <ProductDetail />
+            </ProtectedRoutes>
+          }
+        />
+           <Route
+          path="/newproduct"
+          element={
+            <ProtectedRoutes>
+              <NewProduct />
             </ProtectedRoutes>
           }
         />

@@ -54,6 +54,7 @@ export default function FeatureProduct() {
     getfavorite();
   }, []);
 
+
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);

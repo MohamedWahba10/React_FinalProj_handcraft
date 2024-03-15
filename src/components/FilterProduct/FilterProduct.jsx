@@ -7,6 +7,7 @@ import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
+import { CartContext } from "../../Context/CartContext";
 
 export default function FilterProduct() {
   const [dataUser, setData] = useState(null);
@@ -166,6 +167,18 @@ export default function FilterProduct() {
     getfavorite();
   }, []);
 
+  let { addToCart } = useContext(CartContext);
+
+  async function addcart(id) {
+    let res = await addToCart(id);
+    console.log("heloo add to cart ", res);
+    if (res.data.msg === "added") {
+      toast.success("product added Successfully");
+    } else {
+    }
+  }
+  
+
   return (
     <>
       <div
@@ -270,61 +283,17 @@ export default function FilterProduct() {
                       >
                         <div
                           className={`${styles.above_layer}  p-3 d-flex flex-column justify-content-between `}
-                        >
-                          {/* <div className="d-flex justify-content-end">
-                            {userType === "vendor" ? null : (
-                              <div
-                                // className={`${styles.wish_list}`}
-                                onClick={handleAddToCartClick}
-                              >
-                                {dataFavorite?.find(
-                                  (favProduct) =>
-                                    favProduct.id === pro.product.id
-                                ) ? (
-                                  <div
-                                    className={`${styles.wish_list} bg-danger`}
-                                    onClick={() =>
-                                      deletefavorite(pro.product.id)
-                                    }
-                                  >
-                                    <i className="fa-regular fa-heart text-white"></i>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`${styles.wish_list} `}
-                                    onClick={() => addfavorite(pro.product.id)}
-                                  >
-                                    <i className="fa-regular fa-heart "></i>
-                                  </div>
-                                )}{" "}
-                              </div>
-                            )}
-                          </div> */}
-
-                          {/* <div className="d-flex justify-content-center align-items-center">
-                            <button className={`${styles.button_style}`}>
-                              QUICK VIEW
-                            </button>
-                            {userType === "vendor" ? null : (
-                              <button
-                                className={`${styles.button_style}`}
-                                onClick={handleAddToCartClick}
-                              >
-                                ADD TO CART
-                              </button>
-                            )}
-                          </div> */}
-                        </div>
+                        ></div>
                       </Link>
                     </div>
-                    <div className="px-2">
-                      <h4 className="pb-1 pt-2">{pro.product.prodName}</h4>
+                    <div className={`px-2 `}>
+                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>{pro.product.prodName}</h4>
                       <div className="d-flex justify-content-between align-content-center">
-                        <h6 className="pb-1">
+                        <h5 className="pb-1">
                           {" "}
                           {pro.prodSubCategory.subCateName}
-                        </h6>
-                        <p>{pro.product.prodPrice} EGP</p>
+                        </h5>
+                        <p className="fs-5">{pro.product.prodPrice} EGP</p>
                       </div>
                       <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
                       <div className="my-2">
@@ -359,16 +328,17 @@ export default function FilterProduct() {
                             )}
                           </div>
                           <div>
-                          {userType === "vendor" ? null : (
-                            <button
-                              className={`${styles.button_style} ${styles.cart}`}
-                              onClick={handleAddToCartClick}
-                            >
-                              <i class="fa-solid fa-cart-shopping cart"></i>
-                            </button>
-                          )}
+                            {userType === "vendor" ? null : (
+                              <div onClick={handleAddToCartClick}>
+                                <button
+                                  className={`${styles.button_style} ${styles.cart}`}
+                                  onClick={() => addcart(pro.product.id)}
+                                >
+                                  <i class="fa-solid fa-cart-shopping cart"></i>
+                                </button>
+                              </div>
+                            )}
                           </div>
-                          
                         </div>
                       </div>
                     </div>

@@ -31,6 +31,8 @@
 }
 .nav_style li .Link_style {
   color: #2a2a2a;
+  font-family: "Oswald", sans-serif;
+
 }
 
 .nav_style li:hover .Link_style,
@@ -264,6 +266,10 @@
   padding: 15px 13px;
   margin-top: 10px;
   border-radius: 10px;
+}
+.handcrafted{
+  font-family: "Madimi One", sans-serif;
+
 }
 
 
