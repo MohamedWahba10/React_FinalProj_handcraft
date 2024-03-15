@@ -265,6 +265,10 @@
   margin-top: 10px;
   border-radius: 10px;
 }
+.handcrafted{
+  font-family: "Madimi One", sans-serif;
+
+}
 
 
 @media screen and (max-width: 1550px) {

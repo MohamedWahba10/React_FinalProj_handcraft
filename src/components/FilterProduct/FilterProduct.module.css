@@ -33,19 +33,7 @@
 .product_info:not(:hover) .above_layer {
   transition-delay: 0s;
 }
-.product_info .above_layer .button_style {
-  background-color: white;
-  padding: 10px;
-  color: black;
-  border-radius: 7px;
-  border: none;
-  transition: all 0.5s ease;
-  margin-inline: 7px;
-}
-.product_info .above_layer .button_style:hover {
-  background-color: black;
-  color: white;
-}
+
 
 
 .wish_list {
@@ -126,4 +114,9 @@
   border-top-right-radius: 15px;
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+
+.product .pro_name{
+  font-family: "Oswald", sans-serif;
+
 }

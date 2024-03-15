@@ -8,7 +8,7 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 
-export default function FeatureProduct() {
+export default function NewProduct() {
   let { addToCart } = useContext(CartContext);
 
   const { data, isLoading } = useQuery({

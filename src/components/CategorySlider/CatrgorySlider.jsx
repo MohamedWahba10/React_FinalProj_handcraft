@@ -54,7 +54,6 @@ export default function CategorySlider() {
   });
 
   const subCategory = data?.data?.data;
-  console.log("SUB CATEGORY>>>>>>", subCategory);
   function getSubCategory() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/subcategory/`);
     return response;
@@ -70,20 +69,26 @@ return(
       </>
     ) : (
       <div className="container mb-5 pb-5 overflow-hidden ">
-        <h2 className={`my-4 text-center `}>Sub Category</h2>
+        <div className="mb-4">
+        <h2 className={`my-5 text-center fs-1 ${styles.categoryName}`}>Sub Category</h2>
         <Slider {...settings} className="w-100">
           {subCategory?.map((category) => (
-            <div key={category.idd}>
+            <div key={category.id}>
               <img
                 className={`${styles.image_category}`}
                 src={`${category.subCateImage}`}
                 width={"100%"}
                 alt={category.subCateName}
               />
-              <span className="text-center">{category.subCateName}</span>
+              <div className="d-flex justify-content-center">
+              <span className="text-center fs-4 my-2">{category.subCateName}</span>
+
+              </div>
             </div>
           ))}
         </Slider>
+        </div>
+     
       </div>
     )}
   </>
