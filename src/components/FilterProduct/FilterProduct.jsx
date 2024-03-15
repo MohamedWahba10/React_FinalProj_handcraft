@@ -194,7 +194,7 @@ export default function FilterProduct() {
         ].map((category, index) => (
           <div
             key={index}
-            className={`p-2 ${
+            className={`p-2 ${styles.filter_selected} ${
               selectedCategory === index
                 ? "border border-secondary-emphasis rounded-4 rounded fs-5 bg-secondary-emphasis shadow"
                 : "fs-6"

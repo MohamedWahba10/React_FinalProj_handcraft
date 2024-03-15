@@ -17,6 +17,13 @@
   color: #3f3e3e;
   font-size: 18px;
 }
+.form_update{
+  padding: 25px 25px;
+  border-radius: 20px;
+  background-color: #fff;
+  
+  filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+}
 .form_update .update_button {
   background-color: #1f1f1f;
   font-size: 22px;
@@ -30,6 +37,9 @@
   padding: 15px 13px;
   margin-top: 10px;
   border-radius: 10px;
+}
+.form_update form img{
+  border-radius: 7px;
 }
 
 .form_update .update_button:hover {
