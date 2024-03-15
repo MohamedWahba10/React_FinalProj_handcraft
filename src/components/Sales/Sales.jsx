@@ -187,7 +187,7 @@ export default function Sales() {
       ) : (
         <>
         <div className="container my-4">
-          {filteredProducts.some((pro) => pro.product.prodOnSale) && (
+          {filteredProducts?.some((pro) => pro.product.prodOnSale) && (
             <h1 className={`${styles.sales_product_word}`}>SALES</h1>
           )}
           <div className="row gy-5">
@@ -309,5 +309,4 @@ export default function Sales() {
     </>
   );
 }
-{
-}
+
