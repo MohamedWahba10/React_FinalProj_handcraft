@@ -69,7 +69,7 @@ export default function Payment() {
                                     </div>
                                 </div>
                                 <div className="d-flex align-items-center">
-                                    <p className="h5 mt-2">{ele.item_price} EGP/ per item</p>
+                                    <p className="h5 mt-2">{ele.item_price} <span className='h6'>  EGP/ per item</span> </p>
                                 </div>
                             </div>
 
