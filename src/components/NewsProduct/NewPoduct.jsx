@@ -216,6 +216,9 @@ export default function NewProduct() {
                                 </>
                               )}
                             </div>
+                            <p>
+                            {pro.prodDescription} 
+                            </p>
                             <div className="my-2">
                               <div className="d-flex justify-content-between align-items-center">
                                 <div>

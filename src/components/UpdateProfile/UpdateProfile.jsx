@@ -37,7 +37,6 @@ export default function UpdateProfile() {
     setIsLoadingDelete(true);
 
     try {
-
       const response = await axios.delete(
         "http://127.0.0.1:8000/api/profile/",
         {
@@ -47,14 +46,13 @@ export default function UpdateProfile() {
         }
       );
 
-        localStorage.removeItem("userToken");
-        navigate("/login");
-        setIsLoadingDelete(false);
-        toast.success("Account Removed Successfully");
+      localStorage.removeItem("userToken");
+      navigate("/login");
+      setIsLoadingDelete(false);
+      toast.success("Account Removed Successfully");
     } catch (error) {
       console.error("Failed to fetch profile data", error);
       setIsLoadingDelete(false);
-
     }
   }
 
@@ -138,7 +136,6 @@ export default function UpdateProfile() {
     }
   }, [userData]);
 
-
   const handleConfirmDelete = () => {
     setShowConfirmModal(true);
   };
@@ -184,6 +181,7 @@ export default function UpdateProfile() {
                         />
                         <br />
                         <br />
+
                         <input
                           type="file"
                           className="w-100  border"
@@ -301,56 +299,71 @@ export default function UpdateProfile() {
                       </div>
                     </div>
                   </div>
-
-                  <div className={`d-flex justify-content-between my-3`}>
-                    {isLoading ? (
-                      <button
-                        type="submit"
-                        className={`${styles.update_button}`}
-                      >
-                        <i className="fa fa-spinner fa-spin"></i>
-                      </button>
-                    ) : (
-                      <button
-                        type="submit"
-                        className={`${styles.update_button}`}
-                      >
-                        Save Change
-                      </button>
-                    )}
-                  </div>
-                </form>
-                <div className={`d-flex justify-content-between my-3`}>
+                  <div className="d-flex justify-content-between align-content-between ">
+                    <div className={`d-flex justify-content-between my-3`}>
+                      {isLoading ? (
+                        <button
+                          type="submit"
+                          className={`${styles.update_button}`}
+                        >
+                          <i className="fa fa-spinner fa-spin"></i>
+                        </button>
+                      ) : (
+                        <button
+                          type="submit"
+                          className={`${styles.update_button}`}
+                        >
+                          Save Change
+                        </button>
+                      )}
+                    </div>
+                    <div className={`d-flex justify-content-between my-3`}>
                   {isLoadingDelete ? (
-                    <button type="submit" className={`${styles.update_button}`} disabled >
+                    <button
+                      type="submit"
+                      className={`${styles.update_button}`}
+                      disabled
+                    >
                       <i className="fa fa-spinner fa-spin"></i>
                     </button>
                   ) : (
                     <>
-                    <button
-                      type="button"
-                      onClick={handleConfirmDelete}
-                      className={`${styles.update_button}`}
-                    >
-                      Delete Account
-                    </button>
-                     <Modal show={showConfirmModal} onHide={handleCloseConfirmModal}>
-                     <Modal.Header closeButton>
-                       <Modal.Title>Confirm Deletion</Modal.Title>
-                     </Modal.Header>
-                     <Modal.Body>Are you sure you want to delete your account?</Modal.Body>
-                     <Modal.Footer>
-                       <Button variant="secondary" onClick={handleCloseConfirmModal}>
-                         Cancel
-                       </Button>
-                       <Button variant="danger" onClick={ProfileDelete}>
-                         Delete
-                       </Button>
-                     </Modal.Footer>
-                   </Modal>
-                   </>
+                      <button
+                        type="button"
+                        onClick={handleConfirmDelete}
+                        className={`${styles.update_button}`}
+                      >
+                        Delete Account
+                      </button>
+                      <Modal
+                        show={showConfirmModal}
+                        onHide={handleCloseConfirmModal}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Confirm Deletion</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          Are you sure you want to delete your account?
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button
+                            variant="secondary"
+                            onClick={handleCloseConfirmModal}
+                          >
+                            Cancel
+                          </Button>
+                          <Button variant="danger" onClick={ProfileDelete}>
+                            Delete
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </>
                   )}
                 </div>
+
+                  </div>
+                </form>
+              
               </div>
             </div>
           </div>

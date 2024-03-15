@@ -7,6 +7,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
+import FilterProduct from "../FilterProduct/FilterProduct";
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -389,7 +390,7 @@ function NavBar() {
                 onClick={closeLayerSearch}
               ></i>
             </div>
-            <div className="container">
+            {/* <div className="container">
               <input
                 type="text"
                 className={`${styles.search_input}`}
@@ -476,7 +477,8 @@ function NavBar() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
+            <FilterProduct/>
 
             {/* <div className={`${styles.wish_list_buttons}  `}>
               <button

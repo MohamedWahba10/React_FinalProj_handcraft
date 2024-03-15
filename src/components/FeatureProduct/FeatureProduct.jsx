@@ -7,6 +7,7 @@ import styles from "./FeatureProduct.module.css";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
+import FilterProduct from "../FilterProduct/FilterProduct";
 
 export default function FeatureProduct() {
   let { addToCart } = useContext(CartContext);
@@ -116,78 +117,8 @@ export default function FeatureProduct() {
 
             <span className={`${styles.span_profile}`}>&gt;Shop</span>
           </div>
-          <div className="container mb-5 pb-5 overflow-hidden">
-            <div className="row gy-5">
-              {Products?.map((pro) => (
-                <div key={pro.product.id} className="col-md-3 cursor-pointer">
-                  <div className="product py-3 px-2">
-                    <div className={`${styles.product_info}`}>
-                      <img
-                        src={`${pro.product.prodImageUrl}`}
-                        className="w-100"
-                        alt={pro.product.prodName}
-                      />
-
-                      <Link
-                        to={`/detail/${pro.product.id}`}
-                        className="text-decoration-none text-dark"
-                      >
-                        <div
-                          className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                        >
-                          <div className="d-flex justify-content-end">
-                            {userType === "vendor" ? null : (
-                              <div onClick={handleAddToCartClick}>
-                                {dataFavorite?.find(
-                                  (favProduct) =>
-                                    favProduct.id === pro.product.id
-                                ) ? (
-                                  <div
-                                    className={`${styles.wish_list} bg-danger`}
-                                    onClick={() =>
-                                      deletefavorite(pro.product.id)
-                                    }
-                                  >
-                                    <i className="fa-regular fa-heart text-white"></i>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`${styles.wish_list} bg-light`}
-                                    onClick={() => addfavorite(pro.product.id)}
-                                  >
-                                    <i className="fa-regular fa-heart"></i>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="d-flex justify-content-center align-items-center">
-                            <button className={`${styles.button_style}`}>
-                              QUICK VIEW
-                            </button>
-                            {userType === "vendor" ? null : (
-                              <div onClick={handleAddToCartClick}>
-                                <button
-                                  className={`${styles.button_style}`}
-                                  onClick={() => addcart(pro.product.id)}
-                                >
-                                  ADD TO CART
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-
-                    <h4 className="pb-2 pt-2">{pro.product.prodName}</h4>
-                    <p>{pro.product.prodPrice} EGP</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+     
+          <FilterProduct/>
         </>
       )}
     </>

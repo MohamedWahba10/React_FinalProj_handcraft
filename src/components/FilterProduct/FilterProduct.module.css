@@ -21,6 +21,10 @@
   z-index: 66;
   width: 100%;
 }
+.filter_selected{
+  font-family: "Oswald", sans-serif;
+
+}
 .product_info:hover img {
   transform: scale(1.2);
 }
