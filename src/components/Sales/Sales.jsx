@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./FilterProduct.module.css";
+import styles from "./Sales.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
 
-export default function FilterProduct() {
+export default function Sales() {
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
   async function ProfileData() {
@@ -177,97 +177,27 @@ export default function FilterProduct() {
     } else {
     }
   }
-  
 
   return (
     <>
-      <div
-        className={`d-flex container  mx-auto border-none rounded-2 bg-secondary cursor-pointer rounded border-secondary p-2 mb-4 bg-light justify-content-between text-black ${styles.cursor_pointer}`}
-        style={{ color: "grey" }}
-      >
-        {[
-          "ALL",
-          "Search Product Name",
-          "Search Category Name",
-          "Search Vendor ShopName",
-          "Search By Price",
-        ].map((category, index) => (
-          <div
-            key={index}
-            className={`p-2 ${styles.filter_selected} ${
-              selectedCategory === index
-                ? "border border-secondary-emphasis rounded-4 rounded fs-5 bg-secondary-emphasis shadow"
-                : "fs-6"
-            }`}
-            onClick={() => handleCategoryClick(index)}
-          >
-            {category}
-          </div>
-        ))}
-      </div>
-
-      <div className="container my-3">
-        {selectedCategory === 1 ? (
-          <input
-            type="text"
-            className={`${styles.search_input}`}
-            placeholder="Search By Name Product"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        ) : null}
-        {selectedCategory === 2 ? (
-          <input
-            type="text"
-            className={`${styles.search_input}`}
-            placeholder="Search By Category Name"
-            value={searchQueryCategory}
-            onChange={(e) => setSearchQueryCategory(e.target.value)}
-          />
-        ) : null}
-        {selectedCategory === 3 ? (
-          <input
-            type="text"
-            className={`${styles.search_input}`}
-            placeholder="Search By Vendor Shop Name"
-            value={searchVendorShopName}
-            onChange={(e) => setSearchVendorShopName(e.target.value)}
-          />
-        ) : null}
-        {selectedCategory === 4 ? (
-          <div className="row gy-3">
-            <div className="col-md-6">
-              <input
-                type="number"
-                className={`${styles.search_input}`}
-                placeholder="Min Price"
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="number"
-                className={`${styles.search_input}`}
-                placeholder="Max Price"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
-            </div>
-          </div>
-        ) : null}
-      </div>
-
       {/* --------------------------------------------------------------------------------------- */}
 
       {isLoading ? (
         <Loading />
       ) : (
         <>
-          <div className="container my-4">
-            <div className="row gy-5 ">
-              {filteredProducts?.map((pro) => (
-                <div key={pro.product.id} className={`col-md-3 cursor-pointer`}>
+        <div className="container my-4">
+          {filteredProducts.some((pro) => pro.product.prodOnSale) && (
+            <h1 className={`${styles.sales_product_word}`}>SALES</h1>
+          )}
+          <div className="row gy-5">
+            {filteredProducts
+              ?.filter((pro) => pro.product.prodOnSale)
+              .map((pro) => (
+                <div
+                  key={pro.product.id}
+                  className={`col-md-3 cursor-pointer`}
+                >
                   <div className={` ${styles.product}`}>
                     <div
                       className={`${styles.product_info} ${styles.product} w-100`}
@@ -279,57 +209,55 @@ export default function FilterProduct() {
                       />
                       <Link
                         to={`/detail/${pro.product.id}`}
-                        className="text-decoration-none text-dark "
+                        className="text-decoration-none text-dark"
                       >
                         <div
                           className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                         >
-                           {pro.product.prodOnSale?
-                                
-                                <span className={`${styles.sale_product}`}>
-                                 Sales
-                               </span>
-                               :null
-                             }
+                          {pro.product.prodOnSale ? (
+                            <span className={`${styles.sale_product}`}>
+                              Sales
+                            </span>
+                          ) : null}
                         </div>
                       </Link>
                     </div>
                     <div className={`px-2 `}>
-                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>{pro.product.prodName}</h4>
+                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                        {pro.product.prodName}
+                      </h4>
                       <div className="d-flex justify-content-between align-content-center">
                         <h5 className="pb-1">
-                          {" "}
                           {pro.prodSubCategory.subCateName}
                         </h5>
-                        {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
                       </div>
                       <div>
-
-
-                      <div className="d-flex justify-content-between align-items-center">
-                      {pro.product.discounted_price === pro.product.original_price ? (
-                                <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
-                              ) : (
-                                <>
-                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} EGP</p>
-                                  <p className="fs-5">
-                                    {pro.product.discounted_price} EGP
-                                  </p>
-                              
-                                </>
-                              )}
+                        <div className="d-flex justify-content-between align-items-center">
+                          {pro.product.discounted_price ===
+                          pro.product.original_price ? (
+                            <p className="fs-5 ">
+                              {pro.product.prodPrice} EGP
+                            </p>
+                          ) : (
+                            <>
+                              <p className="fs-5 text-decoration-line-through">
+                                {pro.product.original_price} EGP
+                              </p>
+                              <p className="fs-5">
+                                {pro.product.discounted_price} EGP
+                              </p>
+                            </>
+                          )}
+                        </div>
                       </div>
-             
-                      </div>
-                      <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
+                      <h6 className="pb-1">
+                        Created By {pro.vendor.shopname}
+                      </h6>
                       <div className="my-2">
                         <div className="d-flex justify-content-between align-items-center">
                           <div>
                             {userType === "vendor" ? null : (
-                              <div
-                                // className={`${styles.wish_list}`}
-                                onClick={handleAddToCartClick}
-                              >
+                              <div onClick={handleAddToCartClick}>
                                 {dataFavorite?.find(
                                   (favProduct) =>
                                     favProduct.id === pro.product.id
@@ -345,11 +273,13 @@ export default function FilterProduct() {
                                 ) : (
                                   <div
                                     className={`${styles.wish_list} `}
-                                    onClick={() => addfavorite(pro.product.id)}
+                                    onClick={() =>
+                                      addfavorite(pro.product.id)
+                                    }
                                   >
                                     <i className="fa-regular fa-heart "></i>
                                   </div>
-                                )}{" "}
+                                )}
                               </div>
                             )}
                           </div>
@@ -360,7 +290,7 @@ export default function FilterProduct() {
                                   className={`${styles.button_style} ${styles.cart}`}
                                   onClick={() => addcart(pro.product.id)}
                                 >
-                                  <i class="fa-solid fa-cart-shopping cart"></i>
+                                  <i className="fa-solid fa-cart-shopping cart"></i>
                                 </button>
                               </div>
                             )}
@@ -371,9 +301,10 @@ export default function FilterProduct() {
                   </div>
                 </div>
               ))}
-            </div>
           </div>
-        </>
+        </div>
+      </>
+      
       )}
     </>
   );

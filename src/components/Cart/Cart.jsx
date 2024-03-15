@@ -155,7 +155,7 @@ export default function Cart() {
                                                     </div>
                                                     <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                         <div className="float-md-end">
-                                                            <button className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></button>
+                                                            {/* <button className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></button> */}
                                                             <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
                                                         </div>
                                                     </div>

@@ -8,6 +8,7 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import FilterProduct from "../FilterProduct/FilterProduct";
+import { Helmet } from "react-helmet";
 
 export default function FeatureProduct() {
   let { addToCart } = useContext(CartContext);
@@ -104,6 +105,11 @@ export default function FeatureProduct() {
 
   return (
     <>
+    <Helmet>
+      <title>
+        Shop
+      </title>
+    </Helmet>
       {isLoading ? (
         <Loading />
       ) : (

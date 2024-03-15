@@ -41,7 +41,7 @@ export default function MainSlider() {
           />
           <div className={`${styles.above_layer}`}>
             <div className={`${styles.inner_layer} flex-column `}>
-              <p>SALE! UP TO 50% OFF!</p>
+              {/* <p>SALE! UP TO 50% OFF!</p> */}
               <h1>
                 Summer Sale <br /> Collections
               </h1>
@@ -59,7 +59,7 @@ export default function MainSlider() {
           />
           <div className={`${styles.above_layer}`}>
             <div className={`${styles.inner_layer} flex-column `}>
-              <p>SALE! UP TO 50% OFF!</p>
+              {/* <p>SALE! UP TO 50% OFF!</p> */}
               <h1>
                 Stylish Looks For <br /> Any Season
               </h1>
@@ -77,7 +77,7 @@ export default function MainSlider() {
           />
           <div className={`${styles.above_layer}`}>
             <div className={`${styles.inner_layer} flex-column `}>
-              <p>SALE! UP TO 50% OFF!</p>
+              {/* <p>SALE! UP TO 50% OFF!</p> */}
               <h1>
                 Accessories For <br />
                 Every Occassion

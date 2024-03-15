@@ -11,6 +11,8 @@ import Loading from "../Loading/Loading";
 import CategorySlider from "../CategorySlider/CatrgorySlider";
 import FilterProduct from "../FilterProduct/FilterProduct";
 import NewProduct from "../NewsProduct/NewPoduct";
+import { Helmet } from "react-helmet";
+import Sales from "../Sales/Sales";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState(0);
@@ -65,6 +67,11 @@ export default function Home() {
 
   return (
     <>
+    <Helmet>
+      <title>
+        Home Page
+      </title>
+    </Helmet>
       {isLoading && userLoading ? (
         <Loading />
       ) : (
@@ -73,6 +80,7 @@ export default function Home() {
           <CategorySlider/>
           <FilterProduct />
           <NewProduct/>
+          <Sales/>
           {/* <RecipeReviewCard /> */}
 
           <div className="container my-5">
