@@ -15,37 +15,45 @@ export default function FeatureProduct() {
     queryKey: "products",
     queryFn: getProduct,
   });
-  let {addToFavorite,deleteFavoriteProduct,getFavorite} = useContext(FavoriteContext);
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
+    useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
-    if (res.data.message === "Product was added to favorites.") {
+    if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
+      getfavorite();
     } else {
-      toast.error("ERROR")
+      toast.error(res.data.message);
     }
   }
 
   async function deletefavorite(id) {
     let res = await deleteFavoriteProduct(id);
     console.log("heloo remove to favorite ", res);
-    if (res.data.message === "Product was removed from favorites.") {
+    if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
+      getfavorite();
     } else {
-      toast.error("ERROR")
+      toast.error("ERROR");
     }
   }
+  const [dataFavorite, setDataFavorite] = useState(null);
 
   async function getfavorite() {
-    let res = await getFavorite();
-    console.log("heloo allllllllll to favorite ", res);
-    // if (res.data.message === "Product was added to favorites.") {
-    //   toast.success("Product Added Favorite Successfully");
-    // } else {
-    //   toast.error("ERROR")
-    // }
+    try {
+      let res = await getFavorite();
+      console.log("hello all to favorite", res);
+      setDataFavorite(res.data.favorite_products);
+      console.log("dataFavoeite", dataFavorite);
+    } catch (error) {
+      console.error("Error while fetching favorite:", error);
+    }
   }
- 
+  useEffect(() => {
+    getfavorite();
+  }, []);
+
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
@@ -55,10 +63,7 @@ export default function FeatureProduct() {
     }
   }
 
-
-
   const Products = data?.data?.results;
- 
 
   async function getProduct() {
     let response = await axios.get(`http://127.0.0.1:8000/api/product/`, {
@@ -79,8 +84,6 @@ export default function FeatureProduct() {
           Authorization: `Token ${localStorage.getItem("userToken")}`,
         },
       });
-
-   
 
       setData(response);
     } catch (error) {
@@ -123,7 +126,7 @@ export default function FeatureProduct() {
                         className="w-100"
                         alt={pro.product.prodName}
                       />
-                    
+
                       <Link
                         to={`/detail/${pro.product.id}`}
                         className="text-decoration-none text-dark"
@@ -132,17 +135,30 @@ export default function FeatureProduct() {
                           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
                         >
                           <div className="d-flex justify-content-end">
-                            <div  onClick={handleAddToCartClick}>
-
-                            <div
-                              className={`${styles.wish_list}  bg-light `}
-                              
-                              onClick={() => addfavorite(pro.product.id)}
-                            >
-                              <i class="fa-regular fa-heart"></i>
-                            </div>
-                            </div>
-                         
+                            {userType === "vendor" ? null : (
+                              <div onClick={handleAddToCartClick}>
+                                {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === pro.product.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_list} bg-danger`}
+                                    onClick={() =>
+                                      deletefavorite(pro.product.id)
+                                    }
+                                  >
+                                    <i className="fa-regular fa-heart text-white"></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_list} bg-light`}
+                                    onClick={() => addfavorite(pro.product.id)}
+                                  >
+                                    <i className="fa-regular fa-heart"></i>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
 
                           <div className="d-flex justify-content-center align-items-center">

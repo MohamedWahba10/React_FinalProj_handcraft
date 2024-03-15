@@ -64,6 +64,11 @@ export default function UpdateProduct() {
     formData.append("prodSubCategory", values.prodSubCategory);
     formData.append("prodDescription", values.prodDescription);
     formData.append("prodStock", values.prodStock);
+    formData.append("prodOnSale", values.prodOnSale);
+    formData.append(
+      "prodDiscountPercentage",
+      values.prodDiscountPercentage === "" ? 0 : values.prodDiscountPercentage
+    );
     if (
       values.prodImageThumbnail &&
       values.prodImageThumbnail instanceof File
@@ -77,12 +82,7 @@ export default function UpdateProduct() {
       formData.append("prodImageThumbnail", productData.prodImageThumbnail);
     }
 
-
-
-    if (
-      values.prodImageOne &&
-      values.prodImageOne instanceof File
-    ) {
+    if (values.prodImageOne && values.prodImageOne instanceof File) {
       formData.append("prodImageOne", values.prodImageOne);
     } else if (
       !values.prodImageOne &&
@@ -92,12 +92,7 @@ export default function UpdateProduct() {
       formData.append("prodImageOne", productData.prodImageOne);
     }
 
-
-
-    if (
-      values.prodImageTwo &&
-      values.prodImageTwo instanceof File
-    ) {
+    if (values.prodImageTwo && values.prodImageTwo instanceof File) {
       formData.append("prodImageTwo", values.prodImageTwo);
     } else if (
       !values.prodImageTwo &&
@@ -106,10 +101,7 @@ export default function UpdateProduct() {
     ) {
       formData.append("prodImageTwo", productData.prodImageTwo);
     }
-    if (
-      values.prodImageThree &&
-      values.prodImageThree instanceof File
-    ) {
+    if (values.prodImageThree && values.prodImageThree instanceof File) {
       formData.append("prodImageThree", values.prodImageThree);
     } else if (
       !values.prodImageThree &&
@@ -118,10 +110,7 @@ export default function UpdateProduct() {
     ) {
       formData.append("prodImageThree", productData.prodImageThree);
     }
-    if (
-      values.prodImageFour &&
-      values.prodImageFour instanceof File
-    ) {
+    if (values.prodImageFour && values.prodImageFour instanceof File) {
       formData.append("prodImageFour", values.prodImageFour);
     } else if (
       !values.prodImageFour &&
@@ -130,7 +119,6 @@ export default function UpdateProduct() {
     ) {
       formData.append("prodImageFour", productData.prodImageFour);
     }
-
 
     try {
       const response = await axios.put(
@@ -150,14 +138,16 @@ export default function UpdateProduct() {
       } else {
       }
     } catch (error) {
+      setError(error.response.data.prodImageFour||error.response.data.prodImageOne||error.response.data.prodImageTwo||error.response.data.prodImageThumbnail||error.response.data.prodImageThree)
+
       setisLoading(false);
-      console.error("Error during AddProduct:", error);
+      console.error("Error during updateProduct:", error);
     }
   }
   const validationSchema = Yup.object({
     prodName: Yup.string()
       .matches(
-        /^[a-zA-Z0-9]{3,35}$/,
+        /^(?!\s)(?!.*\s$)[a-zA-Z0-9\s]{3,40}$/,
         "product Name must be from 3 to 35 letters"
       )
       .required("Required"),
@@ -169,7 +159,17 @@ export default function UpdateProduct() {
     prodStock: Yup.string()
       .matches(/^[1-9][0-9]{0,3}$/, "'product Stock must be only digits'")
       .required("product Stock is Required"),
-    // prodImageThumbnail: Yup.mixed().required("Image Is Required"),
+    prodDiscountPercentage: Yup.string().when("prodOnSale", {
+      is: true,
+      then: () =>
+        Yup.string()
+          .matches(
+            /^[1-9][0-9]{0,6}$/,
+            "'product prodDiscountPercentage must be only digits'"
+          )
+          .required("Product DiscountPercentage is required"),
+      otherwise: () => Yup.string().notRequired(),
+    }),
   });
 
   const UpdateProductForm = useFormik({
@@ -180,6 +180,8 @@ export default function UpdateProduct() {
       prodDescription: "",
       prodImageThumbnail: "",
       prodStock: "",
+      prodOnSale: "",
+      prodDiscountPercentage: "",
       prodImageOne: "",
       prodImageTwo: "",
       prodImageThree: "",
@@ -193,14 +195,17 @@ export default function UpdateProduct() {
       UpdateProductForm.setValues({
         prodName: productData.prodName || "",
         prodPrice: productData.prodPrice || "",
-        prodSubCategory: productData.prodSubCategory || "",
+        // prodSubCategory: productData.prodSubCategory?.subCateName || "",
+        prodSubCategory: productData.prodSubCategory?.id || "", 
         prodDescription: productData.prodDescription || "",
         prodImageThumbnail: productData.prodImageThumbnail || "",
         prodStock: productData.prodStock || "",
-        prodImageOne:productData.prodImageOne || "",
-        prodImageTwo: productData.prodImageTwo ||"",
-        prodImageThree:productData.prodImageThree || "",
-        prodImageFour: productData.prodImageFour ||"",
+        prodOnSale: productData.prodOnSale || "",
+        prodDiscountPercentage: productData.prodDiscountPercentage || "",
+        prodImageOne: productData.prodImageOne || "",
+        prodImageTwo: productData.prodImageTwo || "",
+        prodImageThree: productData.prodImageThree || "",
+        prodImageFour: productData.prodImageFour || "",
       });
     }
   }, [productData]);
@@ -296,7 +301,14 @@ export default function UpdateProduct() {
                       <option value="">Select Category</option>
                       {Array.isArray(categories) &&
                         categories.map((category) => (
-                          <option value={category.id} key={category.id}>
+                          <option
+                            value={category.id}
+                            selected={
+                              category.id ===
+                              UpdateProductForm.values.prodSubCategory
+                            }
+                            key={category.id}
+                          >
                             {category.subCateName}
                           </option>
                         ))}
@@ -386,10 +398,7 @@ export default function UpdateProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageOne"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageOne" className="fs-4 fw-bold">
                       Image Number One
                     </label>
                     <input
@@ -416,10 +425,7 @@ export default function UpdateProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageTwo"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageTwo" className="fs-4 fw-bold">
                       Image Number Two
                     </label>
                     <input
@@ -447,10 +453,7 @@ export default function UpdateProduct() {
 
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageThree"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageThree" className="fs-4 fw-bold">
                       Image Number Three
                     </label>
                     <input
@@ -477,10 +480,7 @@ export default function UpdateProduct() {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label
-                      htmlFor="prodImageFour"
-                      className="fs-4 fw-bold"
-                    >
+                    <label htmlFor="prodImageFour" className="fs-4 fw-bold">
                       Image Number Four
                     </label>
                     <input
@@ -506,15 +506,54 @@ export default function UpdateProduct() {
                   </div>
                 </div>
 
-
-
-
-
-
-
-
-
-
+                {/* -------------------on Sales---------------------------- */}
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="prodOnSale" className="fs-4 fw-bold pe-4">
+                      Product Sale
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="prodOnSale"
+                      value={UpdateProductForm.values.prodOnSale}
+                      checked={UpdateProductForm.values.prodOnSale}
+                      name="prodOnSale"
+                      placeholder="Enter The Product On Sale"
+                      style={{ width: "25px", height: "30px" }}
+                      onChange={UpdateProductForm.handleChange}
+                      onBlur={UpdateProductForm.handleBlur}
+                    />
+                  </div>
+                </div>
+                {/* ---------------------- */}
+                {UpdateProductForm.values.prodOnSale ? (
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label
+                        htmlFor="prodDiscountPercentage"
+                        className="fs-4 fw-bold"
+                      >
+                        Product Discount Percentage
+                      </label>
+                      <input
+                        type="number"
+                        className="w-100 "
+                        id="prodDiscountPercentage"
+                        value={UpdateProductForm.values.prodDiscountPercentage}
+                        name="prodDiscountPercentage"
+                        placeholder="Enter The Product Discount Precentage"
+                        onChange={UpdateProductForm.handleChange}
+                        onBlur={UpdateProductForm.handleBlur}
+                      />
+                      {UpdateProductForm.errors.prodDiscountPercentage &&
+                      UpdateProductForm.touched.prodDiscountPercentage ? (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateProductForm.errors.prodDiscountPercentage}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
               </div>
 
               <div className={`d-flex justify-content-between my-3`}>

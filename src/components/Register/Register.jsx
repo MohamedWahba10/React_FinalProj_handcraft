@@ -98,8 +98,8 @@ export default function Register() {
       </Helmet>
       <div className={`${styles.header_register} py-5 mb-5 text-center`}>
         <h1>Register</h1>
-        <Link to="/" className='text-decoration-none'>
-          <span className={`${styles.link_home} pe-1`}>HomePage</span>
+        <Link to="/login" className='text-decoration-none'>
+          <span className={`${styles.link_home} pe-1`}>Login</span>
         </Link>
         <span className={`${styles.span_register}`}>&gt; Register</span>
       </div>
