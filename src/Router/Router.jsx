@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import Home from "../components/Home/Home";
 import About from "../components/About/About";
@@ -32,10 +32,21 @@ import ResetCode from "../components/ResetCode/ResetCode";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
+import { CartContext } from "../Context/CartContext.js";
+
+
+
 
 export default function Router() {
+  const { clearCart } = useContext(CartContext)
+  const location = useLocation();  
 
-  
+  useEffect(() => {
+    if (location.pathname === "/handle-payment-success/") {
+      clearCart();
+    }
+  }, [clearCart, location.pathname]);
+
   return (
     <Routes>
       <Route element={<Layout />}>
