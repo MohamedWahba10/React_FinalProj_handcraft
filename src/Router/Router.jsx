@@ -30,6 +30,7 @@ import NewProduct from "../components/NewsProduct/NewPoduct";
 import ForgetPassword from "../components/ForgetPassword/ForgetPassword";
 import ResetCode from "../components/ResetCode/ResetCode";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
+import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 
 export default function Router() {
@@ -183,6 +184,15 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+             <Route
+          path="/comment/:id/:prodName"
+          element={
+            <ProtectedRoutes>
+                <AllComment/>
+            </ProtectedRoutes>
+          }
+        />
+        
         <Route
           path="/favorite"
           element={

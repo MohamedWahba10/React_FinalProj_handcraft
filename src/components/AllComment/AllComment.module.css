@@ -1,0 +1,63 @@
+.header_product {
+  background-color: #f8f6f0;
+}
+
+.header_product h1 {
+  font-size: 45px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.header_product .link_home {
+  color: #727272;
+  font-size: 18px;
+}
+
+.header_product .span_profile {
+  color: #3f3e3e;
+  font-size: 18px;
+}
+.No_product {
+  margin-top: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.No_product h1 {
+  font-size: 4.5rem;
+  font-family: "Madimi One", sans-serif;
+}
+.comment {
+  padding: 0px 25px;
+  border-radius: 20px;
+  position: relative;
+  background-color: #fff;
+  filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+}
+.imgUSer {
+  position: absolute;
+  bottom: 80%;
+  /* transform: translateY(50%); */
+  left: 30px;
+}
+.imgUSer img {
+  width: 70px;
+  height: 70px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+.dataComment div{
+    padding-top: 50px;
+}
+.dataComment div p span{
+    padding-left: 8px;
+    font-size: 20px;
+}
+.dataComment div h4 span ,.dataComment div p .span_word{
+  font-size: 28px;
+  padding-left: 0px;
+  font-weight: bold;
+  font-family: "Madimi One", sans-serif;
+
+}

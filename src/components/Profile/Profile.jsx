@@ -8,6 +8,7 @@ import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
+import FavoriteUser from "../FavoriteUser/FavoriteUser";
 
 export default function Profile() {
   const [dataUser, setData] = useState(null);
@@ -291,7 +292,11 @@ const Products = allData;
               </>
             ) : (
               <>
-                <h3 className="text-center my-5">FAVORITE PRODUCT</h3>
+              <div className="my-5 py-5 container">
+              <h3 className={`text-center my-5 ${styles.word_Favorite}`}>FAVORITE PRODUCT</h3>
+                   <FavoriteUser/>
+              </div>
+                
               </>
             )}
           </div>

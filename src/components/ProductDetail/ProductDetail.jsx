@@ -9,6 +9,7 @@ import Loading from "../Loading/Loading";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
+import { CartContext } from "../../Context/CartContext";
 export default function ProductDetail() {
   const settings = {
     dots: true,
@@ -30,7 +31,6 @@ export default function ProductDetail() {
       },
     });
   }
-
   const detailPro = data?.data?.data;
   console.log("dataProoooo", detailPro);
 
@@ -97,14 +97,14 @@ export default function ProductDetail() {
     getfavorite();
   }, []);
 
-let [avgRate,setAvgRate] =useState(null)
+  let [avgRate, setAvgRate] = useState(null);
   async function getAvgRate() {
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/product/product_r/${id}/`, {
-      
-      });
-      setAvgRate( response?.data?.average_Rate)
-     
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/product/product_r/${id}/`,
+        {}
+      );
+      setAvgRate(response?.data?.average_Rate);
     } catch (error) {
       console.error("Failed to fetch profile data", error);
     }
@@ -113,7 +113,16 @@ let [avgRate,setAvgRate] =useState(null)
     getAvgRate();
   }, []);
 
-  
+  let { addToCart } = useContext(CartContext);
+
+  async function addcart(id) {
+    let res = await addToCart(id);
+    console.log("heloo add to cart ", res);
+    if (res.data.msg === "added") {
+      toast.success("product added Successfully");
+    } else {
+    }
+  }
   return (
     <>
       <div className="container mb-5 pb-5 overflow-hidden">
@@ -144,47 +153,76 @@ let [avgRate,setAvgRate] =useState(null)
                 <div className="mx-4 my-3 ">
                   {userType === "vendor" ? null : (
                     <>
-         
-                      <div  className="d-flex justify-content-end mx-4 my-3"> 
-                        {dataFavorite?.find(
-                          (favProduct) => favProduct.id === detailPro?.id
-                        ) ? (
-                          <div
-                            className={`${styles.wish_style} bg-danger`}
-                            onClick={() => deletefavorite(detailPro?.id)}
-                          >
-                            <i  class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}></i>
-                          </div>
-                        ) : (
-                          <div
-                            className={`${styles.wish_style}`}
-                            onClick={() => addfavorite(detailPro?.id)}
-                          >
-                            <i  class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}></i>
-                          </div>
-                        )}
+                      <div className="d-flex justify-content-between  my-3">
+                        <div
+                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                        >
+                          {detailPro?.prodOnSale ? (
+                            <span className={`${styles.sale_product}`}>
+                              Sales
+                            </span>
+                          ) : null}
+                        </div>
+                        <div>
+                          {dataFavorite?.find(
+                            (favProduct) => favProduct.id === detailPro?.id
+                          ) ? (
+                            <div
+                              className={`${styles.wish_style} bg-danger`}
+                              onClick={() => deletefavorite(detailPro?.id)}
+                            >
+                              <i
+                                class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
+                              ></i>
+                            </div>
+                          ) : (
+                            <div
+                              className={`${styles.wish_style}`}
+                              onClick={() => addfavorite(detailPro?.id)}
+                            >
+                              <i
+                                class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
+                              ></i>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </>
                   )}
-                  <h5 className="pb-2">
+                  <h5 className={`pb-2 ${styles.Font}`}>
                     {detailPro?.prodSubCategory.subCateName}
                   </h5>
-                  <h3 className=" pb-3">{detailPro?.prodName}</h3>
-                  {avgRate?
-                  <p>
-                  <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
-                  <span className="fs-4">{avgRate}</span>
-                </p>
-                
-                :null}
-                  
+                  <h3 className={`pb-2 ${styles.Font}`}>{detailPro?.prodName}</h3>
+                  {avgRate ? (
+                    <p>
+                      <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
+                      <span className="fs-4">{avgRate}</span>
+                    </p>
+                  ) : null}
+
                   <h5 className="pb-2">
                     Created By {detailPro?.prodVendor.shopname}
                   </h5>
 
-                  <p className="fs-4">{detailPro?.prodPrice}EGP </p>
+                  {/* <p className="fs-4">{detailPro?.prodPrice}EGP </p> */}
+                  <div className="d-flex justify-content-start align-items-center">
+                    {detailPro?.discounted_price ===
+                   detailPro?.original_price ? (
+                      <p className="fs-5 ">{detailPro?.prodPrice} EGP</p>
+                    ) : (
+                      <>
+                        <p className="fs-5  me-4 text-decoration-line-through">
+                          {detailPro?.original_price} EGP
+                        </p>
+                        <p className="fs-5">
+                          {detailPro?.discounted_price} EGP
+                        </p>
+                      </>
+                    )}
+                  </div>
 
                   <p>{detailPro?.prodDescription}</p>
+
                   {userType === "vendor" ? (
                     <Link to="/addProduct">
                       <button
@@ -194,28 +232,46 @@ let [avgRate,setAvgRate] =useState(null)
                       </button>
                     </Link>
                   ) : (
-                    <button
-                      className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
-                    >
-                      ADD TO CART
-                    </button>
+                    // <button
+                    //   className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                    // >
+                    //   ADD TO CART
+                    // </button>
+                    <div className=" d-flex justify-content-end">
+                      <button
+                        className={`${styles.button_style} ${styles.cart}`}
+                        onClick={() => addcart(detailPro?.id)}
+                      >
+                        <i class="fa-solid fa-cart-shopping cart"></i>
+                      </button>
+                    </div>
                   )}
                   <Link
                     to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
                   >
                     <button
-                      className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                      className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                     >
                       View Product Vendor {detailPro?.prodVendor.shopname}
                     </button>
                   </Link>
-                  <Link
-                    to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}
-                  >
+                  {userType === "customer" ? (
+                    <Link
+                      to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}
+                    >
+                      <button
+                        className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                      >
+                        Rate Product {detailPro?.prodName}
+                      </button>
+                    </Link>
+                  ) : null}
+
+                  <Link to={`/comment/${detailPro?.id}/${detailPro?.prodName}`}>
                     <button
                       className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                     >
-                     Rate Product {detailPro?.prodName}
+                      All Comment Product {detailPro?.prodName}
                     </button>
                   </Link>
                 </div>
