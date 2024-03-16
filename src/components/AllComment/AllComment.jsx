@@ -40,7 +40,7 @@ export default function AllComment() {
         <Link to="/" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
-        <span className={`${styles.span_profile}`}>&gt;Shop</span>
+        <span className={`${styles.span_profile}`}>&gt;Comment</span>
       </div>
 
       <div className={`container`}>

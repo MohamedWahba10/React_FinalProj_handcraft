@@ -161,7 +161,7 @@ export default function HighestRate() {
                                    {highestData?.map((pro) => (
                                 <div
                                     key={pro.product_id}
-                                    className={`col-md-3 cursor-pointer`}
+                                    className={`col-md-4 cursor-pointer`}
                                 >
                                     <div className={` ${styles.product}`}>
                                         <div
