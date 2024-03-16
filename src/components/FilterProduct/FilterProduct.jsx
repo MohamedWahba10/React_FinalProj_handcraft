@@ -12,6 +12,9 @@ import { CartContext } from "../../Context/CartContext";
 export default function FilterProduct() {
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
+
+
+  
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -282,8 +285,16 @@ export default function FilterProduct() {
                         className="text-decoration-none text-dark "
                       >
                         <div
-                          className={`${styles.above_layer}  p-3 d-flex flex-column justify-content-between `}
-                        ></div>
+                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                        >
+                           {pro.product.prodOnSale?
+                                
+                                <span className={`${styles.sale_product}`}>
+                                 Sales
+                               </span>
+                               :null
+                             }
+                        </div>
                       </Link>
                     </div>
                     <div className={`px-2 `}>
@@ -293,7 +304,25 @@ export default function FilterProduct() {
                           {" "}
                           {pro.prodSubCategory.subCateName}
                         </h5>
-                        <p className="fs-5">{pro.product.prodPrice} EGP</p>
+                        {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
+                      </div>
+                      <div>
+
+
+                      <div className="d-flex justify-content-between align-items-center">
+                      {pro.product.discounted_price === pro.product.original_price ? (
+                                <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
+                              ) : (
+                                <>
+                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} EGP</p>
+                                  <p className="fs-5">
+                                    {pro.product.discounted_price} EGP
+                                  </p>
+                              
+                                </>
+                              )}
+                      </div>
+             
                       </div>
                       <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
                       <div className="my-2">

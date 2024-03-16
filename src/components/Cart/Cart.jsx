@@ -3,13 +3,15 @@ import styles from "./Cart.module.css";
 import { CartContext } from "../../Context/CartContext";
 import Loading from "../Loading/Loading";
 import img1 from "../../assets/images/noun-empty-cart-3592882.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function Cart() {
     let [cartDetails, setcartDetails] = useState({})
     let [apiError, setapiError] = useState("")
     let [isLoading, setIsLoading] = useState(true);
     let [isEmpty, setisEmpty] = useState(true)
-    
+
 
     let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart } = useContext(CartContext)
 
@@ -43,7 +45,7 @@ export default function Cart() {
     }
 
 
-  
+
 
     async function clearallCart(e) {
         e.preventDefault();
@@ -74,7 +76,7 @@ export default function Cart() {
         }
     }
 
-    
+
     useEffect(() => {
         getcartDetails()
 
@@ -84,12 +86,12 @@ export default function Cart() {
     }, []);
 
     return (
-        <>     
+        <>
             {isLoading ? (
                 <Loading />
             ) : (
-                
-                isEmpty ||!cartDetails || cartDetails.total_items_count === 0 ? (
+
+                isEmpty || !cartDetails || cartDetails.total_items_count === 0 ? (
                     <div className="container-fluid mt-100">
                         <div className="row">
                             <div className="col-md-12">
@@ -135,7 +137,7 @@ export default function Cart() {
                                                     <div className="col-lg-5">
                                                         <div className="me-lg-5">
                                                             <div className="d-flex">
-                                                                <img src={ele.item_image} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
+                                                                <img src={`http://127.0.0.1:8000${ele.item_image}`} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
                                                                 <div className="">
                                                                     <a href="#" className="nav-link">{ele.item_name}</a>
                                                                     <p className="text-muted"><span className='fw-bold'>Description :</span> {ele.item_description}</p>
@@ -155,8 +157,10 @@ export default function Cart() {
                                                     </div>
                                                     <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                         <div className="float-md-end">
-                                                            <button className="btn btn-light border px-2 icon-hover-primary"><i className="fas fa-heart fa-lg px-1 text-secondary"></i></button>
-                                                            <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
+
+                                                            <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">
+                                                                Remove <FontAwesomeIcon icon={faTrash} className="ms-1" />
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
