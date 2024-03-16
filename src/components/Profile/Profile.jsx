@@ -8,6 +8,7 @@ import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
+import FavoriteUser from "../FavoriteUser/FavoriteUser";
 
 export default function Profile() {
   const [dataUser, setData] = useState(null);
@@ -31,22 +32,26 @@ export default function Profile() {
     ProfileData();
   }, []);
   const imageUrl = dataUser?.data.message.imageUrl;
+
   const userType = dataUser?.data.message.usertype;
   const userData = dataUser?.data?.message;
-  const [isLoading,setIsLoading]=useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   console.log("userData", userData);
 
-  const [allData,setAllData]=useState([])
+  const [allData, setAllData] = useState([]);
   async function getProduct() {
     setIsLoading(true);
     try {
-      let {data} = await axios.get(`http://127.0.0.1:8000/api/product/vendor/`, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("userToken")}`,
-        },
-      });
+      let { data } = await axios.get(
+        `http://127.0.0.1:8000/api/product/vendor/`,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
       console.log("response Product vendor");
-      setAllData(data)
+      setAllData(data);
       setIsLoading(false);
       return data;
     } catch (error) {
@@ -56,10 +61,10 @@ export default function Profile() {
       return null; // or throw error if necessary
     }
   }
-const Products = allData;
+  const Products = allData;
   console.log("product vendorrrrrr", Products);
-    useEffect(() => {
-    getProduct(); 
+  useEffect(() => {
+    getProduct();
   }, []);
   async function deleteProduct(id) {
     try {
@@ -70,7 +75,7 @@ const Products = allData;
       });
       toast.success("Product removed successfully");
       // refetchProducts();
-      getProduct()
+      getProduct();
     } catch (error) {
       console.error("Failed to delete product", error);
       toast.error("Failed to remove product");
@@ -143,23 +148,22 @@ const Products = allData;
                   {dataUser?.data.message.last_name}
                 </h4>
                 <div>
-                  
                   <Link to="/updateProfile">
                     <button className={`fs-5 py-2 ${styles.update_button}`}>
                       UPDATE PROFILE
                     </button>
                   </Link>
                   <div>
-                  <Link to="/changePassword">
-                    <button
-                      type="button"
-                      className={`${styles.login_button}`}
-                      // disabled={!(loginForm.isValid && loginForm.dirty)}
-                    >
-                      Change Password
-                    </button>
-                  </Link>
-                </div>
+                    <Link to="/changePassword">
+                      <button
+                        type="button"
+                        className={`${styles.login_button}`}
+                        // disabled={!(loginForm.isValid && loginForm.dirty)}
+                      >
+                        Change Password
+                      </button>
+                    </Link>
+                  </div>
                 </div>
                 {userType === "vendor" ? (
                   <>
@@ -217,69 +221,163 @@ const Products = allData;
                       <>
                         <div className="container">
                           <div className="row">
-                            {Array.isArray(Products) && Products?.map((pro) => (
-                              <div
-                                key={pro.id}
-                                className="col-lg-4 col-md-6 cursor-pointer"
-                              >
-                                <div className="product py-3 px-2">
-                                  <Link
-                                    to={`/detail/${pro.id}`}
+                            {Array.isArray(Products) &&
+                              Products?.map((pro) => (
+                                // <div
+                                //   key={pro.id}
+                                //   className="col-lg-4 col-md-6 cursor-pointer"
+                                // >
+                                //   <div className="product py-3 px-2">
+                                //     <Link
+                                //       to={`/detail/${pro.id}`}
 
-                                    className="text-decoration-none text-dark"
-                                  >
-                                    <div className={`${styles.product_info}`}>
+                                //       className="text-decoration-none text-dark"
+                                //     >
+                                //       <div className={`${styles.product_info}`}>
+                                //         <img
+                                //           src={`${pro.prodImageUrl}`}
+                                //           className="w-100"
+                                //           alt={pro.prodName}
+                                //         />
+                                //         <div
+                                //           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                                //         >
+                                //           <div className="d-flex justify-content-end"  onClick={handleAddToCartClick}>
+                                //             {/* <div
+                                //               className={`${styles.delete}`}
+                                //               onClick={() =>
+                                //                 confirmDelete(pro.id)
+                                //               }
+                                //             >
+                                //               <i class="fa-solid fa-trash"></i>
+                                //             </div> */}
+                                //           </div>
+
+                                //           {/* <div className="d-flex justify-content-center align-items-center">
+                                //             {userType === "cusromer" ? null : (
+                                //               <>
+                                //                 <Link
+                                //                   to={`/updateProduct/${pro.id}`}
+
+                                //                 >
+                                //                   <button
+                                //                     className={`${styles.button_style}  fs-6`}
+                                //                   >
+                                //                     Update Product
+                                //                   </button>
+                                //                 </Link>
+                                //                 <Link to={`/detail/${pro.id}`}>
+                                //                   <button
+                                //                     className={`${styles.button_style} fs-6`}
+                                //                   >
+                                //                     QUICK VIEW
+                                //                   </button>
+                                //                 </Link>
+                                //               </>
+                                //             )}
+                                //           </div> */}
+                                //         </div>
+                                //       </div>
+                                //     </Link>
+
+                                //     <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                                //     <p>{pro.prodPrice} EGP</p>
+                                //   </div>
+                                // </div>
+
+                                <div
+                                  key={pro.id}
+                                  className={`col-md-3 cursor-pointer`}
+                                >
+                                  <div className={` ${styles.product}`}>
+                                    <div
+                                      className={`${styles.product_info} ${styles.product} w-100`}
+                                    >
                                       <img
                                         src={`${pro.prodImageUrl}`}
                                         className="w-100"
                                         alt={pro.prodName}
                                       />
-                                      <div
-                                        className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                                      <Link
+                                        to={`/detail/${pro.id}`}
+                                        className="text-decoration-none text-dark "
                                       >
-                                        <div className="d-flex justify-content-end"  onClick={handleAddToCartClick}>
-                                          <div
-                                            className={`${styles.delete}`}
-                                            onClick={() =>
-                                              confirmDelete(pro.id)
-                                            }
-                                          >
-                                            <i class="fa-solid fa-trash"></i>
-                                          </div>
+                                        <div
+                                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                                        >
+                                          {pro.prodOnSale ? (
+                                            <span
+                                              className={`${styles.sale_product}`}
+                                            >
+                                              Sales
+                                            </span>
+                                          ) : null}
                                         </div>
+                                      </Link>
+                                    </div>
+                                    <div className={`px-2 `}>
+                                      <h4
+                                        className={`pb-1 pt-2 ${styles.pro_name}`}
+                                      >
+                                        {pro.prodName}
+                                      </h4>
 
-                                        <div className="d-flex justify-content-center align-items-center">
-                                          {userType === "cusromer" ? null : (
+                                      <div>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                          {pro.discounted_price ===
+                                          pro.original_price ? (
+                                            <p className="fs-5 ">
+                                              {pro.prodPrice} EGP
+                                            </p>
+                                          ) : (
                                             <>
-                                              <Link
-                                                to={`/updateProduct/${pro.id}`}
-                                                
-                                              >
-                                                <button
-                                                  className={`${styles.button_style}  fs-6`}
-                                                >
-                                                  Update Product
-                                                </button>
-                                              </Link>
-                                              <Link to={`/detail/${pro.id}`}>
-                                                <button
-                                                  className={`${styles.button_style} fs-6`}
-                                                >
-                                                  QUICK VIEW
-                                                </button>
-                                              </Link>
+                                              <p className="fs-5 text-decoration-line-through">
+                                                {pro.original_price} EGP
+                                              </p>
+                                              <p className="fs-5">
+                                                {pro.discounted_price} EGP
+                                              </p>
                                             </>
                                           )}
                                         </div>
+                                        <div>
+                                          <p>{pro.prodDescription}</p>
+                                        </div>
+                                      </div>
+
+                                      <div className="my-2">
+                                        <div className="d-flex justify-content-between align-items-center">
+                                          <div>
+                                            <div onClick={handleAddToCartClick}>
+                                              <Link
+                                                to={`/updateProduct/${pro.id}`}
+                                              >
+                                                <button
+                                                  className={`${styles.button_style} ${styles.wish_list}`}
+                                                >
+                                                  <i class="fa-solid fa-pen-to-square"></i>{" "}
+                                                </button>
+                                              </Link>
+                                            </div>
+                                          </div>
+                                          <div>
+                                            <div onClick={handleAddToCartClick}>
+                                              <button
+                                                className={`${styles.button_style} ${styles.cart}`}
+                                                onClick={() =>
+                                                  confirmDelete(pro.id)
+                                                }
+                                              >
+                                                <i class="fa-solid fa-trash"></i>
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </Link>
-
-                                  <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                                  <p>{pro.prodPrice} EGP</p>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
                           </div>
                         </div>
                       </>
@@ -291,7 +389,12 @@ const Products = allData;
               </>
             ) : (
               <>
-                <h3 className="text-center my-5">FAVORITE PRODUCT</h3>
+                <div className="my-5 py-5 container">
+                  <h3 className={`text-center my-5 ${styles.word_Favorite}`}>
+                    FAVORITE PRODUCT
+                  </h3>
+                  <FavoriteUser />
+                </div>
               </>
             )}
           </div>

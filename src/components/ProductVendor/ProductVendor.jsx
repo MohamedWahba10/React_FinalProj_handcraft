@@ -13,10 +13,6 @@ export default function ProductVendor() {
   let { addToCart } = useContext(CartContext);
   const { vendorid, shopname } = useParams();
 
-  const { data, isLoading } = useQuery({
-    queryKey: "products",
-    queryFn: getProduct,
-  });
 
   async function addcart(id) {
     let res = await addToCart(id);
@@ -27,10 +23,10 @@ export default function ProductVendor() {
     }
   }
 
-  const Products = data?.data?.data;
-  console.log("Products:", Products);
-
+const [Products,setDataProsuct]=useState([])
+const [isLoading,setIsLoading]=useState(true)
   async function getProduct() {
+    setIsLoading(true)
     let response = await axios.get(
       `http://127.0.0.1:8000/api/product/vendor/${vendorid}/`,
       {
@@ -39,9 +35,15 @@ export default function ProductVendor() {
         },
       }
     );
+    setDataProsuct(response?.data?.data)
     console.log("my respone==>>", response);
+
+    setIsLoading(false)
     return response;
   }
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   let { addToFavorite, deleteFavoriteProduct, getFavorite } =
     useContext(FavoriteContext);
@@ -128,95 +130,197 @@ export default function ProductVendor() {
           <div className="container mb-5 pb-5 overflow-hidden">
             <div className="row gy-5">
               {Products?.map((pro) => (
-                <div key={pro.id} className="col-md-3 cursor-pointer">
-                  <div className="product py-3 px-2">
-                    <div className={`${styles.product_info}`}>
+                // <div key={pro.id} className="col-md-3 cursor-pointer">
+                //   <div className="product py-3 px-2">
+                //     <div className={`${styles.product_info}`}>
+                //       <img
+                //         src={`${pro.prodImageUrl}`}
+                //         className="w-100"
+                //         alt={pro.prodName}
+                //       />
+
+                //       <Link
+                //         to={`/detail/${pro.id}`}
+                //         className="text-decoration-none text-dark"
+                //       >
+                //         <div
+                //           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                //         >
+                //           <div className="d-flex justify-content-end">
+                //             <div
+                //               className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                //             >
+                //               <div className="d-flex justify-content-end">
+                //                 {userType === "vendor" ? null : (
+                //                   <div onClick={handleAddToCartClick}>
+                //                     {dataFavorite?.find(
+                //                       (favProduct) =>
+                //                         favProduct.id === pro.id
+                //                     ) ? (
+                //                       <div
+                //                         className={`${styles.wish_list} bg-danger`}
+                //                         onClick={() =>
+                //                           deletefavorite(pro.id)
+                //                         }
+                //                       >
+                //                         <i className="fa-regular fa-heart text-white"></i>
+                //                       </div>
+                //                     ) : (
+                //                       <div
+                //                         className={`${styles.wish_list}`}
+                //                         onClick={() =>
+                //                           addfavorite(pro.id)
+                //                         }
+                //                       >
+                //                         <i className="fa-regular fa-heart"></i>
+                //                       </div>
+                //                     )}
+                //                   </div>
+                //                 )}
+                //               </div>
+
+                //               <div className="d-flex justify-content-center align-items-center">
+                //                 <button className={`${styles.button_style}`}>
+                //                   QUICK VIEW
+                //                 </button>
+                //                 {userType === "vendor" ? null : (
+                //                   <div onClick={handleAddToCartClick}>
+                //                     <button
+                //                       className={`${styles.button_style}`}
+                //                       onClick={() => addcart(pro.product.id)}
+                //                     >
+                //                       ADD TO CART
+                //                     </button>
+                //                   </div>
+                //                 )}
+                //               </div>
+                //             </div>
+                //           </div>
+
+                //           <div className="d-flex justify-content-center align-items-center">
+                //             <button className={`${styles.button_style}`}>
+                //               QUICK VIEW
+                //             </button>
+                //             {userType === "vendor" ? null : (
+                //               <div onClick={handleAddToCartClick}>
+                //                 <button
+                //                   className={`${styles.button_style}`}
+                //                   onClick={() => addcart(pro.id)}
+                //                 >
+                //                   ADD TO CART
+                //                 </button>
+                //               </div>
+                //             )}
+                //           </div>
+                //         </div>
+                //       </Link>
+                //     </div>
+
+                //     <h4 className="pb-2 pt-2">{pro.prodName}</h4>
+                //     <p>{pro.prodPrice} EGP</p>
+                //   </div>
+                // </div>
+                <div key={pro.id} className={`col-md-3 cursor-pointer`}>
+                  <div>
+                  <div className={` ${styles.product}`}>
+                    <div
+                      className={`${styles.product_info} ${styles.product} w-100`}
+                    >
                       <img
                         src={`${pro.prodImageUrl}`}
                         className="w-100"
                         alt={pro.prodName}
                       />
-
                       <Link
                         to={`/detail/${pro.id}`}
-                        className="text-decoration-none text-dark"
+                        className="text-decoration-none text-dark "
                       >
                         <div
-                          className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
+                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                         >
-                          <div className="d-flex justify-content-end">
-                            <div
-                              className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                            >
-                              <div className="d-flex justify-content-end">
-                                {userType === "vendor" ? null : (
-                                  <div onClick={handleAddToCartClick}>
-                                    {dataFavorite?.find(
-                                      (favProduct) =>
-                                        favProduct.id === pro.id
-                                    ) ? (
-                                      <div
-                                        className={`${styles.wish_list} bg-danger`}
-                                        onClick={() =>
-                                          deletefavorite(pro.id)
-                                        }
-                                      >
-                                        <i className="fa-regular fa-heart text-white"></i>
-                                      </div>
-                                    ) : (
-                                      <div
-                                        className={`${styles.wish_list}`}
-                                        onClick={() =>
-                                          addfavorite(pro.id)
-                                        }
-                                      >
-                                        <i className="fa-regular fa-heart"></i>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
+                          {pro.prodOnSale ? (
+                            <span className={`${styles.sale_product}`}>
+                              Sales
+                            </span>
+                          ) : null}
+                        </div>
+                      </Link>
+                    </div>
+                    <div className={`px-2 `}>
+                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                        {pro.prodName}
+                      </h4>
 
-                              <div className="d-flex justify-content-center align-items-center">
-                                <button className={`${styles.button_style}`}>
-                                  QUICK VIEW
-                                </button>
-                                {userType === "vendor" ? null : (
-                                  <div onClick={handleAddToCartClick}>
-                                    <button
-                                      className={`${styles.button_style}`}
-                                      onClick={() => addcart(pro.product.id)}
-                                    >
-                                      ADD TO CART
-                                    </button>
+                      {/* <div className="d-flex justify-content-between align-content-center">
+                        <h5 className="pb-1">
+                          {" "}
+                          {pro.prodSubCategory.subCateName}
+                        </h5>
+                        <p className="fs-5">{pro.product.prodPrice} EGP</p>
+                      </div> */}
+
+                      <div>
+                        <div className="d-flex justify-content-between align-items-center">
+                          {pro.discounted_price === pro.original_price ? (
+                            <p className="fs-5 ">{pro.prodPrice} EGP</p>
+                          ) : (
+                            <>
+                              <p className="fs-5 text-decoration-line-through">
+                                {pro.original_price} EGP
+                              </p>
+                              <p className="fs-5">{pro.discounted_price} EGP</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      {/* <h6 className="pb-1">Created By {pro.vendor.shopname}</h6> */}
+                      <div className="my-2">
+                        <div className="d-flex justify-content-between align-items-center">
+                          <div>
+                            {userType === "vendor" ? null : (
+                              <div
+                                // className={`${styles.wish_list}`}
+                                onClick={handleAddToCartClick}
+                              >
+                                {dataFavorite?.find(
+                                  (favProduct) => favProduct.id === pro.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_list} bg-danger`}
+                                    onClick={() => deletefavorite(pro.id)}
+                                  >
+                                    <i className="fa-regular fa-heart text-white"></i>
                                   </div>
-                                )}
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_list} `}
+                                    onClick={() => addfavorite(pro.id)}
+                                  >
+                                    <i className="fa-regular fa-heart "></i>
+                                  </div>
+                                )}{" "}
                               </div>
-                            </div>
+                            )}
                           </div>
-
-                          <div className="d-flex justify-content-center align-items-center">
-                            <button className={`${styles.button_style}`}>
-                              QUICK VIEW
-                            </button>
+                          <div>
                             {userType === "vendor" ? null : (
                               <div onClick={handleAddToCartClick}>
                                 <button
-                                  className={`${styles.button_style}`}
+                                  className={`${styles.button_style} ${styles.cart}`}
                                   onClick={() => addcart(pro.id)}
                                 >
-                                  ADD TO CART
+                                  <i class="fa-solid fa-cart-shopping cart"></i>
                                 </button>
                               </div>
                             )}
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     </div>
-
-                    <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                    <p>{pro.prodPrice} EGP</p>
                   </div>
+
+                  </div>
+                  
                 </div>
               ))}
             </div>

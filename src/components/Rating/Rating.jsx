@@ -27,10 +27,10 @@ export default function RatingProduct() {
         }
       );
 
-      if (response.data.reviews) {
+      if (response?.data?.Message==="Product Rate was added succesfully"||response?.data?.Message==="Product Rate was Updated") {
         navigate("/");
         setisLoading(false);
-        toast.success("Success Rate");
+        toast.success(response.data.Message);
       } else {
         setError(response.data.message);
         console.log("data", response.data.message);

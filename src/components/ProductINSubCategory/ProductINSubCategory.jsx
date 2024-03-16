@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
+import { CartContext } from "../../Context/CartContext";
 
 export default function ProductINSubCategory() {
   const { subCategoryId, subCategoryName, categoryName, categoryId } =
@@ -92,11 +93,21 @@ export default function ProductINSubCategory() {
   useEffect(() => {
     getfavorite();
   }, []);
+  let { addToCart } = useContext(CartContext);
+
+  async function addcart(id) {
+    let res = await addToCart(id);
+    console.log("heloo add to cart ", res);
+    if (res.data.msg === "added") {
+      toast.success("product added Successfully");
+    } else {
+    }
+  }
 
   return (
     <>
       <Helmet>
-        <title>SubCategory</title>
+        <title>Products IN SubCategory</title>
       </Helmet>
       <div className={`${styles.header_profile} py-5 mb-5 text-center `}>
         <h1>SubCategory</h1>
@@ -128,80 +139,127 @@ export default function ProductINSubCategory() {
                   (productItem) =>
                     productItem.prodSubCategory.id == subCategoryId
                 )
-                .map((productItem) => (
+                .map((pro) => (
                   <div
-                    key={productItem.product.id}
-                    className="col-md-3 cursor-pointer"
+                    key={pro.product.id}
+                    className={`col-md-3 cursor-pointer`}
                   >
-                    <div className="product py-3 px-2">
-                      <Link
-                        to={`/detail/${productItem.product.id}`}
-                        className="text-decoration-none text-dark"
-                      >
-                        <div className={`${styles.product_info}`}>
-                          <img
-                            src={`${productItem.product.prodImageUrl}`}
-                            className="w-100"
-                            alt={productItem.product.prodName}
-                          />
-                          <div
-                            className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                          >
-                            <div className="d-flex justify-content-end">
-                              <div onClick={handleAddToCartClick}>
-                                {userType === "vendor" ? null : (
-                                  <div>
-                                    {dataFavorite?.find(
-                                      (favProduct) =>
-                                        favProduct.id === productItem.product.id
-                                    ) ? (
-                                      <div
-                                        className={`${styles.wish_list} bg-danger`}
-                                        onClick={() =>
-                                          deletefavorite(productItem.product.id)
-                                        }
-                                      >
-                                        <i className="fa-regular fa-heart text-white"></i>
-                                      </div>
-                                    ) : (
-                                      <div
-                                        className={`${styles.wish_list}`}
-                                        onClick={() =>
-                                          addfavorite(productItem.product.id)
-                                        }
-                                      >
-                                        <i className="fa-regular fa-heart"></i>
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
+                    <div className={` ${styles.product}`}>
+                      <div className={`${styles.product_info} w-100`}>
+                        <img
+                          src={`${pro.product.prodImageUrl}`}
+                          className="w-100"
+                          alt={pro.product.prodName}
+                        />
+                        <Link
+                          to={`/detail/${pro.product.id}`}
+                          className="text-decoration-none text-dark "
+                        >
+                           <div
+                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                        >
+                           {pro.product.prodOnSale?
+                                
+                                <span className={`${styles.sale_product}`}>
+                                 Sales
+                               </span>
+                               :null
+                             }
+                        </div>
+                        </Link>
+                      </div>
+                      <div className={`px-2 `}>
+                        <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                          {pro.product.prodName}
+                        </h4>
+                        <div className="d-flex justify-content-between align-content-center">
+                          <h5 className="pb-1">
+                            {" "}
+                            {pro.prodSubCategory.subCateName}
+                          </h5>
+                          {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
+                        </div>
+                        <div className="d-flex justify-content-between align-items-center">
+                      {pro.product.discounted_price === pro.product.original_price ? (
+                                <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
+                              ) : (
+                                <>
+                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} EGP</p>
+                                  <p className="fs-5">
+                                    {pro.product.discounted_price} EGP
+                                  </p>
+                              
+                                </>
+                              )}
+                      </div>
+                        <h6 className="pb-1">
+                          Created By {pro.vendor.shopname}
+                        </h6>
+                        <div className="my-2">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              {userType === "vendor" ? null : (
+                                <div
+                                  // className={`${styles.wish_list}`}
+                                  onClick={handleAddToCartClick}
+                                >
+                                  {dataFavorite?.find(
+                                    (favProduct) =>
+                                      favProduct.id === pro.product.id
+                                  ) ? (
+                                    <div
+                                      className={`${styles.wish_list} bg-danger`}
+                                      onClick={() =>
+                                        deletefavorite(pro.product.id)
+                                      }
+                                    >
+                                      <i className="fa-regular fa-heart text-white"></i>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`${styles.wish_list} `}
+                                      onClick={() =>
+                                        addfavorite(pro.product.id)
+                                      }
+                                    >
+                                      <i className="fa-regular fa-heart "></i>
+                                    </div>
+                                  )}{" "}
+                                </div>
+                              )}
                             </div>
-
-                            <div className="d-flex justify-content-center align-items-center">
-                              <button className={`${styles.button_style}`}>
-                                QUICK VIEW
-                              </button>
+                            <div>
                               {userType === "vendor" ? null : (
                                 <div onClick={handleAddToCartClick}>
-                                  <button className={`${styles.button_style}`}>
-                                    ADD TO CART
+                                  <button
+                                    className={`${styles.button_style} ${styles.cart}`}
+                                    onClick={() => addcart(pro.product.id)}
+                                  >
+                                    <i class="fa-solid fa-cart-shopping cart"></i>
                                   </button>
                                 </div>
                               )}
                             </div>
                           </div>
                         </div>
-                      </Link>
-
-                      <h4 className="pb-2 pt-2">
-                        {productItem.product.prodName}
-                      </h4>
-                      <p>{productItem.product.prodPrice} EGP</p>
+                      </div>
                     </div>
                   </div>
                 ))}
             </div>
+            {product?.filter((productItem) => {
+              if (productItem.prodSubCategory.id == subCategoryId) {
+                return true; // Include the product if the condition is met
+              } else {
+                return false; // Exclude the product if the condition is not met
+              }
+            }).length === 0 && (
+              <>
+                <div className={`${styles.No_product}`}>
+                  <h1>No Product IN Category {subCategoryName}</h1>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}

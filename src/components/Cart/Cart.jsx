@@ -152,22 +152,20 @@ export default function Cart() {
                                                             <div><button onClick={(e) => increase(ele.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
                                                         </div>
                                                         <div>
-                                                            <p className="h6 mt-2"> {ele.item_price} EGP/ per item </p>
+                                                            <p className="h6 mt-2"> {ele.item_price} $/ per item </p>
                                                         </div>
                                                     </div>
                                                     <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                         <div className="float-md-end">
-
-                                                            <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">
-                                                                Remove <FontAwesomeIcon icon={faTrash} className="ms-1" />
-                                                            </button>
+       
+                                                            <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             ))}
                                             <div className="border-top pt-4 mx-4 mb-4">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price} EGP</span></p>
+                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price} $</span></p>
                                                     <a href="checkout" className="btn text-light bg-dark "> Proceed to checkout</a>
                                                 </div>
                                             </div>
@@ -185,12 +183,12 @@ export default function Cart() {
                                             </div>
                                             <div className="d-flex justify-content-between">
                                                 <p className="h6">Delivery:</p>
-                                                <p className="h6">50 EGP</p>
+                                                <p className="h6">10 $</p>
                                             </div>
                                             <hr />
                                             <div className="d-flex justify-content-between">
                                                 <p className="h5">Total:</p>
-                                                <p className="h5">{cartDetails.total_items_price} EGP</p>
+                                                <p className="h5">{cartDetails.total_items_price} $</p>
                                             </div>
                                             <a href="/checkout" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
                                         </div>

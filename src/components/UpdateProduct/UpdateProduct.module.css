@@ -40,3 +40,10 @@
   color: black;
   cursor: pointer;
 }
+.form_UpdateProduct {
+  padding: 25px 25px;
+  border-radius: 20px;
+  background-color: #fff;
+
+  filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+}

@@ -49,40 +49,40 @@ export default function Payment() {
                         <Link to="/cart" className="btn btn-black bg-black btn-rounded text-white back-button">Go back</Link>
                     </div>
                 </div>
-  {/* ------------------------------------------------------------------------------------------------------------------ ----------*/}
-               
-               
-               
-               
-               
-                <div className="col-lg-9">
-                <div className="card border shadow-0">
-                    <div className="card-body">
-                        <h6 className="card-title">Cart summary</h6>
-                        <hr />
-                        <div className="d-flex justify-content-between">
-                            <p className="h6">Quantitiy:</p>
-                            <p className="h6"> {cartDetails.total_items_count} </p>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                            <p className="h6">Delivery:</p>
-                            <p className="h6">50 EGP</p>
-                        </div>
-                        <hr />
-                        <div className="d-flex justify-content-between">
-                            <p className="h5">Total:</p>
-                            <p className="h5">{cartDetails.total_items_price} EGP</p>
-                        </div>
-                        {cartID === undefined && <Navigate to="/checkout" />}
-                        <form action={`http://127.0.0.1:8000/api/order/create-checkout-session/${cartID}/`} method="POST">
-                            <div className="float-end">
-                                <button type="submit" className="btn btn-primary btn-rounded bg-black">Process payment</button>
-                            </div>
-                        </form>
+                {/* ------------------------------------------------------------------------------------------------------------------ ----------*/}
 
+
+
+
+
+                <div className="col-lg-9">
+                    <div className="card border shadow-0">
+                        <div className="card-body">
+                            <h2 className="card-title">Cart summary</h2>
+                            <hr />
+                            <div className="d-flex justify-content-between">
+                                <p className="h4">Quantitiy:</p>
+                                <p className="h4"> {cartDetails.total_items_count} </p>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                                <p className="h4">Delivery:</p>
+                                <p className="h4">10 $</p>
+                            </div>
+                            <hr />
+                            <div className="d-flex justify-content-between">
+                                <p className="h2">Total:</p>
+                                <p className="h2">{cartDetails.total_items_price} $</p>
+                            </div>
+                            {cartID === undefined && <Navigate to="/checkout" />}
+                            <form action={`http://127.0.0.1:8000/api/order/create-checkout-session/${cartID}/`} method="POST">
+                                <div className="float-end">
+                                    <button type="submit" className="btn btn-primary btn-rounded bg-black">Process payment</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+
 
             </div>
         </>
