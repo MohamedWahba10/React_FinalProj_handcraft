@@ -151,18 +151,18 @@ export default function ProductDetail() {
             <div className="col-md-6 offset-md-1 py-3 px-2 my-4">
               <div className="w-100 py-3 px-2 my-5">
                 <div className="mx-4 my-3 ">
-                  {userType === "vendor" ? null : (
-                    <>
-                      <div className="d-flex justify-content-between  my-3">
-                        <div
-                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
-                        >
-                          {detailPro?.prodOnSale ? (
-                            <span className={`${styles.sale_product}`}>
-                              Sales
-                            </span>
-                          ) : null}
-                        </div>
+                  <>
+                    <div className="d-flex justify-content-between  my-3">
+                      <div
+                        className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                      >
+                        {detailPro?.prodOnSale ? (
+                          <span className={`${styles.sale_product}`}>
+                            Sales
+                          </span>
+                        ) : null}
+                      </div>
+                      {userType === "vendor" ? null : (
                         <div>
                           {dataFavorite?.find(
                             (favProduct) => favProduct.id === detailPro?.id
@@ -186,39 +186,43 @@ export default function ProductDetail() {
                             </div>
                           )}
                         </div>
-                      </div>
-                    </>
-                  )}
+                      )}
+                    </div>
+                  </>
+
                   <h5 className={`pb-2 ${styles.Font}`}>
                     {detailPro?.prodSubCategory.subCateName}
                   </h5>
-                  <h3 className={`pb-2 ${styles.Font}`}>{detailPro?.prodName}</h3>
+                  <h3 className={`pb-2 ${styles.Font}`}>
+                    {detailPro?.prodName}
+                  </h3>
                   {avgRate ? (
                     <p>
                       <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
                       <span className="fs-4">{avgRate}</span>
                     </p>
                   ) : null}
+                  <div className="d-flex justify-content-between align-items-between">
+                    <h5 className="pb-2">
+                      Created By {detailPro?.prodVendor.shopname}
+                    </h5>
 
-                  <h5 className="pb-2">
-                    Created By {detailPro?.prodVendor.shopname}
-                  </h5>
-
-                  {/* <p className="fs-4">{detailPro?.prodPrice}EGP </p> */}
-                  <div className="d-flex justify-content-start align-items-center">
-                    {detailPro?.discounted_price ===
-                   detailPro?.original_price ? (
-                      <p className="fs-5 ">{detailPro?.prodPrice} EGP</p>
-                    ) : (
-                      <>
-                        <p className="fs-5  me-4 text-decoration-line-through">
-                          {detailPro?.original_price} EGP
-                        </p>
-                        <p className="fs-5">
-                          {detailPro?.discounted_price} EGP
-                        </p>
-                      </>
-                    )}
+                    {/* <p className="fs-4">{detailPro?.prodPrice}EGP </p> */}
+                    <div className="d-flex justify-content-start align-items-center">
+                      {detailPro?.discounted_price ===
+                      detailPro?.original_price ? (
+                        <p className="fs-5 ">{detailPro?.prodPrice} EGP</p>
+                      ) : (
+                        <>
+                          <p className="fs-5  me-4 text-decoration-line-through">
+                            {detailPro?.original_price} EGP
+                          </p>
+                          <p className="fs-5">
+                            {detailPro?.discounted_price} EGP
+                          </p>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   <p>{detailPro?.prodDescription}</p>
@@ -226,7 +230,7 @@ export default function ProductDetail() {
                   {userType === "vendor" ? (
                     <Link to="/addProduct">
                       <button
-                        className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                        className={` mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                       >
                         ADD PROUDUCT
                       </button>

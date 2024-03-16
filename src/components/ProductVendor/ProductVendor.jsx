@@ -273,7 +273,7 @@ const [isLoading,setIsLoading]=useState(true)
                           )}
                         </div>
                       </div>
-                      {/* <h6 className="pb-1">Created By {pro.vendor.shopname}</h6> */}
+                      <p className="pb-1">{pro.prodDescription}</p>
                       <div className="my-2">
                         <div className="d-flex justify-content-between align-items-center">
                           <div>

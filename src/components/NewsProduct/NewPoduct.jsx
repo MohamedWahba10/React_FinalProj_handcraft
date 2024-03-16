@@ -159,7 +159,8 @@ export default function NewProduct() {
         <>
        
           <>
-            <div className="container my-5 py-5">
+          <div className={`${styles.Section_new}`}>
+          <div className="container my-5 py-5">
               <h1 className={`${styles.word_news}`}>NEWS</h1>
               <div className="row gy-5 ">
                 <Slider {...settings} className="w-100 ">
@@ -269,6 +270,8 @@ export default function NewProduct() {
                 </Slider>
               </div>
             </div>
+          </div>
+         
           </>
         </>
       )}

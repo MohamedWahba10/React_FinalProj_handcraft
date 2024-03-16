@@ -70,18 +70,18 @@ export default function HighestRate() {
 
     const [highestData, setHighestData] = useState([]);
 
-  const[isLoadingHighestData,setIsLoadingHighestData]=useState(true)
+    const [isLoadingHighestData, setIsLoadingHighestData] = useState(true)
     // //////////////////////////////////////////////////////////////////////////////////
-   async function getProduct() {
-    setIsLoadingHighestData(true)
-        let response =await axios.get(`http://127.0.0.1:8000/api/product/top_rating/`, {
+    async function getProduct() {
+        setIsLoadingHighestData(true)
+        let response = await axios.get(`http://127.0.0.1:8000/api/product/top_rating/`, {
             headers: {
                 Authorization: `Token ${localStorage.getItem("userToken")}`,
             },
         });
         setIsLoadingHighestData(false)
         setHighestData(response?.data?.top_rated_products)
-        console.log("heighestRate.........................",response)
+        console.log("heighestRate.........................", response)
         return response;
     }
     const handleAddToCartClick = (e) => {
@@ -149,126 +149,129 @@ export default function HighestRate() {
                 <Loading />
             ) : (
                 <>
-                    <div className="container my-4">
+                    <div className={`${styles.Section_new}`}>
+                        <div className="container py-3">
 
-                        <div className="row gy-5">
-                            {highestData?  (
-                                
-                                <>
-                                <h1 className={`${styles.sales_product_word}`}>
-                                         HIGHEST PRODUCT RATE
-                                </h1>
-                                   {highestData?.map((pro) => (
-                                <div
-                                    key={pro.product_id}
-                                    className={`col-md-4 cursor-pointer`}
-                                >
-                                    <div className={` ${styles.product}`}>
-                                        <div
-                                            className={`${styles.product_info} ${styles.product} w-100`}
-                                        >
-                                            <img
-                                                src={`${pro.prodImageUrl}`}
-                                                className="w-100"
-                                                alt={pro.product_name}
-                                            />
-                                            <Link
-                                                to={`/detail/${pro.product_id}`}
-                                                className="text-decoration-none text-dark"
+                            <div className="row gy-5">
+                                {highestData ? (
+
+                                    <>
+                                        <h1 className={`${styles.sales_product_word}`}>
+                                            HIGHEST PRODUCT RATE
+                                        </h1>
+                                        {highestData?.map((pro) => (
+                                            <div
+                                                key={pro.product_id}
+                                                className={`col-md-4 cursor-pointer`}
                                             >
-                                                <div
-                                                    className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
-                                                >
-                                                    {pro.prodOnSale ? (
-                                                        <span className={`${styles.sale_product}`}>
-                                                            Sales
-                                                        </span>
-                                                    ) : null}
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className={`px-2 `}>
-                                            <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
-                                                {pro.product_name}
-                                            </h4>
-                                            <div className="d-flex justify-content-between align-content-center">
-                                                {/* <h5 className="pb-1">
-                          {pro.prodSubCategory.subCateName}
-                        </h5> */}
-                                            </div>
-                                            <div>
-                                                <div className="d-flex justify-content-between align-items-center">
-                                                    <p>
-                                                        <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
-                                                        <span className="fs-4">{pro.average_rating}</span>
-                                                    </p>
-
-                                                    <p className="fs-5">
-                                                        {pro.product_price} EGP
-                                                    </p>
-
-
-
-
-                                                </div>
-                                            </div>
-                                            <p>
-                                                {pro.prodDescription}
-                                            </p>
-                                            <div className="my-2">
-                                                <div className="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        {userType === "vendor" ? null : (
-                                                            <div onClick={handleAddToCartClick}>
-                                                                {dataFavorite?.find(
-                                                                    (favProduct) =>
-                                                                        favProduct.id === pro.product_id
-                                                                ) ? (
-                                                                    <div
-                                                                        className={`${styles.wish_list} bg-danger`}
-                                                                        onClick={() =>
-                                                                            deletefavorite(pro.product_id)
-                                                                        }
-                                                                    >
-                                                                        <i className="fa-regular fa-heart text-white"></i>
-                                                                    </div>
-                                                                ) : (
-                                                                    <div
-                                                                        className={`${styles.wish_list} `}
-                                                                        onClick={() =>
-                                                                            addfavorite(pro.product_id)
-                                                                        }
-                                                                    >
-                                                                        <i className="fa-regular fa-heart "></i>
-                                                                    </div>
-                                                                )}
+                                                <div className={` ${styles.product}`}>
+                                                    <div
+                                                        className={`${styles.product_info} ${styles.product} w-100`}
+                                                    >
+                                                        <img
+                                                            src={`${pro.prodImageUrl}`}
+                                                            className="w-100"
+                                                            alt={pro.product_name}
+                                                        />
+                                                        <Link
+                                                            to={`/detail/${pro.product_id}`}
+                                                            className="text-decoration-none text-dark"
+                                                        >
+                                                            <div
+                                                                className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                                                            >
+                                                                {pro.prodOnSale ? (
+                                                                    <span className={`${styles.sale_product}`}>
+                                                                        Sales
+                                                                    </span>
+                                                                ) : null}
                                                             </div>
-                                                        )}
+                                                        </Link>
                                                     </div>
-                                                    <div>
-                                                        {userType === "vendor" ? null : (
-                                                            <div onClick={handleAddToCartClick}>
-                                                                <button
-                                                                    className={`${styles.button_style} ${styles.cart}`}
-                                                                    onClick={() => addcart(pro.product_id)}
-                                                                >
-                                                                    <i className="fa-solid fa-cart-shopping cart"></i>
-                                                                </button>
+                                                    <div className={`px-2 `}>
+                                                        <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                                                            {pro.product_name}
+                                                        </h4>
+                                                        <div className="d-flex justify-content-between align-content-center">
+                                                            {/* <h5 className="pb-1">
+  {pro.prodSubCategory.subCateName}
+</h5> */}
+                                                        </div>
+                                                        <div>
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                <p>
+                                                                    <i className="fa-solid fa-star text-warning pe-2 fs-4"></i>
+                                                                    <span className="fs-4">{pro.average_rating}</span>
+                                                                </p>
+
+                                                                <p className="fs-5">
+                                                                    {pro.product_price} EGP
+                                                                </p>
+
+
+
+
                                                             </div>
-                                                        )}
+                                                        </div>
+                                                        <p>
+                                                            {pro.prodDescription}
+                                                        </p>
+                                                        <div className="my-2">
+                                                            <div className="d-flex justify-content-between align-items-center">
+                                                                <div>
+                                                                    {userType === "vendor" ? null : (
+                                                                        <div onClick={handleAddToCartClick}>
+                                                                            {dataFavorite?.find(
+                                                                                (favProduct) =>
+                                                                                    favProduct.id === pro.product_id
+                                                                            ) ? (
+                                                                                <div
+                                                                                    className={`${styles.wish_list} bg-danger`}
+                                                                                    onClick={() =>
+                                                                                        deletefavorite(pro.product_id)
+                                                                                    }
+                                                                                >
+                                                                                    <i className="fa-regular fa-heart text-white"></i>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div
+                                                                                    className={`${styles.wish_list} `}
+                                                                                    onClick={() =>
+                                                                                        addfavorite(pro.product_id)
+                                                                                    }
+                                                                                >
+                                                                                    <i className="fa-regular fa-heart "></i>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <div>
+                                                                    {userType === "vendor" ? null : (
+                                                                        <div onClick={handleAddToCartClick}>
+                                                                            <button
+                                                                                className={`${styles.button_style} ${styles.cart}`}
+                                                                                onClick={() => addcart(pro.product_id)}
+                                                                            >
+                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                                </>
-                             )
-                            :null}
-                          
+                                        ))}
+                                    </>
+                                )
+                                    : null}
+
+                            </div>
                         </div>
                     </div>
+
                 </>
 
             )}

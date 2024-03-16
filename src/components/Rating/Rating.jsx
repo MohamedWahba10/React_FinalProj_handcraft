@@ -28,7 +28,7 @@ export default function RatingProduct() {
       );
 
       if (response?.data?.Message==="Product Rate was added succesfully"||response?.data?.Message==="Product Rate was Updated") {
-        navigate("/");
+        navigate(`/comment/${id}/${prodName}`);
         setisLoading(false);
         toast.success(response.data.Message);
       } else {

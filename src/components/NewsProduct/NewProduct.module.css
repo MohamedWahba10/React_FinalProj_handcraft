@@ -142,7 +142,12 @@
   .product .pro_name{
     font-family: "Oswald", sans-serif;
   
-  }
+  
+}
+.Section_new{
+ background-color:  #F7F7F7;
+}
+
 
   .word_news{
     font-family: "Madimi One", sans-serif;
