@@ -138,7 +138,7 @@ export default function Login() {
                   <Link to="/forgetPassword">
                     <button
                       type="button"
-                      className={`border-0 mt-2 `}
+                      className={`border-0 mt-2 `}   style={{ fontWeight: 'bold' }}
                     // disabled={!(loginForm.isValid && loginForm.dirty)}
                     >
                       Forgot Password your passowrd ?
