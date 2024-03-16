@@ -31,7 +31,7 @@ export default function Payment() {
                 <title>Payment</title>
             </Helmet>
             <div className={`row mt-5 shadow mx-3 ${styles.gradientCustom}`}>
-                <div className="col-md-3">
+                <div className="col-md-3 col-lg-7">
                     <div className="text-center" style={{ marginTop: '50px', marginLeft: '10px' }}>
                         <i
                             id="animationDemo"
@@ -40,54 +40,49 @@ export default function Payment() {
                             data-mdb-animation-reset="true"
                             data-mdb-animation-start="onScroll"
                             data-mdb-animation-on-scroll="repeat"
-                            className="fas fa-3x fa-shipping-fast text-black"
+                            className="fas fa-5x fa-shipping-fast text-black" // Increased the size of the icon
                         ></i>
-                        <h3 className="mt-3 text-black">Welcome</h3>
-                        <p className="white-text">You are 30 seconds away from completing your order!</p>
+                        <h3 className="mt-3 text-black" style={{ fontSize: '2rem' }}>Welcome</h3> {/* Increased the font size of the heading */}
+                        <p className="white-text" style={{ fontSize: '1.5rem' }}>You are 30 seconds away from completing your order!</p> {/* Increased the font size of the text */}
                     </div>
                     <div className="text-center mb-5">
                         <Link to="/cart" className="btn btn-black bg-black btn-rounded text-white back-button">Go back</Link>
                     </div>
                 </div>
-                {/* ------------------------------------------------------------------------------------------------------------------ ----------*/}
-
-
-
-
-
-                <div className="col-lg-9">
+    
+                <div className="col-lg-4">
                     <div className="card border shadow-0">
                         <div className="card-body">
                             <h2 className="card-title">Cart summary</h2>
                             <hr />
-                            <div className="d-flex justify-content-between">
-                                <p className="h4">Quantitiy:</p>
-                                <p className="h4"> {cartDetails.total_items_count} </p>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <p className="h4 m-0">Quantity:</p>
+                                <p className="h4 m-0">{cartDetails.total_items_count}</p>
                             </div>
-                            <div className="d-flex justify-content-between">
-                                <p className="h4">Delivery:</p>
-                                <p className="h4">10 $</p>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <p className="h4 m-0">Delivery:</p>
+                                <p className="h4 m-0">10 $</p>
                             </div>
                             <hr />
-                            <div className="d-flex justify-content-between">
-                                <p className="h2">Total:</p>
-                                <p className="h2">{cartDetails.total_items_price} $</p>
+                            <div className="d-flex justify-content-between align-items-center">
+                                <p className="h2 m-0">Total:</p>
+                                <p className="h2 m-0 text-primary">{cartDetails.total_items_price} $</p>
                             </div>
-                            {cartID === undefined && <Navigate to="/checkout" />}
+                           
+                        </div>
+                        
+                    </div>
+                    {cartID === undefined && <Navigate to="/checkout" />}
                             <form action={`http://127.0.0.1:8000/api/order/create-checkout-session/${cartID}/`} method="POST">
-                                <div className="float-end">
+                                <div className="float-end mt-3 mb-3">
                                     <button type="submit" className="btn btn-primary btn-rounded bg-black">Process payment</button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
                 </div>
-
-
             </div>
         </>
-
     );
+    
 }
 
 

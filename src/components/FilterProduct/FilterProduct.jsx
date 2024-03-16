@@ -304,19 +304,19 @@ export default function FilterProduct() {
                           {" "}
                           {pro.prodSubCategory.subCateName}
                         </h5>
-                        {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
+                        {/* <p className="fs-5">{pro.product.prodPrice} $</p> */}
                       </div>
                       <div>
 
 
                       <div className="d-flex justify-content-between align-items-center">
                       {pro.product.discounted_price === pro.product.original_price ? (
-                                <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
+                                <p className="fs-5 ">{pro.product.prodPrice} $</p>
                               ) : (
                                 <>
-                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} EGP</p>
+                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} $</p>
                                   <p className="fs-5">
-                                    {pro.product.discounted_price} EGP
+                                    {pro.product.discounted_price} $
                                   </p>
                               
                                 </>

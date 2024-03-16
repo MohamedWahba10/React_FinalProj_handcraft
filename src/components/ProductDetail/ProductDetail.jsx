@@ -207,18 +207,18 @@ export default function ProductDetail() {
                       Created By {detailPro?.prodVendor.shopname}
                     </h5>
 
-                    {/* <p className="fs-4">{detailPro?.prodPrice}EGP </p> */}
+                    {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
                     <div className="d-flex justify-content-start align-items-center">
                       {detailPro?.discounted_price ===
                       detailPro?.original_price ? (
-                        <p className="fs-5 ">{detailPro?.prodPrice} EGP</p>
+                        <p className="fs-5 ">{detailPro?.prodPrice} $</p>
                       ) : (
                         <>
                           <p className="fs-5  me-4 text-decoration-line-through">
-                            {detailPro?.original_price} EGP
+                            {detailPro?.original_price} $
                           </p>
                           <p className="fs-5">
-                            {detailPro?.discounted_price} EGP
+                            {detailPro?.discounted_price} $
                           </p>
                         </>
                       )}
