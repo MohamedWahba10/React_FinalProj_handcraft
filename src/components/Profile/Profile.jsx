@@ -132,273 +132,259 @@ export default function Profile() {
       {userLoading ? (
         <Loading />
       ) : (
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-4 d-flex justify-content-between flex-column align-items-center">
-              <div className={`m-5 ${styles.profile}`}>
-                <div>
-                  {imageUrl ? (
-                    <img src={`${imageUrl}`} alt="Profile" />
-                  ) : (
-                    <img src={PersonIcon} alt="Default Profile" />
-                  )}
+        <>
+          <div className={`container ${styles.Profile_data}`}>
+            <div className="row gy-5">
+              <div className="col-md-4 bg-danger">
+                <div className={`${styles.profile}`}>
+                  <div>
+                    {imageUrl ? (
+                      <img src={`${imageUrl}`} alt="Profile" width={"100%"} />
+                    ) : (
+                      <img
+                        src={PersonIcon}
+                        alt="Default Profile"
+                        width={"100%"}
+                      />
+                    )}
+                  </div>
                 </div>
-                <h4>
+              </div>
+              <div className="col-md-6  text-start">
+                <h4 className={`${styles.name}`}>
                   {dataUser?.data.message.first_name}{" "}
                   {dataUser?.data.message.last_name}
                 </h4>
-                <div>
-                  <Link to="/updateProfile">
-                    <button className={`fs-5 py-2 ${styles.update_button}`}>
-                      UPDATE PROFILE
-                    </button>
-                  </Link>
-                  <div>
-                    <Link to="/changePassword">
-                      <button
-                        type="button"
-                        className={`${styles.login_button}`}
-                        // disabled={!(loginForm.isValid && loginForm.dirty)}
+                <h5 className="mb-4">User is {userType}</h5>
+                <div className="row gy-3">
+                  <div className="col-md-12">
+                    <div
+                      className={`d-flex justify-content-start align-items-center`}
+                    >
+                      <h4 className={`${styles.name_field} pe-1`}>
+                        Email Address :
+                      </h4>
+                      <h5>{userData.email}</h5>
+                    </div>
+                  </div>
+
+                  {userData.address && (
+                    <div className="col-md-12">
+                      <div
+                        className={`d-flex justify-content-start align-items-center`}
                       >
-                        Change Password
-                      </button>
-                    </Link>
+                        <h4 className={`${styles.name_field} pe-1`}>
+                          Address :
+                        </h4>
+                        <h5>{userData.address}</h5>
+                      </div>
+                    </div>
+                  )}
+
+                  {userData.phone && (
+                    <div className="col-md-12">
+                      <div
+                        className={`d-flex justify-content-start align-items-center`}
+                      >
+                        <h4 className={`${styles.name_field} pe-1`}>Phone :</h4>
+                        <h5>{userData.phone}</h5>
+                      </div>
+                    </div>
+                  )}
+
+                  {userType === "vendor" ? (
+                    <div className="col-md-12">
+                      <div
+                        className={`d-flex justify-content-start align-items-center`}
+                      >
+                        <h4 className={`${styles.name_field} pe-1`}>
+                          Shop Name :
+                        </h4>
+                        <h5>{userData.shopname}</h5>
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className="col-12">
+                    <div className="d-flex justify-content-between align-items-center flex-wrap">
+                      <Link to="/updateProfile">
+                        <button className={`fs-5 py-2 ${styles.update_button}`}>
+                          UPDATE PROFILE
+                        </button>
+                      </Link>
+                      <Link to="/changePassword">
+                        <button
+                          type="button"
+                          className={`fs-5 py-2  ${styles.update_button}`}
+                        >
+                          Change Password
+                        </button>
+                      </Link>
+                      {userType === "vendor" ? (
+                        <>
+                          <Link to="/addProduct">
+                            <button
+                              className={`fs-5 py-2 ${styles.update_button}`}
+                            >
+                              ADD PRODUCT
+                            </button>
+                          </Link>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
-                {userType === "vendor" ? (
-                  <>
-                    <Link to="/addProduct">
-                      <button className={`fs-5 py-2 ${styles.update_button}`}>
-                        ADD PRODUCT
-                      </button>
-                    </Link>
-                  </>
-                ) : null}
-                <div></div>
               </div>
             </div>
-            <div className="col-md-7 offset-md-1 ">
-              <h2>
-                {dataUser?.data.message.first_name}{" "}
-                {dataUser?.data.message.last_name}
-              </h2>
-              <h5 className="mb-4">{userType}</h5>
-              <hr />
-              <h3 className="mt-2 mb-3 fs-5">EMAIL</h3>
+          </div>
+          {/* <div >
+            <div className="row"> */}
 
-              <p className="mb-4">{userData.email}</p>
-              <hr />
-              {userData.address && (
-                <>
-                  <h3 className="mt-2 mb-3 fs-5">ADDRESS</h3>
-                  <p className="mb-4">{userData.address}</p>
-                  <hr />
-                </>
-              )}
-              {userData.phone && (
-                <>
-                  <h3 className="mt-2 mb-3 fs-5">PHONE</h3>
-                  <p className="mb-4">{userData.phone}</p>
-                  <hr />
-                </>
-              )}
-              {userType === "vendor" ? (
-                <>
-                  <h3 className="mt-2 mb-3 fs-5">SHOP NAME</h3>
-                  <p className="mb-4">{userData.shopname}</p>
-                  <hr />
-                </>
-              ) : null}
-            </div>
-            {userType === "vendor" ? (
-              <>
-                {isLoading ? (
-                  <Loading />
-                ) : (
-                  <div className="col-md-12">
-                    <h3 className="text-center my-5">FEATURED PRODUCT</h3>
-                    {Products ? (
-                      <>
-                        <div className="container">
-                          <div className="row">
-                            {Array.isArray(Products) &&
-                              Products?.map((pro) => (
-                                // <div
-                                //   key={pro.id}
-                                //   className="col-lg-4 col-md-6 cursor-pointer"
-                                // >
-                                //   <div className="product py-3 px-2">
-                                //     <Link
-                                //       to={`/detail/${pro.id}`}
-
-                                //       className="text-decoration-none text-dark"
-                                //     >
-                                //       <div className={`${styles.product_info}`}>
-                                //         <img
-                                //           src={`${pro.prodImageUrl}`}
-                                //           className="w-100"
-                                //           alt={pro.prodName}
-                                //         />
-                                //         <div
-                                //           className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                                //         >
-                                //           <div className="d-flex justify-content-end"  onClick={handleAddToCartClick}>
-                                //             {/* <div
-                                //               className={`${styles.delete}`}
-                                //               onClick={() =>
-                                //                 confirmDelete(pro.id)
-                                //               }
-                                //             >
-                                //               <i class="fa-solid fa-trash"></i>
-                                //             </div> */}
-                                //           </div>
-
-                                //           {/* <div className="d-flex justify-content-center align-items-center">
-                                //             {userType === "cusromer" ? null : (
-                                //               <>
-                                //                 <Link
-                                //                   to={`/updateProduct/${pro.id}`}
-
-                                //                 >
-                                //                   <button
-                                //                     className={`${styles.button_style}  fs-6`}
-                                //                   >
-                                //                     Update Product
-                                //                   </button>
-                                //                 </Link>
-                                //                 <Link to={`/detail/${pro.id}`}>
-                                //                   <button
-                                //                     className={`${styles.button_style} fs-6`}
-                                //                   >
-                                //                     QUICK VIEW
-                                //                   </button>
-                                //                 </Link>
-                                //               </>
-                                //             )}
-                                //           </div> */}
-                                //         </div>
-                                //       </div>
-                                //     </Link>
-
-                                //     <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                                //     <p>{pro.prodPrice} EGP</p>
-                                //   </div>
-                                // </div>
-
-                                <div
-                                  key={pro.id}
-                                  className={`col-md-3 cursor-pointer`}
-                                >
-                                  <div className={` ${styles.product}`}>
-                                    <div
-                                      className={`${styles.product_info} ${styles.product} w-100`}
+          {userType === "vendor" ? (
+            <>
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <div className={`container my-5 ${styles.Profile_info}`}>
+                  <h3 className={`text-center my-5 ${styles.word_Favorite}`}>
+                    FEATURED PRODUCT Of Vendor{" "}
+                    {dataUser?.data.message.first_name}{" "}
+                    {dataUser?.data.message.last_name}
+                  </h3>
+                  {Products ? (
+                    <>
+                      <div className="container">
+                        <div className="row">
+                          {Array.isArray(Products) &&
+                            Products?.map((pro) => (
+                              <div
+                                key={pro.id}
+                                className={`col-md-3 cursor-pointer`}
+                              >
+                                <div className={` ${styles.product}`}>
+                                  <div
+                                    className={`${styles.product_info} ${styles.product} w-100`}
+                                  >
+                                    <img
+                                      src={`${pro.prodImageUrl}`}
+                                      className="w-100"
+                                      alt={pro.prodName}
+                                    />
+                                    <Link
+                                      to={`/detail/${pro.id}`}
+                                      className="text-decoration-none text-dark "
                                     >
-                                      <img
-                                        src={`${pro.prodImageUrl}`}
-                                        className="w-100"
-                                        alt={pro.prodName}
-                                      />
-                                      <Link
-                                        to={`/detail/${pro.id}`}
-                                        className="text-decoration-none text-dark "
+                                      <div
+                                        className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                                       >
-                                        <div
-                                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
-                                        >
-                                          {pro.prodOnSale ? (
-                                            <span
-                                              className={`${styles.sale_product}`}
-                                            >
-                                              Sales
-                                            </span>
-                                          ) : null}
-                                        </div>
-                                      </Link>
-                                    </div>
-                                    <div className={`px-2 `}>
-                                      <h4
-                                        className={`pb-1 pt-2 ${styles.pro_name}`}
-                                      >
-                                        {pro.prodName}
-                                      </h4>
+                                        {pro.prodOnSale ? (
+                                          <span
+                                            className={`${styles.sale_product}`}
+                                          >
+                                            Sales
+                                          </span>
+                                        ) : null}
+                                      </div>
+                                    </Link>
+                                  </div>
+                                  <div className={`px-2 `}>
+                                    <h4
+                                      className={`pb-1 pt-2 ${styles.pro_name}`}
+                                    >
+                                      {pro.prodName}
+                                    </h4>
 
-                                      <div>
-                                        <div className="d-flex justify-content-between align-items-center">
-                                          {pro.discounted_price ===
-                                          pro.original_price ? (
-                                            <p className="fs-5 ">
-                                              {pro.prodPrice} EGP
+                                    <div>
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        {pro.discounted_price ===
+                                        pro.original_price ? (
+                                          <p className="fs-5 ">
+                                            {pro.prodPrice} EGP
+                                          </p>
+                                        ) : (
+                                          <>
+                                            <p className="fs-5 text-decoration-line-through">
+                                              {pro.original_price} EGP
                                             </p>
-                                          ) : (
-                                            <>
-                                              <p className="fs-5 text-decoration-line-through">
-                                                {pro.original_price} EGP
-                                              </p>
-                                              <p className="fs-5">
-                                                {pro.discounted_price} EGP
-                                              </p>
-                                            </>
-                                          )}
+                                            <p className="fs-5">
+                                              {pro.discounted_price} EGP
+                                            </p>
+                                          </>
+                                        )}
+                                      </div>
+                                      <div>
+                                        <p>{pro.prodDescription}</p>
+                                      </div>
+                                    </div>
+
+                                    <div className="my-2">
+                                      <div className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                          <div onClick={handleAddToCartClick}>
+                                            <Link
+                                              to={`/updateProduct/${pro.id}`}
+                                            >
+                                              <button
+                                                className={`${styles.button_style} ${styles.wish_list}`}
+                                              >
+                                                <i class="fa-solid fa-pen-to-square"></i>{" "}
+                                              </button>
+                                            </Link>
+                                          </div>
                                         </div>
                                         <div>
-                                          <p>{pro.prodDescription}</p>
-                                        </div>
-                                      </div>
-
-                                      <div className="my-2">
-                                        <div className="d-flex justify-content-between align-items-center">
-                                          <div>
-                                            <div onClick={handleAddToCartClick}>
-                                              <Link
-                                                to={`/updateProduct/${pro.id}`}
-                                              >
-                                                <button
-                                                  className={`${styles.button_style} ${styles.wish_list}`}
-                                                >
-                                                  <i class="fa-solid fa-pen-to-square"></i>{" "}
-                                                </button>
-                                              </Link>
-                                            </div>
-                                          </div>
-                                          <div>
-                                            <div onClick={handleAddToCartClick}>
-                                              <button
-                                                className={`${styles.button_style} ${styles.cart}`}
-                                                onClick={() =>
-                                                  confirmDelete(pro.id)
-                                                }
-                                              >
-                                                <i class="fa-solid fa-trash"></i>
-                                              </button>
-                                            </div>
+                                          <div onClick={handleAddToCartClick}>
+                                            <button
+                                              className={`${styles.button_style} ${styles.cart}`}
+                                              onClick={() =>
+                                                confirmDelete(pro.id)
+                                              }
+                                            >
+                                              <i class="fa-solid fa-trash"></i>
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              ))}
-                          </div>
+                              </div>
+                            ))}
                         </div>
-                      </>
-                    ) : (
-                      <Loading />
-                    )}
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                <div className="my-5 py-5 container">
-                  <h3 className={`text-center my-5 ${styles.word_Favorite}`}>
-                    FAVORITE PRODUCT
-                  </h3>
-                  <FavoriteUser />
+                      </div>
+                    </>
+                  ) : (
+                    <Loading />
+                  )}
+                  {Products.length !== 0 ? null : (
+                    <>
+                      <div
+                        className={`col-12 text-center ${styles.No_product}`}
+                      >
+                        <h1>
+                          No Product Created By{" "}
+                          {dataUser?.data.message.first_name}{" "}
+                          {dataUser?.data.message.last_name}
+                        </h1>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
-          </div>
-        </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={`container my-5 ${styles.Profile_info}`}>
+                <h3 className={`text-center my-5 ${styles.word_Favorite}`}>
+                  FAVORITE PRODUCT
+                </h3>
+                <FavoriteUser />
+              </div>
+            </>
+          )}
+          {/* </div>
+          </div> */}
+        </>
       )}
     </>
   );

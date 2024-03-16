@@ -46,6 +46,9 @@ function NavBar() {
     setToken(localStorage.getItem("userToken"));
   }, []);
   const userType = userData?.data.message.usertype;
+  const firstName = userData?.data.message.first_name;
+  const lastName = userData?.data.message.last_name;
+  const userName =firstName+" " + lastName;
 
   console.log(userType);
 
@@ -300,7 +303,7 @@ function NavBar() {
                     to="/profile"
                     onClick={closeLayer}
                   >
-                    View Profile
+                    View Profile  <span>{userName}{" "}</span>
                   </Link>
                 </div>
               </>
@@ -478,7 +481,7 @@ function NavBar() {
                 ))}
               </div>
             </div> */}
-            <FilterProduct/>
+            <FilterProduct />
 
             {/* <div className={`${styles.wish_list_buttons}  `}>
               <button
