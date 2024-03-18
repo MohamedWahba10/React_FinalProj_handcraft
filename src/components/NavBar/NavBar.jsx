@@ -303,7 +303,7 @@ function NavBar() {
                     to="/profile"
                     onClick={closeLayer}
                   >
-                    View Profile  <span>{userName}{" "}</span>
+                    View Profile  <span style={{fontWeight: "bold" }}>{userName}{" "}</span>                   
                   </Link>
                 </div>
               </>

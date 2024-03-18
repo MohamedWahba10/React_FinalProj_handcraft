@@ -33,6 +33,8 @@ import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 import { CartContext } from "../Context/CartContext.js";
+import { toast } from 'react-toastify';
+
 
 
 
@@ -43,6 +45,25 @@ export default function Router() {
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
+      toast.success("your order is confirmed", {
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          background: "white",
+          color: "black",
+          borderRadius: "5px",
+          textAlign: "center",
+          // Center the toast notification
+          position: "fixed",
+          top: "5%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        },
+      });
       clearCart();
     }
   }, [clearCart, location.pathname]);
