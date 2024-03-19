@@ -10,13 +10,12 @@ import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
 
 export default function FilterProduct() {
-
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
-  let { addToCart , settotal_items_count  } = useContext(CartContext);
-  let {settotal_items_FAV} =useContext(FavoriteContext)
-  
+  let { addToCart, settotal_items_count } = useContext(CartContext);
+  let { settotal_items_FAV } = useContext(FavoriteContext);
+
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -133,15 +132,16 @@ export default function FilterProduct() {
     setSelectedCategory(index);
   };
 
-  let { addToFavorite, deleteFavoriteProduct, getFavorite } = useContext(FavoriteContext);
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
+    useContext(FavoriteContext);
 
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
-     
+      settotal_items_FAV(res?.data?.total_items_count);
+
       getfavorite();
     } else {
       toast.error(res.data.message);
@@ -153,7 +153,7 @@ export default function FilterProduct() {
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -161,14 +161,12 @@ export default function FilterProduct() {
   }
   const [dataFavorite, setDataFavorite] = useState(null);
 
-  
-
   async function getfavorite() {
     try {
       let res = await getFavorite();
       console.log("hello all to favorite", res);
       setDataFavorite(res.data.favorite_products);
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       console.log("dataFavoeite", dataFavorite);
     } catch (error) {
       console.error("Error while fetching favorite:", error);
@@ -178,18 +176,15 @@ export default function FilterProduct() {
     getfavorite();
   }, []);
 
-  
-
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
     if (res?.data?.msg === "added") {
       toast.success("product added Successfully");
-      settotal_items_count(res.data.total_items_count)
+      settotal_items_count(res.data.total_items_count);
     } else {
     }
   }
-  
 
   return (
     <>
@@ -285,7 +280,11 @@ export default function FilterProduct() {
                       className={`${styles.product_info} ${styles.product} w-100`}
                     >
                       <img
+<<<<<<< HEAD
                         src={`http://localhost:8000${pro.product.prodImageThumbnail}`}
+=======
+                        src={`http://127.0.0.1:8000${pro.product.prodImageThumbnail}`}
+>>>>>>> bde9f2357811f81c16c323e39d54ee87ea55bc02
                         className="w-100"
                         alt={pro.product.prodName}
                       />
@@ -296,18 +295,18 @@ export default function FilterProduct() {
                         <div
                           className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                         >
-                           {pro.product.prodOnSale?
-                                
-                                <span className={`${styles.sale_product}`}>
-                                 Sales
-                               </span>
-                               :null
-                             }
+                          {pro.product.prodOnSale ? (
+                            <span className={`${styles.sale_product}`}>
+                              Sales
+                            </span>
+                          ) : null}
                         </div>
                       </Link>
                     </div>
                     <div className={`px-2 `}>
-                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>{pro.product.prodName}</h4>
+                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                        {pro.product.prodName}
+                      </h4>
                       <div className="d-flex justify-content-between align-content-center">
                         <h5 className="pb-1">
                           {" "}
@@ -316,22 +315,21 @@ export default function FilterProduct() {
                         {/* <p className="fs-5">{pro.product.prodPrice} $</p> */}
                       </div>
                       <div>
-
-
-                      <div className="d-flex justify-content-between align-items-center">
-                      {pro.product.discounted_price === pro.product.original_price ? (
-                                <p className="fs-5 ">{pro.product.prodPrice} $</p>
-                              ) : (
-                                <>
-                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} $</p>
-                                  <p className="fs-5">
-                                    {pro.product.discounted_price} $
-                                  </p>
-                              
-                                </>
-                              )}
-                      </div>
-             
+                        <div className="d-flex justify-content-between align-items-center">
+                          {pro.product.discounted_price ===
+                          pro.product.original_price ? (
+                            <p className="fs-5 ">{pro.product.prodPrice} $</p>
+                          ) : (
+                            <>
+                              <p className="fs-5 text-decoration-line-through">
+                                {pro.product.original_price} $
+                              </p>
+                              <p className="fs-5">
+                                {pro.product.discounted_price} $
+                              </p>
+                            </>
+                          )}
+                        </div>
                       </div>
                       <h6 className="pb-1">Created By {pro.vendor.shopname}</h6>
                       <div className="my-2">
