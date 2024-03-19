@@ -170,11 +170,8 @@ function NavBar() {
   return (
     <>
       <nav className={`navbar navbar-expand-lg py-4 px-2 ${styles.nav_style}`}>
-<<<<<<< HEAD
-        <div className="container">
-=======
         <div className="container ">
->>>>>>> a06f07f38b770222cc99d819e3b5dbeae9348dff
+
           {token ? (
             <button
               className={`navbar-toggler border-0 ${styles.icon_button_menue}`}
