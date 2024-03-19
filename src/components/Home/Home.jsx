@@ -39,6 +39,7 @@ export default function Home() {
     ProfileData();
   }, []);
   const first_name = dataUser?.data.message.first_name;
+  const userType = dataUser?.data.message.usertype;
   const last_name = dataUser?.data.message.last_name;
 
   const { data, isLoading } = useQuery({
@@ -82,7 +83,8 @@ export default function Home() {
           <Sales />
           <HighestRate />
           {/* <ChatBot/> */}
-          <div
+          {userType === "customer" ? (
+            <div
             className={`${styles.cursor_pointer} ps-2 navbar-brand ${styles.chat}`}
           >
             <div className={`${styles.chatBot}`} onClick={() => viewSearch()}>
@@ -93,6 +95,9 @@ export default function Home() {
             </div>
    
           </div>
+          ) : null}
+
+          
           {layerVisibleSearch && (
             <div
               className={`${styles.above_layer_wish}`}
