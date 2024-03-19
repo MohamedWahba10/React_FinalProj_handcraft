@@ -31,8 +31,7 @@ export default function Profile() {
   useEffect(() => {
     ProfileData();
   }, []);
-  const imageUrl = dataUser?.data.message.imageUrl;
-
+  const imageUrl =`http://localhost:8000${dataUser?.data.message.image}`;
   const userType = dataUser?.data.message.usertype;
   const userData = dataUser?.data?.message;
   const [isLoading, setIsLoading] = useState(true);
