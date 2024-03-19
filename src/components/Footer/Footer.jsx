@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
     return (
-        <div className="container-fluid mt-5 bg-black">
+        <div className="container-fluid mt-5 bg-black ">
             {/* Footer */}
             <footer className="text-center text-lg-start bg-black text-white" style={{ backgroundColor: '#929fba' }}>
                 {/* Grid container */}
