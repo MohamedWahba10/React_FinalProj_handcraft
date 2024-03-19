@@ -11,13 +11,14 @@ import { FavoriteContext } from "../../Context/FavoriteContext";
 export default function FavoriteUser() {
   let { addToCart } = useContext(CartContext);
   const [isLoading, setIsLoading] = useState(true);
-  let { deleteFavoriteProduct, getFavorite } = useContext(FavoriteContext);
+  let { deleteFavoriteProduct, getFavorite ,settotal_items_FAV} = useContext(FavoriteContext);
 
   async function deletefavorite(id) {
     let res = await deleteFavoriteProduct(id);
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
+      settotal_items_FAV(res.data.total_items_count)
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -32,6 +33,7 @@ export default function FavoriteUser() {
       console.log("hello all to favorite", res);
       setDataFavorite(res?.data?.favorite_products);
       console.log("dataFavoeite", dataFavorite);
+      settotal_items_FAV(res.data.total_items_count)
       setIsLoading(false);
     } catch (error) {
       console.error("Error while fetching favorite:", error);

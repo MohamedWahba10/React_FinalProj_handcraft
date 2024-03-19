@@ -134,7 +134,7 @@ export default function FilterProduct() {
   };
 
   let { addToFavorite, deleteFavoriteProduct, getFavorite } = useContext(FavoriteContext);
-  
+
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
@@ -183,7 +183,7 @@ export default function FilterProduct() {
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
-    if (res.data.msg === "added") {
+    if (res?.data?.msg === "added") {
       toast.success("product added Successfully");
       settotal_items_count(res.data.total_items_count)
     } else {
