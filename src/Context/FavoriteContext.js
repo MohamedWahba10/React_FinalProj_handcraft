@@ -36,12 +36,12 @@ export default function FavoriteContextProvider(props) {
     //     settotal_items_FAV(data.total_items_FAV)
 
     // }
-    
+
     async function getInitialFAVtNumber() {
         try {
             const response = await getFavorite();
             if (response && response.data) {
-                setTotalItemsFAV(response.data.total_items_FAV);
+                settotal_items_FAV(response.data.total_items_FAV);
             } else {
                 console.error("Invalid response from getFavorite:", response);
             }

@@ -78,12 +78,12 @@ export default function CartContextProvider(props) {
     //     let { data } = await getCart()
     //     settotal_items_count(data.total_items_count)
     // }
-    
+
     async function getInitialCartNumber() {
         try {
             const response = await getCart();
             if (response && response.data) {
-                setTotalItemsCount(response.data.total_items_count);
+                settotal_items_count(response.data.total_items_count);
             } else {
                 console.error("Invalid response from getCart:", response);
             }
