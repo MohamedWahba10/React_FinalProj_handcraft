@@ -27,15 +27,29 @@ function deleteFavoriteProduct(id) {
 
 export default function FavoriteContextProvider(props) {
 
-    const [total_items_FAV, settotal_items_FAV] = useState(null)
+    const [total_items_FAV, settotal_items_FAV] = useState(0)
  
+    // async function getInitialFAVtNumber() {
+
+    //     let { data } = await getFavorite()
+
+    //     settotal_items_FAV(data.total_items_FAV)
+
+    // }
+
     async function getInitialFAVtNumber() {
-
-        let { data } = await getFavorite()
-
-        settotal_items_FAV(data.total_items_FAV)
-
+        try {
+            const response = await getFavorite();
+            if (response && response.data) {
+                settotal_items_FAV(response.data.total_items_FAV);
+            } else {
+                console.error("Invalid response from getFavorite:", response);
+            }
+        } catch (error) {
+            console.error("Error while fetching initial favorite number:", error);
+        }
     }
+    
 
     useEffect(() => {
         getInitialFAVtNumber()
