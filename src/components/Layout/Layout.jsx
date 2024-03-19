@@ -8,9 +8,10 @@ export default function Layout() {
   return (
     <>
       <NavBar />
+      
       <Outlet />
       <Toaster />
-      <Footer/>
+      {localStorage.getItem("userToken") !== null && <Footer />}
 
     </>
   );

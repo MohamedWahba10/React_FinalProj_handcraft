@@ -25,7 +25,7 @@ export default function Favorite() {
                             <span className={`${styles.link_home} pe-1 `}>HomePage</span>
                         </Link>
 
-                        <span className={`${styles.span_profile}`}>&gt;Favorite</span>
+                        <span className={`${styles.span_profile}`}>/Favorite</span>
                     </div>
            
                     <FavoriteUser />

@@ -116,17 +116,17 @@ export default function ProductINSubCategory() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
         <Link to="/category" className="text-decoration-none ">
-          <span className={`${styles.link_home} pe-1 `}>&gt;Category</span>
+          <span className={`${styles.link_home} pe-1 `}>/Category</span>
         </Link>
         <Link
           to={`/subcategory/${categoryId}/${categoryName}`}
           className="text-decoration-none "
         >
           <span className={`${styles.link_home} pe-1 `}>
-            &gt;{categoryName}
+            /{categoryName}
           </span>
         </Link>
-        <span className={`${styles.span_profile}`}>&gt;{subCategoryName}</span>
+        <span className={`${styles.span_profile}`}>/{subCategoryName}</span>
       </div>
       {isLoading ? (
         <Loading />

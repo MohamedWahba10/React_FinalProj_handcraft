@@ -75,7 +75,7 @@ export default function Login() {
           <span className={`${styles.link_home} pe-1 `}>Register</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>&gt; Login</span>
+        <span className={`${styles.span_login}`}>/Login</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">

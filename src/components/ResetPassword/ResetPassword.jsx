@@ -68,7 +68,7 @@ export default function ResetPassword() {
           <span className={`${styles.link_home} pe-1 `}>Login</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>&gt; ResetPasseord</span>
+        <span className={`${styles.span_login}`}>/ ResetPasseord</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">

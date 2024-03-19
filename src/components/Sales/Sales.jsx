@@ -241,15 +241,15 @@ export default function Sales() {
                           {pro.product.discounted_price ===
                           pro.product.original_price ? (
                             <p className="fs-5 ">
-                              {pro.product.prodPrice} EGP
+                              {pro.product.prodPrice} $
                             </p>
                           ) : (
                             <>
                               <p className="fs-5 text-decoration-line-through">
-                                {pro.product.original_price} EGP
+                                {pro.product.original_price} $
                               </p>
                               <p className="fs-5">
-                                {pro.product.discounted_price} EGP
+                                {pro.product.discounted_price} $
                               </p>
                             </>
                           )}

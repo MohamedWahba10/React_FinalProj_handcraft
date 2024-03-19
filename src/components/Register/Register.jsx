@@ -101,7 +101,7 @@ export default function Register() {
         <Link to="/login" className='text-decoration-none'>
           <span className={`${styles.link_home} pe-1`}>Login</span>
         </Link>
-        <span className={`${styles.span_register}`}>&gt; Register</span>
+        <span className={`${styles.span_register}`}>/ Register</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">

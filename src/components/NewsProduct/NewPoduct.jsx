@@ -212,12 +212,12 @@ export default function NewProduct() {
                         </h5> */}
                               {/* <h6 className="pb-1">Created By {pro.vendor.shopname}</h6> */}
                               {pro.discounted_price === pro.original_price ? (
-                                <p className="fs-5 ">{pro.prodPrice} EGP</p>
+                                <p className="fs-5 ">{pro.prodPrice} $</p>
                               ) : (
                                 <>
-                                  <p className="fs-5 text-decoration-line-through">{pro.original_price} EGP</p>
+                                  <p className="fs-5 text-decoration-line-through">{pro.original_price} $</p>
                                   <p className="fs-5">
-                                    {pro.discounted_price} EGP
+                                    {pro.discounted_price} $
                                   </p>
                               
                                 </>

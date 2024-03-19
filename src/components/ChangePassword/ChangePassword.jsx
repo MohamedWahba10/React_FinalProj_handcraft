@@ -88,7 +88,7 @@ export default function ChangePassword() {
           <span className={`${styles.link_home} pe-1 `}>Profile</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>&gt; Change Password</span>
+        <span className={`${styles.span_login}`}>/ Change Password</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">

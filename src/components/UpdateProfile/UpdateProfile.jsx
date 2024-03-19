@@ -157,7 +157,7 @@ export default function UpdateProfile() {
               <span className={`${styles.link_home} pe-1 `}>Your Profile</span>
             </Link>
 
-            <span className={`${styles.span_update}`}>&gt; Update Profile</span>
+            <span className={`${styles.span_update}`}>/ Update Profile</span>
           </div>
           <div className="container my-5 py-5">
             <div>
