@@ -76,9 +76,9 @@ Chatttttttttttt
 .inner_layer_search {
   position: relative;
   border-radius: 10px;
-  width: 40%;
-  top: 50%;
-  height:50%;
+  width: 50%;
+  top: 30%;
+  height:70%;
   overflow-y: auto;
   background-color: white;
 }

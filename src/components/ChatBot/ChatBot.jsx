@@ -8,6 +8,7 @@ export default function ChatBot() {
   const [chatHistory, setChatHistory] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
 
   async function callChatBot(reqBody) {
     setError("");
@@ -45,16 +46,85 @@ export default function ChatBot() {
 
   const ChatBotForm = useFormik({
     initialValues: {
-      userMessage: "",
+      // userMessage: "",
+      userMessage: msg,
     },
     validationSchema,
     onSubmit: callChatBot,
   });
+  function handleMsg(text) {
+    ChatBotForm.setFieldValue("userMessage", text);
+  }
 
   return (
     <div className="container">
       <div className={styles.chat_container}>
         <div className={styles.chat_history}>
+          <div className={`${styles.question}`}>
+            <h2>
+              Some Question
+            </h2>
+            <p onClick={() => handleMsg("Hello")}>Hello</p>
+            <p
+              onClick={() =>
+                handleMsg("Is this website secure for making transactions?")
+              }
+            >
+              Is this website secure for making transactions?
+            </p>
+            <p onClick={() => handleMsg("What payment methods are accepted?")}>
+              What payment methods are accepted?
+            </p>
+            <p
+              onClick={() => handleMsg("How long does shipping usually take?")}
+            >
+              How long does shipping usually take?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("What if I'm not satisfied with my purchase?")
+              }
+            >
+              What if I'm not satisfied with my purchase?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("Are there any discounts or promotions available?")
+              }
+            >
+              Are there any discounts or promotions available?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("How can I track my order?")
+              }
+            >
+             How can I track my order?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("Do you offer international shipping?")
+              }
+            >
+             Do you offer international shipping?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("Can I cancel my order?")
+              }
+            >
+             Can I cancel my order?
+            </p>
+            <p
+              onClick={() =>
+                handleMsg("What if the product I want is out of stock?")
+              }
+            >
+             What if the product I want is out of stock?
+            </p>
+            <hr />
+          </div>
+
           {chatHistory.map((entry, index) => (
             <div
               key={index}
