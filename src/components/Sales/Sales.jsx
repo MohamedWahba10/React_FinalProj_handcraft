@@ -208,7 +208,7 @@ export default function Sales() {
                       className={`${styles.product_info} ${styles.product} w-100`}
                     >
                       <img
-                        src={`${pro.product.prodImageUrl}`}
+                        src={`http://127.0.0.1:8000${pro.product.prodImageThumbnail}`}
                         className="w-100"
                         alt={pro.product.prodName}
                       />

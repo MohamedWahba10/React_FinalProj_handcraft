@@ -266,7 +266,7 @@ export default function Profile() {
                                     className={`${styles.product_info} ${styles.product} w-100`}
                                   >
                                     <img
-                                      src={`${pro.prodImageUrl}`}
+                                      src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
                                       className="w-100"
                                       alt={pro.prodName}
                                     />
