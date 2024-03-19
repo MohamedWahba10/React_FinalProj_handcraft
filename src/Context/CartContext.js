@@ -62,10 +62,10 @@ function decreaseCartProduct(id) {
 export default function CartContextProvider(props) {
 
     const [cartID, setCartID] = useState();
-    const [total_items_count, settotal_items_count] = useState(null)
+    const [total_items_count, settotal_items_count] = useState(0)
 
     async function order(values) {
-        
+
         let data = await axios.post(`http://127.0.0.1:8000/api/order/new/`, values, {
             headers: headers
         }).then((res) => res).catch((err) => err);
@@ -74,11 +74,24 @@ export default function CartContextProvider(props) {
         setCartID(data.data.id);
     }
 
+    // async function getInitialCartNumber() {
+    //     let { data } = await getCart()
+    //     settotal_items_count(data.total_items_count)
+    // }
+    
     async function getInitialCartNumber() {
-        let { data } = await getCart()
-        settotal_items_count(data.total_items_count)
+        try {
+            const response = await getCart();
+            if (response && response.data) {
+                setTotalItemsCount(response.data.total_items_count);
+            } else {
+                console.error("Invalid response from getCart:", response);
+            }
+        } catch (error) {
+            console.error("Error while fetching initial cart number:", error);
+        }
     }
-
+    
     useEffect(() => {
         getInitialCartNumber()
     }, [])
