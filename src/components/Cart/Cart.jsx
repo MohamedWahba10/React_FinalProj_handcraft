@@ -131,7 +131,7 @@ export default function Cart() {
                     </div>
                 ) : (
                     <section className="bg-light my-5 ">
-                        <div className="container" style={{ marginTop: "10rem" }}>
+                        <div className="container" >
 
                             <div className="row">
                                 <div className="col-lg-9">
