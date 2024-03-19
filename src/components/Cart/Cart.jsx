@@ -5,6 +5,7 @@ import Loading from "../Loading/Loading";
 import img1 from "../../assets/images/noun-empty-cart-3592882.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import NavBar from '../NavBar/NavBar';
 
 export default function Cart() {
     let [cartDetails, setcartDetails] = useState({})
@@ -13,7 +14,7 @@ export default function Cart() {
     let [isEmpty, setisEmpty] = useState(true)
 
 
-    let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart } = useContext(CartContext)
+    let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart ,settotal_items_count} = useContext(CartContext)
 
     function empty() {
         if (isEmpty) {
@@ -28,6 +29,7 @@ export default function Cart() {
             // Check if data is defined before updating state
             if (data) {
                 setcartDetails(data)
+                settotal_items_count(data.total_items_count)
                 setisEmpty(false)
                 setIsLoading(false)
             }
@@ -40,6 +42,7 @@ export default function Cart() {
         e.preventDefault();
         let { data } = await deleteCartProduct(id)
         console.log("remove my prod", data.response);
+        settotal_items_count(data.total_items_count)
         setcartDetails(data)
         getcartDetails()
     }
@@ -51,6 +54,7 @@ export default function Cart() {
         e.preventDefault();
         let { data } = await clearCart();
         setcartDetails({}); // Clear the cart details
+        settotal_items_count(data.total_items_count)
         setisEmpty(true); // Set isEmpty to true only after clearing the cart
     }
 
@@ -85,14 +89,21 @@ export default function Cart() {
         }, 2000);
     }, []);
 
+    // useEffect(() => {
+    //     getcartDetails()
+
+       
+    // }, [removeProduct]);
+   
     return (
         <>
+         
             {isLoading ? (
                 <Loading />
             ) : (
 
                 isEmpty || !cartDetails || cartDetails.total_items_count === 0 ? (
-                    <div className="container-fluid mt-100">
+                    <div className="container-fluid mt-100" style={{ marginTop: "6rem" }}>
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="card">
@@ -119,8 +130,9 @@ export default function Cart() {
                         </div>
                     </div>
                 ) : (
-                    <section className="bg-light my-5">
-                        <div className="container">
+                    <section className="bg-light my-5 ">
+                        <div className="container" style={{ marginTop: "10rem" }}>
+
                             <div className="row">
                                 <div className="col-lg-9">
                                     <div className="card border shadow-0">
@@ -157,7 +169,7 @@ export default function Cart() {
                                                     </div>
                                                     <div className="col-lg col-sm-6 d-flex justify-content-sm-center justify-content-md-start justify-content-lg-center justify-content-xl-end mb-2">
                                                         <div className="float-md-end">
-       
+
                                                             <button onClick={(e) => removeProduct(ele.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button>
                                                         </div>
                                                     </div>
@@ -196,6 +208,7 @@ export default function Cart() {
                                 </div>
                             </div>
                         </div>
+                      
                     </section>
                 )
             )}

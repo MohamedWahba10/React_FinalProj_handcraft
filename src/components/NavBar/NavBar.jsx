@@ -3,18 +3,24 @@ import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
 import Cookies from "js-cookie";
+import { CartContext } from "../../Context/CartContext";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import FilterProduct from "../FilterProduct/FilterProduct";
 
+
 function NavBar() {
+
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
   const [layerVisibleSearch, setLayerVisibleSearch] = useState(false);
   let { token, setToken } = useContext(TokenContext);
   const [userData, setData] = useState(null);
+  const { total_items_count } = useContext(CartContext);
+  const { total_items_FAV } = useContext(FavoriteContext);
+
 
   async function ProfileData() {
     try {
@@ -40,15 +46,19 @@ function NavBar() {
 
   useEffect(() => {
     ProfileData();
+    // getcartDetails()
   }, [token]);
+
+
 
   useEffect(() => {
     setToken(localStorage.getItem("userToken"));
+
   }, []);
   const userType = userData?.data.message.usertype;
   const firstName = userData?.data.message.first_name;
   const lastName = userData?.data.message.last_name;
-  const userName =firstName+" " + lastName;
+  const userName = firstName + " " + lastName;
 
   console.log(userType);
 
@@ -91,6 +101,7 @@ function NavBar() {
   });
   useEffect(() => {
     if (isFetched) {
+
       console.log("Data fetching is completed");
     }
   }, [isFetched]);
@@ -158,7 +169,7 @@ function NavBar() {
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg  py-4 px-2 ${styles.nav_style}`}>
+      <nav className={`navbar navbar-expand-lg fixed-top py-4 px-2 ${styles.nav_style}`}>
         <div className="container">
           {token ? (
             <button
@@ -254,17 +265,26 @@ function NavBar() {
             <>
               {userType === "customer" ? (
                 <>
-                  <div className={`${styles.cursor_pointer} navbar-brand`}>
-                    <Link to="/favorite" className="text-black">
-                      <i
-                        class="fa-regular fa-heart fs-3"
-                        // onClick={() => viewWishList()}
-                      ></i>
-                    </Link>
-                  </div>
-                  <Link to="/cart" className={`${styles.cursor_pointer}`}>
-                    <i class="fa-solid text-dark fa-cart-shopping fs-3"></i>
-                  </Link>
+
+               
+                    {<Link to="/favorite" className={`${styles.cursor_pointer}`}>
+                    <i className="fa-regular fa-heart fs-3 position-relative text-dark">
+                      {total_items_FAV > 0 && (
+                        <span className={`${styles.cart_count} me-1`}>{total_items_FAV}</span>
+                      )}
+
+                    </i>
+                  </Link>}
+
+                  {<Link to="/cart" className={`${styles.cursor_pointer}`}>
+                    <i className="fa-solid fa-cart-shopping fs-3 position-relative ms-3 text-dark">
+                      {total_items_count > 0 && (
+                        <span className={`${styles.cart_count} me-1`}>{total_items_count}</span>
+                      )}
+
+                    </i>
+                  </Link>}
+                
                 </>
               ) : null}
               <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
@@ -303,7 +323,7 @@ function NavBar() {
                     to="/profile"
                     onClick={closeLayer}
                   >
-                    View Profile  <span style={{fontWeight: "bold" }}>{userName}{" "}</span>                   
+                    View Profile  <span style={{ fontWeight: "bold" }}>{userName}{" "}</span>
                   </Link>
                 </div>
               </>
