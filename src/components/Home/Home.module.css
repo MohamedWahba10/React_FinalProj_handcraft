@@ -104,11 +104,26 @@ Chatttttttttttt
   
 .chat{
     position: fixed;
-    top:95%;
+    top:93%;
     right: 20px;
+}
+.chatBot{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: black;
+  color: white;
+  /* padding: 7px 10px; */
+  font-size: 20px;
+  display: inline-block;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border-top-left-radius: 0;
 }
 .chat i {
     font-size: 25px;
+    
 }
 
 

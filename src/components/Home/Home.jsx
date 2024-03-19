@@ -85,10 +85,13 @@ export default function Home() {
           <div
             className={`${styles.cursor_pointer} ps-2 navbar-brand ${styles.chat}`}
           >
+            <div className={`${styles.chatBot}`} onClick={() => viewSearch()}>
             <i
               className="fa-brands fa-rocketchat"
-              onClick={() => viewSearch()}
+              
             ></i>
+            </div>
+   
           </div>
           {layerVisibleSearch && (
             <div

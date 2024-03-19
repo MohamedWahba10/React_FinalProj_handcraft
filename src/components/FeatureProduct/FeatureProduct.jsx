@@ -121,7 +121,7 @@ export default function FeatureProduct() {
               <span className={`${styles.link_home} pe-1 `}>HomePage</span>
             </Link>
 
-            <span className={`${styles.span_profile}`}>&gt;Shop</span>
+            <span className={`${styles.span_profile}`}>/Shop</span>
           </div>
      
           <FilterProduct/>

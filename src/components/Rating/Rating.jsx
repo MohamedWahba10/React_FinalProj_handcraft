@@ -81,7 +81,7 @@ export default function RatingProduct() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>&gt; Rating</span>
+        <span className={`${styles.span_login}`}>/ Rating</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">

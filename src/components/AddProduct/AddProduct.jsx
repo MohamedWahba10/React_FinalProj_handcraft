@@ -133,7 +133,7 @@ export default function AddProduct() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_AddProduct}`}>&gt; Add Product</span>
+        <span className={`${styles.span_AddProduct}`}>/ Add Product</span>
       </div>
       <div className="container my-5 py-5">
         <div>

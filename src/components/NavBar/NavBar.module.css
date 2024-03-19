@@ -1,5 +1,8 @@
 .nav_style {
   background-color: #f8f6f0;
+  /* position: fixed;
+  z-index: 999;
+  width: 100%; */
 }
 .nav_style .icon_button_menue {
   outline: 0;

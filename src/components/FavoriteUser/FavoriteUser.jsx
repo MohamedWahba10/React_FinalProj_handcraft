@@ -141,7 +141,7 @@ export default function FavoriteUser() {
                 //         </div>
 
                 //         <h4 className="pb-2 pt-2">{pro.name}</h4>
-                //         <p>{pro.price} EGP</p>
+                //         <p>{pro.price} $</p>
                 //     </div>
                 // </div>
 
@@ -169,7 +169,7 @@ export default function FavoriteUser() {
                         {pro.name}
                       </h4>
 
-                      <h6 className="fs-5">{pro.price} EGP</h6>
+                      <h6 className="fs-5">{pro.price} $</h6>
 
                       <p className="pb-1">{pro.prodDescription}</p>
                       <div className="my-2">

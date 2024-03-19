@@ -125,7 +125,7 @@ const [isLoading,setIsLoading]=useState(true)
               <span className={`${styles.link_home} pe-1 `}>HomePage</span>
             </Link>
 
-            <span className={`${styles.span_profile}`}>&gt;product</span>
+            <span className={`${styles.span_profile}`}>/product</span>
           </div>
           <div className="container mb-5 pb-5 overflow-hidden">
             <div className="row gy-5">
@@ -217,7 +217,7 @@ const [isLoading,setIsLoading]=useState(true)
                 //     </div>
 
                 //     <h4 className="pb-2 pt-2">{pro.prodName}</h4>
-                //     <p>{pro.prodPrice} EGP</p>
+                //     <p>{pro.prodPrice} $</p>
                 //   </div>
                 // </div>
                 <div key={pro.id} className={`col-md-3 cursor-pointer`}>
@@ -256,19 +256,19 @@ const [isLoading,setIsLoading]=useState(true)
                           {" "}
                           {pro.prodSubCategory.subCateName}
                         </h5>
-                        <p className="fs-5">{pro.product.prodPrice} EGP</p>
+                        <p className="fs-5">{pro.product.prodPrice} $</p>
                       </div> */}
 
                       <div>
                         <div className="d-flex justify-content-between align-items-center">
                           {pro.discounted_price === pro.original_price ? (
-                            <p className="fs-5 ">{pro.prodPrice} EGP</p>
+                            <p className="fs-5 ">{pro.prodPrice} $</p>
                           ) : (
                             <>
                               <p className="fs-5 text-decoration-line-through">
-                                {pro.original_price} EGP
+                                {pro.original_price} $
                               </p>
-                              <p className="fs-5">{pro.discounted_price} EGP</p>
+                              <p className="fs-5">{pro.discounted_price} $</p>
                             </>
                           )}
                         </div>
