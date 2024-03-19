@@ -137,7 +137,7 @@ export default function Cart() {
                                                     <div className="col-lg-5">
                                                         <div className="me-lg-5">
                                                             <div className="d-flex">
-                                                                <img src={`http://127.0.0.1:8000${ele.item_image}`} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
+                                                                <img src={`${ele.item_image}`} className="border rounded me-3" style={{ width: '96px', height: '96px' }} alt="Product" />
                                                                 <div className="">
                                                                     <a href="#" className="nav-link">{ele.item_name}</a>
                                                                     <p className="text-muted"><span className='fw-bold'>Description :</span> {ele.item_description}</p>
