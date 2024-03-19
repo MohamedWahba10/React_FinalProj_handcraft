@@ -3,16 +3,21 @@ import NavBar from "../NavBar/NavBar";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Footer from "../Footer/Footer";
-
+import styles from "./Layout.module.css"
 export default function Layout() {
   return (
     <>
       <NavBar />
-      
-      <Outlet />
-      <Toaster />
-      {localStorage.getItem("userToken") !== null && <Footer />}
 
+      <div className={`${styles.outlet}`}>
+        <div className={`${styles.oulet_content}`}>
+        <Outlet />
+        <Toaster />
+        </div>
+   
+      </div>
+
+      {localStorage.getItem("userToken") !== null && <Footer />}
     </>
   );
 }
