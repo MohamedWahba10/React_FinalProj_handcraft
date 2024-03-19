@@ -33,7 +33,7 @@ export default function Category() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_profile}`}>&gt;Category</span>
+        <span className={`${styles.span_profile}`}>/Category</span>
       </div>
       {isLoading ? (
         <Loading />

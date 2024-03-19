@@ -169,7 +169,7 @@ function NavBar() {
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg  py-4 px-2 ${styles.nav_style}`}>
+      <nav className={`navbar navbar-expand-lg py-4 px-2 ${styles.nav_style}`}>
         <div className="container ">
 
           {token ? (

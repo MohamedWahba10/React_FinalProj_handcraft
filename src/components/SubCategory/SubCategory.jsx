@@ -37,9 +37,9 @@ export default function SubCategory() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
         <Link to="/category" className="text-decoration-none ">
-          <span className={`${styles.link_home} pe-1 `}>&gt;Category</span>
+          <span className={`${styles.link_home} pe-1 `}>/Category</span>
         </Link>
-        <span className={`${styles.span_profile}`}>&gt;{categoryName}</span>
+        <span className={`${styles.span_profile}`}>/{categoryName}</span>
       </div>
       {isLoading ? (
         <Loading />

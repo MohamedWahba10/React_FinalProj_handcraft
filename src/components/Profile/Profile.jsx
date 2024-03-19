@@ -126,7 +126,7 @@ export default function Profile() {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_profile}`}>&gt;Profile</span>
+        <span className={`${styles.span_profile}`}>/Profile</span>
       </div>
 
       {userLoading ? (
@@ -135,7 +135,7 @@ export default function Profile() {
         <>
           <div className={`container ${styles.Profile_data}`}>
             <div className="row gy-5">
-              <div className="col-md-4 bg-danger">
+              <div className="col-md-4">
                 <div className={`${styles.profile}`}>
                   <div>
                     {imageUrl ? (
@@ -299,15 +299,15 @@ export default function Profile() {
                                         {pro.discounted_price ===
                                         pro.original_price ? (
                                           <p className="fs-5 ">
-                                            {pro.prodPrice} EGP
+                                            {pro.prodPrice} $
                                           </p>
                                         ) : (
                                           <>
                                             <p className="fs-5 text-decoration-line-through">
-                                              {pro.original_price} EGP
+                                              {pro.original_price} $
                                             </p>
                                             <p className="fs-5">
-                                              {pro.discounted_price} EGP
+                                              {pro.discounted_price} $
                                             </p>
                                           </>
                                         )}

@@ -205,7 +205,7 @@ export default function HighestRate() {
                                                                 </p>
 
                                                                 <p className="fs-5">
-                                                                    {pro.product_price} EGP
+                                                                    {pro.product_price} $
                                                                 </p>
 
 

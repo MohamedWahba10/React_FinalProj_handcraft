@@ -224,7 +224,7 @@ export default function UpdateProduct() {
         </Link>
 
         <span className={`${styles.span_UpdateProduct}`}>
-          &gt; Update Product
+          / Update Product
         </span>
       </div>
       <div className="container my-5 py-5">

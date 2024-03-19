@@ -18,7 +18,7 @@ const AboutPage = () => {
           <span className={`${styles.link_home} pe-1 `}>HomePage</span>
         </Link>
 
-        <span className={`${styles.span_profile}`}>&gt;About US</span>
+        <span className={`${styles.span_profile}`}>/About US</span>
       </div>
       <div className="my-5">
         <>

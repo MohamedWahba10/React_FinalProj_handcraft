@@ -62,7 +62,7 @@ export default function ResetCode() {
           <span className={`${styles.link_home} pe-1 `}>Login</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>&gt; ResetCode</span>
+        <span className={`${styles.span_login}`}>/ ResetCode</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">
