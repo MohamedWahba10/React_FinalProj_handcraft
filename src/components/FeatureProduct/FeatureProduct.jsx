@@ -11,7 +11,7 @@ import FilterProduct from "../FilterProduct/FilterProduct";
 import { Helmet } from "react-helmet";
 
 export default function FeatureProduct() {
-  let { addToCart } = useContext(CartContext);
+  let { addToCart ,settotal_items_count } = useContext(CartContext);
 
   const { data, isLoading } = useQuery({
     queryKey: "products",
@@ -57,14 +57,14 @@ export default function FeatureProduct() {
   }, []);
 
 
-  async function addcart(id) {
-    let res = await addToCart(id);
-    console.log("heloo add to cart ", res);
-    if (res.data.msg === "added") {
-      toast.success("product added Successfully");
-    } else {
-    }
-  }
+  // async function addcart(id) {
+  //   let res = await addToCart(id);
+  //   console.log("heloo add to cart ", res);
+  //   if (res.data.msg === "added") {
+  //     toast.success("product added Successfully");
+
+  //   }
+  // }
 
   const Products = data?.data?.results;
 

@@ -128,7 +128,7 @@ export default function Login() {
                     <button
                       type="submit"
                       className={`${styles.login_button}`}
-                      // disabled={!(loginForm.isValid && loginForm.dirty)}
+                    // disabled={!(loginForm.isValid && loginForm.dirty)}
                     >
                       LOGIN
                     </button>
@@ -136,16 +136,16 @@ export default function Login() {
                 </div>
                 <div>
                   <Link to="/forgetPassword">
-                  <button
+                    <button
                       type="button"
-                      className={`${styles.login_button}`}
-                      // disabled={!(loginForm.isValid && loginForm.dirty)}
+                      className={`border-0 mt-2 `}   style={{ fontWeight: 'bold' }}
+                    // disabled={!(loginForm.isValid && loginForm.dirty)}
                     >
-                      Forget Password
+                      Forgot Password your passowrd ?
                     </button>
                   </Link>
                 </div>
-               
+
               </div>
             </form>
           </div>

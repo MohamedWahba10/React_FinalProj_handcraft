@@ -10,8 +10,13 @@ import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
 
 export default function FilterProduct() {
+
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
+
+  let { addToCart , settotal_items_count  } = useContext(CartContext);
+  let {settotal_items_FAV} =useContext(FavoriteContext)
+  
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -128,13 +133,15 @@ export default function FilterProduct() {
     setSelectedCategory(index);
   };
 
-  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
-    useContext(FavoriteContext);
+  let { addToFavorite, deleteFavoriteProduct, getFavorite } = useContext(FavoriteContext);
+
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
+      settotal_items_FAV(res.data.total_items_count)
+     
       getfavorite();
     } else {
       toast.error(res.data.message);
@@ -146,6 +153,7 @@ export default function FilterProduct() {
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
+      settotal_items_FAV(res.data.total_items_count)
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -153,11 +161,14 @@ export default function FilterProduct() {
   }
   const [dataFavorite, setDataFavorite] = useState(null);
 
+  
+
   async function getfavorite() {
     try {
       let res = await getFavorite();
       console.log("hello all to favorite", res);
       setDataFavorite(res.data.favorite_products);
+      settotal_items_FAV(res.data.total_items_count)
       console.log("dataFavoeite", dataFavorite);
     } catch (error) {
       console.error("Error while fetching favorite:", error);
@@ -167,13 +178,14 @@ export default function FilterProduct() {
     getfavorite();
   }, []);
 
-  let { addToCart } = useContext(CartContext);
+  
 
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
-    if (res.data.msg === "added") {
+    if (res?.data?.msg === "added") {
       toast.success("product added Successfully");
+      settotal_items_count(res.data.total_items_count)
     } else {
     }
   }
@@ -301,19 +313,19 @@ export default function FilterProduct() {
                           {" "}
                           {pro.prodSubCategory.subCateName}
                         </h5>
-                        {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
+                        {/* <p className="fs-5">{pro.product.prodPrice} $</p> */}
                       </div>
                       <div>
 
 
                       <div className="d-flex justify-content-between align-items-center">
                       {pro.product.discounted_price === pro.product.original_price ? (
-                                <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
+                                <p className="fs-5 ">{pro.product.prodPrice} $</p>
                               ) : (
                                 <>
-                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} EGP</p>
+                                  <p className="fs-5 text-decoration-line-through">{pro.product.original_price} $</p>
                                   <p className="fs-5">
-                                    {pro.product.discounted_price} EGP
+                                    {pro.product.discounted_price} $
                                   </p>
                               
                                 </>

@@ -92,7 +92,7 @@ const Checkout = () => {
                             <div className="text-center mb-3 pb-2 mt-3">
                                 <h4 style={{ color: '#495057' }}>Delivery Details</h4>
                             </div>
-                            <form onSubmit={formik.handleSubmit} className="mb-0" action={`http://127.0.0.1:8000/api/order/create-checkout-session/1/`}
+                            <form onSubmit={formik.handleSubmit} className="mb-0" action={``}
                                 method="POST">
                                 <div className="row mb-4"></div>
                                 <div className="row mb-4">

@@ -57,14 +57,14 @@ export default function ProductDetail() {
   }, []);
   const userType = dataUser?.data.message.usertype;
   console.log("userData", userType);
-
-  let { addToFavorite, deleteFavoriteProduct, getFavorite } =
-    useContext(FavoriteContext);
+  
+  let { addToFavorite, deleteFavoriteProduct, getFavorite,settotal_items_FAV } = useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
+      settotal_items_FAV(res.data.total_items_count)
       getfavorite();
     } else {
       toast.error(res.data.message);
@@ -76,6 +76,7 @@ export default function ProductDetail() {
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
+      settotal_items_FAV(res.data.total_items_count)
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -88,6 +89,7 @@ export default function ProductDetail() {
       let res = await getFavorite();
       console.log("hello all to favorite", res);
       setDataFavorite(res.data.favorite_products);
+      settotal_items_FAV(res.data.total_items_count)
       console.log("dataFavoeite", dataFavorite);
     } catch (error) {
       console.error("Error while fetching favorite:", error);
@@ -113,15 +115,15 @@ export default function ProductDetail() {
     getAvgRate();
   }, []);
 
-  let { addToCart } = useContext(CartContext);
+  let { addToCart ,settotal_items_count } = useContext(CartContext);
 
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
     if (res.data.msg === "added") {
       toast.success("product added Successfully");
-    } else {
-    }
+      settotal_items_count(res.data.total_items_count)
+    } 
   }
   return (
     <>
@@ -207,18 +209,18 @@ export default function ProductDetail() {
                       Created By {detailPro?.prodVendor.shopname}
                     </h5>
 
-                    {/* <p className="fs-4">{detailPro?.prodPrice}EGP </p> */}
+                    {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
                     <div className="d-flex justify-content-start align-items-center">
                       {detailPro?.discounted_price ===
                       detailPro?.original_price ? (
-                        <p className="fs-5 ">{detailPro?.prodPrice} EGP</p>
+                        <p className="fs-5 ">{detailPro?.prodPrice} $</p>
                       ) : (
                         <>
                           <p className="fs-5  me-4 text-decoration-line-through">
-                            {detailPro?.original_price} EGP
+                            {detailPro?.original_price} $
                           </p>
                           <p className="fs-5">
-                            {detailPro?.discounted_price} EGP
+                            {detailPro?.discounted_price} $
                           </p>
                         </>
                       )}

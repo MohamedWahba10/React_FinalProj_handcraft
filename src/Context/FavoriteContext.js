@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect ,useState } from "react";
 import axios from 'axios';
 
 export  const FavoriteContext = createContext();
@@ -26,9 +26,41 @@ function deleteFavoriteProduct(id) {
 }
 
 export default function FavoriteContextProvider(props) {
+
+    const [total_items_FAV, settotal_items_FAV] = useState(0)
+ 
+    // async function getInitialFAVtNumber() {
+
+    //     let { data } = await getFavorite()
+
+    //     settotal_items_FAV(data.total_items_FAV)
+
+    // }
+
+    async function getInitialFAVtNumber() {
+        try {
+            const response = await getFavorite();
+            if (response && response.data) {
+                settotal_items_FAV(response.data.total_items_FAV);
+            } else {
+                console.error("Invalid response from getFavorite:", response);
+            }
+        } catch (error) {
+            console.error("Error while fetching initial favorite number:", error);
+        }
+    }
+    
+
+    useEffect(() => {
+        getInitialFAVtNumber()
+    }, [])
+
+
     return (
-        <FavoriteContext.Provider value={{ addToFavorite, getFavorite, deleteFavoriteProduct }}>
+
+        <FavoriteContext.Provider value={{ addToFavorite, getFavorite, deleteFavoriteProduct , total_items_FAV, settotal_items_FAV }}>
             {props.children}
+
         </FavoriteContext.Provider>
     );
 }

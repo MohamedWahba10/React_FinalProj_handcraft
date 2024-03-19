@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "../components/Layout/Layout";
 import Home from "../components/Home/Home";
 import About from "../components/About/About";
@@ -32,8 +32,42 @@ import ResetCode from "../components/ResetCode/ResetCode";
 import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
+import { CartContext } from "../Context/CartContext.js";
+import { toast } from 'react-toastify';
+
+
+
+
 
 export default function Router() {
+  const { clearCart } = useContext(CartContext)
+  const location = useLocation();  
+
+  useEffect(() => {
+    if (location.pathname === "/handle-payment-success/") {
+      toast.success("your order is confirmed", {
+        autoClose: 3000, // Close the toast after 3 seconds
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          background: "white",
+          color: "black",
+          borderRadius: "5px",
+          textAlign: "center",
+          // Center the toast notification
+          position: "fixed",
+          top: "5%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        },
+      });
+      clearCart();
+    }
+  }, [clearCart, location.pathname]);
+
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -184,15 +218,15 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-             <Route
+        <Route
           path="/comment/:id/:prodName"
           element={
             <ProtectedRoutes>
-                <AllComment/>
+              <AllComment />
             </ProtectedRoutes>
           }
         />
-        
+
         <Route
           path="/favorite"
           element={
@@ -223,7 +257,16 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-
+        <Route
+          path="/handle-payment-success"
+          element={
+            <ProtectedRoutes>
+              <ProtectedCustomer>
+                <Home />
+              </ProtectedCustomer>
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path="/category"
           element={
@@ -279,3 +322,4 @@ export default function Router() {
     </Routes>
   );
 }
+
