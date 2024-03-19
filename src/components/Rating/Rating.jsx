@@ -48,7 +48,7 @@ export default function RatingProduct() {
         /^[1-5]$/,
         "'product Rating must be only digits and range from 1 to 5'"
       )
-      .required("Product Stock is Required"),
+      .required("Product Rate is Required"),
     rateSubject: Yup.string().matches(
       /^(?!\s)(?!.*\s$)[a-zA-Z0-9\s]{3,800}$/,
       "Subject Rate must be from 3 to 35 letters"
@@ -96,7 +96,7 @@ export default function RatingProduct() {
                   id="rateRating"
                   value={RatingForm.values.rateRating}
                   name="rateRating"
-                  placeholder="Enter The Subject the product"
+                  placeholder="Enter The Rate the product"
                   onChange={RatingForm.handleChange}
                   onBlur={RatingForm.handleBlur}
                 />
