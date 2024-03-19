@@ -14,19 +14,9 @@ import NewProduct from "../NewsProduct/NewPoduct";
 import { Helmet } from "react-helmet";
 import Sales from "../Sales/Sales";
 import HighestRate from "../HighestRate/HighestRate";
+import ChatBot from "../ChatBot/ChatBot";
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState(0);
-  // let { addToCart } = useContext(CartContext)
-
-  const handleCategoryClick = (index) => {
-    setSelectedCategory(index);
-  };
-
-  // async function addCart(id) {
-  //  let res= await addToCart(id)
-  // }
-
   const [dataUser, setData] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
 
@@ -48,8 +38,8 @@ export default function Home() {
   useEffect(() => {
     ProfileData();
   }, []);
-  const imageUrl = dataUser?.data.message.imageUrl;
-  const userType = dataUser?.data.message.usertype;
+  const first_name = dataUser?.data.message.first_name;
+  const last_name = dataUser?.data.message.last_name;
 
   const { data, isLoading } = useQuery({
     queryKey: "products",
@@ -65,26 +55,67 @@ export default function Home() {
     });
     return response;
   }
+  const [layerVisibleSearch, setLayerVisibleSearch] = useState(false);
 
+  function viewSearch() {
+    setLayerVisibleSearch(!layerVisibleSearch);
+  }
+  function closeLayerSearch() {
+    setLayerVisibleSearch(false);
+  }
+  function handleInnerLayerClick(e) {
+    e.stopPropagation();
+  }
   return (
     <>
-    <Helmet>
-      <title>
-        Home Page
-      </title>
-    </Helmet>
+      <Helmet>
+        <title>Home Page</title>
+      </Helmet>
       {isLoading && userLoading ? (
         <Loading />
       ) : (
-        <>
+        <div className="position-relative ">
           <MainSlider />
-          <CategorySlider/>
+          <CategorySlider />
           <FilterProduct />
-          <NewProduct/>
-          <Sales/>
-          <HighestRate/>
+          <NewProduct />
+          <Sales />
+          <HighestRate />
+          {/* <ChatBot/> */}
+          <div
+            className={`${styles.cursor_pointer} ps-2 navbar-brand ${styles.chat}`}
+          >
+            <i
+              className="fa-brands fa-rocketchat"
+              onClick={() => viewSearch()}
+            ></i>
+          </div>
+          {layerVisibleSearch && (
+            <div
+              className={`${styles.above_layer_wish}`}
+              onClick={closeLayerSearch}
+            >
+              <div
+                className={`${styles.inner_layer_search} position-relative `}
+                onClick={handleInnerLayerClick}
+              >
+                <div
+                  className={`d-flex justify-content-between align-items-center  px-3 py-2 ${styles.conteent_theChat}`}
+                >
+                  <p>
+                    Welcome {first_name} {last_name}
+                  </p>
+                  <i
+                    class={`fa-solid fa-xmark px-5  fs-3 ${styles.cursor_pointer}`}
+                    onClick={closeLayerSearch}
+                  ></i>
+                </div>
 
-        </>
+                <ChatBot />
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </>
   );
