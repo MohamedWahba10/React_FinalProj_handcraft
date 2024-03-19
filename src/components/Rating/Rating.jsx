@@ -48,14 +48,14 @@ export default function RatingProduct() {
         /^[1-5]$/,
         "'product Rating must be only digits and range from 1 to 5'"
       )
-      .required("Product Stock is Required"),
+      .required("Product Rate is Required"),
     rateSubject: Yup.string().matches(
       /^(?!\s)(?!.*\s$)[a-zA-Z0-9\s]{3,800}$/,
       "Subject Rate must be from 3 to 35 letters"
     ),
     rateReview: Yup.string().matches(
         /^(?!\s)(?!.*\s$)[a-zA-Z0-9\s]{3,2000}$/,
-      "product Commint  must be from 3 to 2000 letters cannot special charcter"
+      "product Comment  must be from 3 to 2000 letters cannot special charcter"
     ),
   });
 
@@ -96,7 +96,7 @@ export default function RatingProduct() {
                   id="rateRating"
                   value={RatingForm.values.rateRating}
                   name="rateRating"
-                  placeholder="Enter The Subject the product"
+                  placeholder="Enter The Rate the product"
                   onChange={RatingForm.handleChange}
                   onBlur={RatingForm.handleBlur}
                 />
@@ -133,14 +133,14 @@ export default function RatingProduct() {
               <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="rateReview" className="fs-4 fw-bold">
-                      Product Commint
+                      Product Comment
                     </label>
                     <textarea
                       className="w-100 "
                       id="rateReview"
                       value={RatingForm.values.rateReview}
                       name="rateReview"
-                      placeholder="Enter The Commit of Product"
+                      placeholder="Enter The Comment of Product"
                       onChange={RatingForm.handleChange}
                       onBlur={RatingForm.handleBlur}
                     ></textarea>
