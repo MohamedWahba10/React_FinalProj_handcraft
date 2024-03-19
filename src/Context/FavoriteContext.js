@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect ,useState } from "react";
 import axios from 'axios';
 
 export  const FavoriteContext = createContext();
@@ -26,9 +26,27 @@ function deleteFavoriteProduct(id) {
 }
 
 export default function FavoriteContextProvider(props) {
+
+    const [total_items_FAV, settotal_items_FAV] = useState(null)
+ 
+    async function getInitialFAVtNumber() {
+
+        let { data } = await getFavorite()
+
+        settotal_items_FAV(data.total_items_FAV)
+
+    }
+
+    useEffect(() => {
+        getInitialFAVtNumber()
+    }, [])
+
+
     return (
-        <FavoriteContext.Provider value={{ addToFavorite, getFavorite, deleteFavoriteProduct }}>
+
+        <FavoriteContext.Provider value={{ addToFavorite, getFavorite, deleteFavoriteProduct , total_items_FAV, settotal_items_FAV }}>
             {props.children}
+
         </FavoriteContext.Provider>
     );
 }
