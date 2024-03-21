@@ -1,8 +1,10 @@
 .nav_style {
   background-color: #f8f6f0;
-  /* position: fixed;
+  position: fixed !important;
+  top: 0;
+  left: 0;
   z-index: 999;
-  width: 100%; */
+  width: 100%;
 }
 .nav_style .icon_button_menue {
   outline: 0;

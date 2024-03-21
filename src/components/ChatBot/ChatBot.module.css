@@ -63,3 +63,17 @@
   border-radius: 20px;
   cursor: pointer;
 }
+.question p{
+  background-color: rgb(203, 203, 203);
+  border-radius: 7px;
+  padding: 7px;
+  margin: 5px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 20px;
+
+
+}
+.question h2{
+ font-size: 30px;
+}

@@ -156,11 +156,11 @@ export default function ChangePassword() {
             className={`col-md-5 ${styles.new_account} offset-md-1   d-flex align-items-center`}
           >
             <div className="d-flex flex-column ">
-              <h3>NOT Want The Change Password?</h3>
+            <h3>Do you prefer not to change your password?</h3>
               <p>
-                Welcome Back Profile to access your personalized experience
-                ,saved perefernces , and more we 're thrilled to have you with
-                us again
+                Welcome back to your profile, where you can enjoy personalized
+                experiences, access saved preferences, and more. We're excited
+                to have you with us once again!
               </p>
               <Link to="/profile" className="text-decoration-none">
                 <span className={`${styles.register_button}`}>

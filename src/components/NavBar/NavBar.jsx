@@ -171,6 +171,7 @@ function NavBar() {
     <>
       <nav className={`navbar navbar-expand-lg py-4 px-2 d-flex justify-content-between align-items-center ${styles.nav_style}`}>
         <div className="container ">
+
           {token ? (
             <button
               className={`navbar-toggler border-0 ${styles.icon_button_menue}`}
