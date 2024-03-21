@@ -193,7 +193,7 @@ export default function Sales() {
         <>
         <div className="container my-4">
           {filteredProducts?.some((pro) => pro.product.prodOnSale) && (
-            <h1 className={`${styles.sales_product_word}`}>SALES</h1>
+            <h1 className={`${styles.sales_product_word}`}>On Sale</h1>
           )}
           <div className="row gy-5">
             {filteredProducts
@@ -221,7 +221,7 @@ export default function Sales() {
                         >
                           {pro.product.prodOnSale ? (
                             <span className={`${styles.sale_product}`}>
-                              Sales
+                              On Sale
                             </span>
                           ) : null}
                         </div>

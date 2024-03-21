@@ -139,7 +139,7 @@ export default function FilterProduct() {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
-      toast.success("Product Added Favorite Successfully");
+      toast.success("Product Added To Favorite Successfully");
       settotal_items_FAV(res?.data?.total_items_count);
 
       getfavorite();
@@ -152,7 +152,7 @@ export default function FilterProduct() {
     let res = await deleteFavoriteProduct(id);
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
-      toast.success("Product Removed Favorite Successfully");
+      toast.success("Product Removed From Favorite Successfully");
       settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
@@ -280,11 +280,7 @@ export default function FilterProduct() {
                       className={`${styles.product_info} ${styles.product} w-100`}
                     >
                       <img
-<<<<<<< HEAD
                         src={`http://localhost:8000${pro.product.prodImageThumbnail}`}
-=======
-                        src={`http://127.0.0.1:8000${pro.product.prodImageThumbnail}`}
->>>>>>> bde9f2357811f81c16c323e39d54ee87ea55bc02
                         className="w-100"
                         alt={pro.product.prodName}
                       />

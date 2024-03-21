@@ -64,7 +64,7 @@ export default function NewProduct() {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
-      toast.success("Product Added Favorite Successfully");
+      toast.success("Product Added TO Favorite Successfully");
       settotal_items_FAV(res.data.total_items_count);
 
       getfavorite();
@@ -77,7 +77,7 @@ export default function NewProduct() {
     let res = await deleteFavoriteProduct(id);
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
-      toast.success("Product Removed Favorite Successfully");
+      toast.success("Product Removed From Favorite Successfully");
       settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
@@ -169,7 +169,7 @@ export default function NewProduct() {
           <>
             <div className={`${styles.Section_new}`}>
               <div className="container my-5 py-5">
-                <h1 className={`${styles.word_news}`}>NEWS</h1>
+                <h1 className={`${styles.word_news}`}>What's New?</h1>
                 <div className="row gy-5 ">
                   <Slider {...settings} className="w-100 ">
                     {products?.map((pro) => (
