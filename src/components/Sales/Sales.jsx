@@ -219,11 +219,11 @@ export default function Sales() {
                         <div
                           className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                         >
-                          {pro.product.prodOnSale ? (
+                          {/* {pro.product.prodOnSale ? (
                             <span className={`${styles.sale_product}`}>
                               On Sale
                             </span>
-                          ) : null}
+                          ) : null} */}
                         </div>
                       </Link>
                     </div>
