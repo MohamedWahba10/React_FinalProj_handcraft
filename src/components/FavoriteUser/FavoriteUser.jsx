@@ -36,6 +36,8 @@ export default function FavoriteUser() {
       settotal_items_FAV(res.data.total_items_count)
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
+
       console.error("Error while fetching favorite:", error);
     }
   }
@@ -88,62 +90,6 @@ export default function FavoriteUser() {
           <div className="container mb-5 pb-5 overflow-hidden">
             <div className="row gy-5">
               {dataFavorite?.map((pro) => (
-                // <div key={pro.id} className="col-md-3 cursor-pointer">
-                //     <div className="product py-3 px-2">
-                //         <div className={`${styles.product_info}`}>
-                //             <img
-                //                 src={`${pro.prodImageUrl}`}
-                //                 className="w-100"
-                //                 alt={pro.name}
-                //             />
-
-                //             <Link
-                //                 to={`/detail/${pro.id}`}
-                //                 className="text-decoration-none text-dark"
-                //             >
-                //                 <div
-                //                     className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between `}
-                //                 >
-                //                     <div className="d-flex justify-content-end">
-                //                         {userType === "vendor" ? null : (
-                //                             <div onClick={handleAddToCartClick}>
-
-                //                                 <div
-                //                                     className={`${styles.wish_list} bg-danger`}
-                //                                     onClick={() =>
-                //                                         deletefavorite(pro.id)
-                //                                     }
-                //                                 >
-                //                                     <i className="fa-regular fa-heart text-white"></i>
-                //                                 </div>
-
-                //                             </div>
-                //                         )}
-                //                     </div>
-
-                //                     <div className="d-flex justify-content-center align-items-center">
-                //                         <button className={`${styles.button_style}`}>
-                //                             QUICK VIEW
-                //                         </button>
-                //                         {userType === "vendor" ? null : (
-                //                             <div onClick={handleAddToCartClick}>
-                //                                 <button
-                //                                     className={`${styles.button_style}`}
-                //                                     onClick={() => addcart(pro.id)}
-                //                                 >
-                //                                     ADD TO CART
-                //                                 </button>
-                //                             </div>
-                //                         )}
-                //                     </div>
-                //                 </div>
-                //             </Link>
-                //         </div>
-
-                //         <h4 className="pb-2 pt-2">{pro.name}</h4>
-                //         <p>{pro.price} $</p>
-                //     </div>
-                // </div>
 
                 <div key={pro.id} className={`col-md-3 cursor-pointer`}>
                   <div className={` ${styles.product}`}>

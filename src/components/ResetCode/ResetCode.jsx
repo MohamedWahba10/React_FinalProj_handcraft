@@ -67,7 +67,6 @@ export default function ResetCode() {
       <div className="container my-5 py-5">
         <div className="row gy-5">
           <div className={`col-md-12 ${styles.form_login}`}>
-            <h2 className="text-center">Reset Code</h2>
             {error ? <div className="alert alert-danger"> {error}</div> : ""}
             <form onSubmit={ResetPassword.handleSubmit}>
               <div className="form-group my-3">

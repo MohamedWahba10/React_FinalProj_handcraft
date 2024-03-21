@@ -295,7 +295,10 @@ export default function Router() {
           path="/allProduct"
           element={
             <ProtectedRoutes>
+              <ProtectedVendor>
               <FeatureProduct />
+
+              </ProtectedVendor>
             </ProtectedRoutes>
           }
         />
