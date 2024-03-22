@@ -191,10 +191,10 @@ export default function NewProduct() {
                                 <div
                                   className={`${styles.above_layer}  p-3 d-flex justify-content-between align-items-start`}
                                 >
-                                  
+                             
                                   {pro.prodOnSale ? (
                                     <span className={`${styles.sale_product}`}>
-                                      Sales
+                                      Sale
                                     </span>
                                   ) : null}
                                 </div>

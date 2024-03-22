@@ -57,8 +57,8 @@ export default function ProductDetail() {
   }, []);
   const userType = dataUser?.data.message.usertype;
   console.log("userData", userType);
-  
-  let { addToFavorite, deleteFavoriteProduct, getFavorite,settotal_items_FAV } = useContext(FavoriteContext);
+
+  let { addToFavorite, deleteFavoriteProduct, getFavorite, settotal_items_FAV } = useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
@@ -115,7 +115,7 @@ export default function ProductDetail() {
     getAvgRate();
   }, []);
 
-  let { addToCart ,settotal_items_count } = useContext(CartContext);
+  let { addToCart, settotal_items_count , increaseCartProduct , decreaseCartProduct } = useContext(CartContext);
 
   async function addcart(id) {
     let res = await addToCart(id);
@@ -123,8 +123,30 @@ export default function ProductDetail() {
     if (res.data.msg === "added") {
       toast.success("product added Successfully");
       settotal_items_count(res.data.total_items_count)
-    } 
+    }
   }
+  async function increase(id, e) {
+    e.preventDefault();
+    try {
+        let data = await increaseCartProduct(id);
+        console.log(data);
+       
+    } catch (err) {
+  
+    }
+}
+
+async function decrease(id, e) {
+    e.preventDefault();
+    try {
+        let { data } = await decreaseCartProduct(id);
+        console.log(data);
+       
+    } catch (err) {
+        console.log(err);
+    }
+}
+
   return (
     <>
       <div className="container mb-5 pb-5 overflow-hidden">
@@ -212,7 +234,7 @@ export default function ProductDetail() {
                     {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
                     <div className="d-flex justify-content-start align-items-center">
                       {detailPro?.discounted_price ===
-                      detailPro?.original_price ? (
+                        detailPro?.original_price ? (
                         <p className="fs-5 ">{detailPro?.prodPrice} $</p>
                       ) : (
                         <>
@@ -243,7 +265,14 @@ export default function ProductDetail() {
                     // >
                     //   ADD TO CART
                     // </button>
-                    <div className=" d-flex justify-content-end">
+                    <div className=" d-flex justify-content-between">
+                      <div className="me-4 d-flex">
+                        <div className="me-4 d-flex">
+                          <div><button onClick={(e) => decrease(detailPro?.id, e)} className="btn btn-outline-secondary me-2">-</button></div>
+                          <div className='mt-1'><span>--</span></div>
+                          <div><button onClick={(e) => increase(detailPro?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+                        </div>
+                      </div>
                       <button
                         className={`${styles.button_style} ${styles.cart}`}
                         onClick={() => addcart(detailPro?.id)}

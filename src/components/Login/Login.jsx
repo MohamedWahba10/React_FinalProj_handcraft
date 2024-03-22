@@ -141,7 +141,7 @@ export default function Login() {
                       className={`border-0 mt-2 `}   style={{ fontWeight: 'bold' }}
                     // disabled={!(loginForm.isValid && loginForm.dirty)}
                     >
-                      Forgot  your passowrd ?
+                      Forgot your passowrd ?
                     </button>
                   </Link>
                 </div>

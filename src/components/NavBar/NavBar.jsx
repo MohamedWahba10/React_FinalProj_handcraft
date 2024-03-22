@@ -10,9 +10,7 @@ import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import FilterProduct from "../FilterProduct/FilterProduct";
 
-
 function NavBar() {
-
   const [layerVisible, setLayerVisible] = useState(false);
   const [layerVisibleWishList, setLayerVisibleWishList] = useState(false);
   const [layerVisibleSearch, setLayerVisibleSearch] = useState(false);
@@ -20,7 +18,6 @@ function NavBar() {
   const [userData, setData] = useState(null);
   const { total_items_count } = useContext(CartContext);
   const { total_items_FAV } = useContext(FavoriteContext);
-
 
   async function ProfileData() {
     try {
@@ -49,11 +46,8 @@ function NavBar() {
     // getcartDetails()
   }, [token]);
 
-
-
   useEffect(() => {
     setToken(localStorage.getItem("userToken"));
-
   }, []);
   const userType = userData?.data.message.usertype;
   const firstName = userData?.data.message.first_name;
@@ -101,7 +95,6 @@ function NavBar() {
   });
   useEffect(() => {
     if (isFetched) {
-
       console.log("Data fetching is completed");
     }
   }, [isFetched]);
@@ -169,9 +162,10 @@ function NavBar() {
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg py-4 px-2 d-flex justify-content-between align-items-center ${styles.nav_style}`}>
+      <nav
+        className={`navbar navbar-expand-lg py-4 px-2 d-flex justify-content-between align-items-center ${styles.nav_style}`}
+      >
         <div className="container ">
-
           {token ? (
             <button
               className={`navbar-toggler border-0 ${styles.icon_button_menue}`}
@@ -211,23 +205,19 @@ function NavBar() {
                     ABOUT US
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link
-                    className={`nav-link ${styles.Link_style}`}
-                    to="/allProduct"
-                  >
-                    SHOP
-                  </Link>
-                </li>
 
-                {/* <li class={`${styles.submenu} nav-item`}>
-                  <Link
-                    to="javascript:;"
-                    className={`${styles.Link_style} text-black text-decoration-none nav-link`}
-                  >
-                    PAGES
-                  </Link>
-                  <ul> */}
+                {userType === "customer" ? null : (
+                  <>
+                    <li className="nav-item">
+                      <Link
+                        className={`nav-link ${styles.Link_style}`}
+                        to="/allProduct"
+                      >
+                        SHOP
+                      </Link>
+                    </li>
+                  </>
+                )}
 
                 <li>
                   <Link
@@ -237,11 +227,7 @@ function NavBar() {
                     CATEGORIES
                   </Link>
                 </li>
-                {/* <li>
-                      <Link to="/allProduct" className={`${styles.Link_style}`}>
-                        Products
-                      </Link>
-                    </li> */}
+        
                 {userType === "customer" ? null : (
                   <>
                     <li>
@@ -254,38 +240,47 @@ function NavBar() {
                     </li>
                   </>
                 )}
-                {/* </ul>
-                </li> */}
+
               </ul>
             </div>
           ) : null}
           <div className={`${styles.cursor_pointer} navbar-brand`}>
-            <i class="fa-regular fa-user fs-3" onClick={() => viewAuth()}></i>
+            <i class="fa-regular fa-user fs-3 me-1" onClick={() => viewAuth()}></i>
+            {token?
+                        <span>{userName} </span>
+
+            :null
+            
+            }
+
           </div>
           {token ? (
             <>
               {userType === "customer" ? (
                 <>
+                  {
+                    <Link to="/favorite" className={`${styles.cursor_pointer}`}>
+                      <i className="fa-regular fa-heart fs-3 position-relative text-dark">
+                        {total_items_FAV > 0 && (
+                          <span className={`${styles.cart_count} me-1`}>
+                            {total_items_FAV}
+                          </span>
+                        )}
+                      </i>
+                    </Link>
+                  }
 
-               
-                    {<Link to="/favorite" className={`${styles.cursor_pointer}`}>
-                    <i className="fa-regular fa-heart fs-3 position-relative text-dark">
-                      {total_items_FAV > 0 && (
-                        <span className={`${styles.cart_count} me-1`}>{total_items_FAV}</span>
-                      )}
-
-                    </i>
-                  </Link>}
-
-                  {<Link to="/cart" className={`${styles.cursor_pointer}`}>
-                    <i className="fa-solid fa-cart-shopping fs-3 position-relative ms-3 text-dark">
-                      {total_items_count > 0 && (
-                        <span className={`${styles.cart_count} me-1`}>{total_items_count}</span>
-                      )}
-
-                    </i>
-                  </Link>}
-                
+                  {
+                    <Link to="/cart" className={`${styles.cursor_pointer}`}>
+                      <i className="fa-solid fa-cart-shopping fs-3 position-relative ms-3 text-dark">
+                        {total_items_count > 0 && (
+                          <span className={`${styles.cart_count} me-1`}>
+                            {total_items_count}
+                          </span>
+                        )}
+                      </i>
+                    </Link>
+                  }
                 </>
               ) : null}
               <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
@@ -324,7 +319,8 @@ function NavBar() {
                     to="/profile"
                     onClick={closeLayer}
                   >
-                    View Profile  <span style={{ fontWeight: "bold" }}>{userName}{" "}</span>
+                    View Profile{" "}
+                    <span style={{ fontWeight: "bold" }}>{userName} </span>
                   </Link>
                 </div>
               </>
@@ -358,44 +354,7 @@ function NavBar() {
         </div>
       )}
       {/* .................... wish list ....................... */}
-      {/* {layerVisibleWishList && (
-        <div
-          className={`${styles.above_layer_wish}`}
-          onClick={closeLayerWishList}
-        >
-          <div
-            className={`${styles.inner_layer_wish} py-5 px-5 position-relative `}
-            onClick={handleInnerLayerClick}
-          >
-            <div className="d-flex justify-content-end ">
-              <i
-                class={`fa-solid fa-xmark fs-3 ${styles.cursor_pointer}`}
-                onClick={closeLayerWishList}
-              ></i>
-            </div>
-            <div>
-              <h1 className="fw-bold">Wish List</h1>
-            </div>
-            <div className={`${styles.wish_list_buttons}   `}>
-              <button className={`${styles.wish_style_button} d-block`}>
-                <Link
-                  className={`${styles.wish_style_link}`}
-                  to="/"
-                  onClick={closeLayer}
-                >
-                  Wish List
-                </Link>
-              </button>
-              <span
-                className={`${styles.cursor_pointer} fs-4`}
-                onClick={closeLayerWishList}
-              >
-                OR CONTINUE SHOPPING
-              </span>
-            </div>
-          </div>
-        </div>
-      )} */}
+    
 
       {/* ......................search............................ */}
 
@@ -414,109 +373,10 @@ function NavBar() {
                 onClick={closeLayerSearch}
               ></i>
             </div>
-            {/* <div className="container">
-              <input
-                type="text"
-                className={`${styles.search_input}`}
-                placeholder="Search By Name Product"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="container my-4">
-              <div className="row gy-5 ">
-                {filteredProducts?.map((pro) => (
-                  <div key={pro.product.id} className="col-md-3 cursor-pointer">
-                    <div className="product ">
-                      <div className={`${styles.product_info}`}>
-                        <img
-                          src={`${pro.product.prodImageUrl}`}
-                          className="w-100"
-                          alt={pro.product.prodName}
-                        />
-                        <Link
-                          to={`/detail/${pro.product.id}`}
-                          className="text-decoration-none text-dark "
-                        >
-                          <div
-                            className={`${styles.above_layer} p-3 d-flex flex-column justify-content-between align-items-end `}
-                          >
-                            <div className="d-flex justify-content-start align-items-end">
-                              {userType === "vendor" ? null : (
-                                <div
-                                  // className={`${styles.wish_list}`}
-                                  onClick={handleAddToCartClick}
-                                >
-                                  {dataFavorite?.find(
-                                    (favProduct) =>
-                                      favProduct.id === pro.product.id
-                                  ) ? (
-                                    <div
-                                      className={`${styles.wish_list} bg-danger`}
-                                      onClick={() =>
-                                        deletefavorite(pro.product.id)
-                                      }
-                                    >
-                                      <i className="fa-regular fa-heart text-white"></i>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className={`${styles.wish_list}`}
-                                      onClick={() =>
-                                        addfavorite(pro.product.id)
-                                      }
-                                    >
-                                      <i className="fa-regular fa-heart"></i>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="d-flex justify-content-center align-items-center">
-                              <div>
-                                <button className={`${styles.button_style}`}>
-                                  QUICK VIEW
-                                </button>
-                              </div>
-
-                              <div>
-                                {userType === "vendor" ? null : (
-                                  <button
-                                    className={`${styles.button_style}`}
-                                    onClick={handleAddToCartClick}
-                                  >
-                                    ADD TO CART
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-
-                      <h4 className="pb-2 pt-2">{pro.product.prodName}</h4>
-                      <p>{pro.product.prodPrice} EGP</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div> */}
+       
             <FilterProduct />
 
-            {/* <div className={`${styles.wish_list_buttons}  `}>
-              <button
-                className={`${styles.wish_style_button} d-block  fixed-bottom `}
-              >
-                <Link
-                  className={`${styles.wish_style_link}`}
-                  to="/"
-                  onClick={closeLayer}
-                >
-                  View Result Search
-                </Link>
-              </button>
-            </div> */}
+
           </div>
         </div>
       )}

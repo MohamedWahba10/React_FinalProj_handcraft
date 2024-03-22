@@ -59,21 +59,20 @@ export default function ResetPassword() {
   return (
     <>
       <Helmet>
-        <title>Reset Code</title>
+        <title>Reset Password</title>
       </Helmet>
       <div className={`${styles.header_login} py-5 mb-5 text-center `}>
-        <h1>Reset Code</h1>
+        <h1>Reset Password</h1>
 
         <Link to="/login" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>Login</span>
         </Link>
 
-        <span className={`${styles.span_login}`}>/ ResetPasseord</span>
+        <span className={`${styles.span_login}`}>/ ResetPasseword</span>
       </div>
       <div className="container my-5 py-5">
         <div className="row gy-5">
           <div className={`col-md-12 ${styles.form_login}`}>
-            <h2 className="text-center">Reset Password</h2>
             {error ? <div className="alert alert-danger"> {error}</div> : ""}
             <form onSubmit={ResetPassword.handleSubmit}>
             <div className="form-group my-3">

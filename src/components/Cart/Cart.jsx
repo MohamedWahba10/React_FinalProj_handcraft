@@ -14,7 +14,7 @@ export default function Cart() {
     let [isEmpty, setisEmpty] = useState(true)
 
 
-    let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart ,settotal_items_count} = useContext(CartContext)
+    let { getCart, deleteCartProduct , increaseCartProduct , decreaseCartProduct , clearCart , settotal_items_count} = useContext(CartContext)
 
     function empty() {
         if (isEmpty) {
@@ -27,6 +27,7 @@ export default function Cart() {
             let { data } = await getCart()
             setapiError("")   // this is to remove the error message when user re-try again  
             // Check if data is defined before updating state
+            console.log("cartDetails-->",data);
             if (data) {
                 setcartDetails(data)
                 settotal_items_count(data.total_items_count)

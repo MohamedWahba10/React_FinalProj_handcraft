@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import FavoriteUser from "../FavoriteUser/FavoriteUser";
+import VendorProduct from "../VendorProduct/VendorProduct";
 
 export default function Profile() {
   const [dataUser, setData] = useState(null);
@@ -37,74 +38,74 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   console.log("userData", userData);
 
-  const [allData, setAllData] = useState([]);
-  async function getProduct() {
-    setIsLoading(true);
-    try {
-      let { data } = await axios.get(
-        `http://127.0.0.1:8000/api/product/vendor/`,
-        {
-          headers: {
-            Authorization: `Token ${localStorage.getItem("userToken")}`,
-          },
-        }
-      );
-      console.log("response Product vendor");
-      setAllData(data);
-      setIsLoading(false);
-      return data;
-    } catch (error) {
-      setIsLoading(false);
-      // handle error
-      console.error("Error fetching product:", error);
-      return null; // or throw error if necessary
-    }
-  }
-  const Products = allData;
-  console.log("product vendorrrrrr", Products);
-  useEffect(() => {
-    getProduct();
-  }, []);
-  async function deleteProduct(id) {
-    try {
-      await axios.delete(`http://127.0.0.1:8000/api/product/${id}/`, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("userToken")}`,
-        },
-      });
-      toast.success("Product removed successfully");
-      // refetchProducts();
-      getProduct();
-    } catch (error) {
-      console.error("Failed to delete product", error);
-      toast.error("Failed to remove product");
-    }
-  }
+  // const [allData, setAllData] = useState([]);
+  // async function getProduct() {
+  //   setIsLoading(true);
+  //   try {
+  //     let { data } = await axios.get(
+  //       `http://127.0.0.1:8000/api/product/vendor/`,
+  //       {
+  //         headers: {
+  //           Authorization: `Token ${localStorage.getItem("userToken")}`,
+  //         },
+  //       }
+  //     );
+  //     console.log("response Product vendor");
+  //     setAllData(data);
+  //     setIsLoading(false);
+  //     return data;
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     // handle error
+  //     console.error("Error fetching product:", error);
+  //     return null; // or throw error if necessary
+  //   }
+  // }
+  // const Products = allData;
+  // console.log("product vendorrrrrr", Products);
+  // useEffect(() => {
+  //   getProduct();
+  // }, []);
+  // async function deleteProduct(id) {
+  //   try {
+  //     await axios.delete(`http://127.0.0.1:8000/api/product/${id}/`, {
+  //       headers: {
+  //         Authorization: `Token ${localStorage.getItem("userToken")}`,
+  //       },
+  //     });
+  //     toast.success("Product removed successfully");
+  //     // refetchProducts();
+  //     getProduct();
+  //   } catch (error) {
+  //     console.error("Failed to delete product", error);
+  //     toast.error("Failed to remove product");
+  //   }
+  // }
 
-  const [deleteProductId, setDeleteProductId] = useState(null);
+  // const [deleteProductId, setDeleteProductId] = useState(null);
 
-  const confirmDelete = (id) => {
-    setDeleteProductId(id);
-  };
+  // const confirmDelete = (id) => {
+  //   setDeleteProductId(id);
+  // };
 
-  const cancelDelete = () => {
-    setDeleteProductId(null);
-  };
+  // const cancelDelete = () => {
+  //   setDeleteProductId(null);
+  // };
 
-  const handleDelete = async () => {
-    await deleteProduct(deleteProductId);
-    setDeleteProductId(null);
-  };
-  const handleAddToCartClick = (e) => {
-    e.preventDefault();
-  };
+  // const handleDelete = async () => {
+  //   await deleteProduct(deleteProductId);
+  //   setDeleteProductId(null);
+  // };
+  // const handleAddToCartClick = (e) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <>
       <Helmet>
         <title>Profile</title>
       </Helmet>
-      <Modal show={deleteProductId !== null} onHide={cancelDelete}>
+      {/* <Modal show={deleteProductId !== null} onHide={cancelDelete}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
@@ -117,7 +118,7 @@ export default function Profile() {
             Delete
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
       <div className={`${styles.header_profile} py-5 mb-5 text-center `}>
         <h1>Your Profile</h1>
 
@@ -236,140 +237,20 @@ export default function Profile() {
               </div>
             </div>
           </div>
-          {/* <div >
-            <div className="row"> */}
+        
 
           {userType === "vendor" ? (
             <>
-              {isLoading ? (
-                <Loading />
-              ) : (
+      
                 <div className={`container my-5 ${styles.Profile_info}`}>
                   <h3 className={`text-center my-5 ${styles.word_Favorite}`}>
                     FEATURED PRODUCT Of Vendor{" "}
                     {dataUser?.data.message.first_name}{" "}
                     {dataUser?.data.message.last_name}
                   </h3>
-                  {Products ? (
-                    <>
-                      <div className="container">
-                        <div className="row">
-                          {Array.isArray(Products) &&
-                            Products?.map((pro) => (
-                              <div
-                                key={pro.id}
-                                className={`col-md-3 cursor-pointer`}
-                              >
-                                <div className={` ${styles.product}`}>
-                                  <div
-                                    className={`${styles.product_info} ${styles.product} w-100`}
-                                  >
-                                    <img
-                                      src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
-                                      className="w-100"
-                                      alt={pro.prodName}
-                                    />
-                                    <Link
-                                      to={`/detail/${pro.id}`}
-                                      className="text-decoration-none text-dark "
-                                    >
-                                      <div
-                                        className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
-                                      >
-                                        {pro.prodOnSale ? (
-                                          <span
-                                            className={`${styles.sale_product}`}
-                                          >
-                                            Sales
-                                          </span>
-                                        ) : null}
-                                      </div>
-                                    </Link>
-                                  </div>
-                                  <div className={`px-2 `}>
-                                    <h4
-                                      className={`pb-1 pt-2 ${styles.pro_name}`}
-                                    >
-                                      {pro.prodName}
-                                    </h4>
-
-                                    <div>
-                                      <div className="d-flex justify-content-between align-items-center">
-                                        {pro.discounted_price ===
-                                        pro.original_price ? (
-                                          <p className="fs-5 ">
-                                            {pro.prodPrice} $
-                                          </p>
-                                        ) : (
-                                          <>
-                                            <p className="fs-5 text-decoration-line-through">
-                                              {pro.original_price} $
-                                            </p>
-                                            <p className="fs-5">
-                                              {pro.discounted_price} $
-                                            </p>
-                                          </>
-                                        )}
-                                      </div>
-                                      <div>
-                                        <p>{pro.prodDescription}</p>
-                                      </div>
-                                    </div>
-
-                                    <div className="my-2">
-                                      <div className="d-flex justify-content-between align-items-center">
-                                        <div>
-                                          <div onClick={handleAddToCartClick}>
-                                            <Link
-                                              to={`/updateProduct/${pro.id}`}
-                                            >
-                                              <button
-                                                className={`${styles.button_style} ${styles.wish_list}`}
-                                              >
-                                                <i class="fa-solid fa-pen-to-square"></i>{" "}
-                                              </button>
-                                            </Link>
-                                          </div>
-                                        </div>
-                                        <div>
-                                          <div onClick={handleAddToCartClick}>
-                                            <button
-                                              className={`${styles.button_style} ${styles.cart}`}
-                                              onClick={() =>
-                                                confirmDelete(pro.id)
-                                              }
-                                            >
-                                              <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <Loading />
-                  )}
-                  {Products.length !== 0 ? null : (
-                    <>
-                      <div
-                        className={`col-12 text-center ${styles.No_product}`}
-                      >
-                        <h1>
-                          No Product Created By{" "}
-                          {dataUser?.data.message.first_name}{" "}
-                          {dataUser?.data.message.last_name}
-                        </h1>
-                      </div>
-                    </>
-                  )}
+                  <VendorProduct/>
+                  
                 </div>
-              )}
             </>
           ) : (
             <>
@@ -381,8 +262,7 @@ export default function Profile() {
               </div>
             </>
           )}
-          {/* </div>
-          </div> */}
+  
         </>
       )}
     </>

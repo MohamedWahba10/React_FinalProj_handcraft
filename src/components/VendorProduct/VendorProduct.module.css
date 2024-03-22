@@ -1,0 +1,316 @@
+.header_profile {
+    background-color: #f8f6f0;
+  }
+  
+  .header_profile h1 {
+    font-size: 45px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    font-family: "Oswald", sans-serif;
+  }
+  
+  .header_profile .link_home {
+    color: #727272;
+    font-size: 18px;
+  }
+  
+  .header_profile .span_profile {
+    color: #3f3e3e;
+    font-size: 18px;
+  }
+  .profile img {
+    width: 100% !important;
+    height: 350px;
+    /* border-radius: 50%; */
+    /* margin-block: 10px; */
+    border: 1px solid black;
+  }
+   .update_button {
+    background-color: #1f1f1f;
+    font-size: 22px;
+    padding: 10px 30px;
+    margin-block: 15px;
+    border-radius: 10px;
+    color: white;
+    transition: all 0.5s;
+  }
+   .update_button:hover {
+    background-color: #d2ef9a;
+    color: black;
+    cursor: pointer;
+  }
+  .name{
+    font-family: "Oswald", sans-serif;
+    font-size: 30px;
+  }
+  .name_field{
+    font-family: "Oswald", sans-serif;
+    font-size: 25px;
+  }
+  .product_info {
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+    font-family: "Oswald", sans-serif;
+  }
+  .product_info img {
+    height: 350px;
+    border-radius: 15px;
+    transition: 0.5s all;
+  }
+  .product_info .above_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* opacity: 0; */
+    transition: all 0.5s ease 0.5s;
+    background-color: transparent;
+    border-radius: 15px;
+    height: 350px;
+    z-index: 66;
+    width: 100%;
+  }
+  .product_info:hover img {
+    transform: scale(1.2);
+  }
+  .product_info:hover .above_layer {
+    opacity: 1;
+  }
+  .product_info:not(:hover) img {
+    transition-delay: 0.5s;
+  }
+  .product_info:not(:hover) .above_layer {
+    transition-delay: 0s;
+  }
+  .product_info .above_layer .button_style {
+    background-color: white;
+    padding: 10px;
+    color: black;
+    border-radius: 7px;
+    border: none;
+    transition: all 0.5s ease;
+    margin-inline: 7px;
+  }
+  .product_info .above_layer .button_style:hover {
+    background-color: black;
+    color: white;
+  }
+  .product_info .above_layer .delete {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.5s;
+  }
+  .product_info .above_layer .delete i {
+    color: black;
+    font-size: 18px;
+  }
+  .product_info .above_layer .delete:hover {
+    background-color: black;
+  }
+  .product_info .above_layer .delete:hover i {
+    color: white;
+  }
+  .word_Favorite {
+    font-size: 30px;
+    font-family: "Oswald", sans-serif;
+  }
+  /* ------------------------------------------------- */
+  .product_info {
+    /* border-radius: 15px; */
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+  }
+  .product_info img {
+    height: 350px;
+    /* border-radius: 15px; */
+    transition: 0.5s all;
+  }
+  .product_info .above_layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* opacity: 0; */
+    transition: all 0.5s ease 0.5s;
+    background-color: transparent;
+    /* border-radius: 15px; */
+    height: 350px;
+    z-index: 66;
+    width: 100%;
+  }
+  .filter_selected {
+    font-family: "Oswald", sans-serif;
+  }
+  .product_info:hover img {
+    transform: scale(1.2);
+  }
+  .product_info:hover .above_layer {
+    opacity: 1;
+  }
+  .product_info:not(:hover) img {
+    transition-delay: 0.5s;
+  }
+  .product_info:not(:hover) .above_layer {
+    transition-delay: 0s;
+  }
+  
+  .product_info .above_layer .sale_product {
+    display: inline-block;
+  
+    background-color: black;
+    color: white;
+    /* padding: 7px 10px; */
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+  }
+  
+  .wish_list {
+    /* position: absolute; */
+    /* bottom: 2.5%;
+      right: 2.5%; */
+    background-color: black;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+    transition: 0.5s;
+  }
+  .wish_list i {
+    font-size: 19px;
+  }
+  .wish_list:hover i {
+    color: black;
+    transition: 0.5s;
+  }
+  /* .wish_list:hover  i{
+      color: #193DB0;
+  } */
+  .wish_list:hover {
+    cursor: pointer;
+    background-color: #fff;
+  }
+  
+  .cart {
+    background-color: #fff;
+    filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+    transition: 0.5s;
+  }
+  .cart i {
+    font-size: 19px;
+  }
+  .cart:hover i {
+    color: black;
+    transition: 0.5s;
+  }
+  .cart:hover i {
+    color: #fff;
+  }
+  .cart:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+  }
+  
+  .search_input {
+    width: 100%;
+    padding: 15px 13px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+  .cursor_pointer {
+    cursor: pointer;
+  }
+  
+  /* product */
+  .product {
+    border-radius: 15px;
+    position: relative;
+    padding-bottom: 20px;
+    background-color: #fff;
+  
+    filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+    margin-bottom: 20px;
+  }
+  .product img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  
+  .product .pro_name {
+    font-family: "Oswald", sans-serif;
+  }
+  
+  .No_product {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .No_product h1 {
+    font-size: 4rem;
+    font-family: "Madimi One", sans-serif;
+  }
+  
+  .Profile_data {
+    padding: 25px 25px;
+    border-radius: 20px;
+    background-color: #fff;
+    filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+  }
+  .Profile_info {
+    padding: 25px 25px;
+    border-radius: 20px;
+    background-color:  #F7F7F7;
+    filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+  }
+  
+  
+  /* 00000000000000 */
+  .info {
+    background-color: RGB(245, 245, 245);
+    padding: 20px;
+    display: flex;
+    width: 49%;
+    margin-bottom: 25px;
+  }
+  
+  .info i {
+    color: #fff;
+    font-size: 18px;
+    background-color: black;
+    padding: 18px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+   .info h3 {
+    color: RGB(125, 125, 125);
+    font-size: 22px;
+    padding-bottom: 7px;
+    font-family: "Inter", sans-serif;
+  }
+  
+   .info p {
+    color: (33, 37, 41);
+  }
+   .info p span{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+  
+  }

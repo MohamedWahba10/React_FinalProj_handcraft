@@ -9,7 +9,7 @@ const headers = {
     Authorization: `Token ${localStorage.getItem("userToken")}`
 };
 
-async function addToCart(id) {
+ function addToCart(id) {
 
     return axios.post(`http://127.0.0.1:8000/api/cart/add/`, {
         item: id,

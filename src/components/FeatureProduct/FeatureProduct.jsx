@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import FilterProduct from "../FilterProduct/FilterProduct";
 import { Helmet } from "react-helmet";
+import VendorProduct from "../VendorProduct/VendorProduct";
 
 export default function FeatureProduct() {
   let { addToCart ,settotal_items_count } = useContext(CartContext);
@@ -124,7 +125,9 @@ export default function FeatureProduct() {
             <span className={`${styles.span_profile}`}>/Shop</span>
           </div>
      
-          <FilterProduct/>
+          {/* <FilterProduct/>
+           */}
+           <VendorProduct/>
         </>
       )}
     </>
