@@ -269,7 +269,7 @@ async function decrease(id, e) {
                       <div className="me-4 d-flex">
                         <div className="me-4 d-flex">
                           <div><button onClick={(e) => decrease(detailPro?.id, e)} className="btn btn-outline-secondary me-2">-</button></div>
-                          <div className='mt-1'><span>--</span></div>
+                          <div className='mt-1'><span>{detailPro?.prodStock}</span></div>
                           <div><button onClick={(e) => increase(detailPro?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
                         </div>
                       </div>

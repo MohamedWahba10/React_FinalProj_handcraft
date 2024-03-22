@@ -261,11 +261,11 @@ function NavBar() {
                   {
                     <Link to="/favorite" className={`${styles.cursor_pointer}`}>
                       <i className="fa-regular fa-heart fs-3 position-relative text-dark">
-                        {total_items_FAV > 0 && (
+                        {/* {total_items_FAV > 0 && (
                           <span className={`${styles.cart_count} me-1`}>
                             {total_items_FAV}
                           </span>
-                        )}
+                        )} */}
                       </i>
                     </Link>
                   }

@@ -178,7 +178,7 @@ export default function Cart() {
                                             ))}
                                             <div className="border-top pt-4 mx-4 mb-4">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price} $</span></p>
+                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price +10} $</span></p>
                                                     <a href="checkout" className="btn text-light bg-dark "> Proceed to checkout</a>
                                                 </div>
                                             </div>
@@ -201,7 +201,7 @@ export default function Cart() {
                                             <hr />
                                             <div className="d-flex justify-content-between">
                                                 <p className="h5">Total:</p>
-                                                <p className="h5">{cartDetails.total_items_price} $</p>
+                                                <p className="h5">{cartDetails.total_items_price +10} $</p>
                                             </div>
                                             <a href="/checkout" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
                                         </div>
