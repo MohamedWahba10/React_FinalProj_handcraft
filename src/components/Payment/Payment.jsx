@@ -7,6 +7,7 @@ import { CartContext } from "../../Context/CartContext";
 
 
 export default function Payment() {
+    
     let [cartDetails, setcartDetails] = useState({})
     let { cartID, getCart } = useContext(CartContext)
     async function getcartDetails() {
