@@ -6,10 +6,12 @@ import { Helmet } from "react-helmet";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
+import { TokenContext } from "../../Context/Token";
+
 export default function ProductDetail() {
   const settings = {
     dots: true,
@@ -25,11 +27,7 @@ export default function ProductDetail() {
     queryFn: getDetailProduct,
   });
   function getDetailProduct() {
-    return axios.get(`http://127.0.0.1:8000/api/product/details/${id}/`, {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("userToken")}`,
-      },
-    });
+    return axios.get(`http://127.0.0.1:8000/api/product/details/${id}/`);
   }
   const detailPro = data?.data?.data;
   console.log("dataProoooo", detailPro);
@@ -58,13 +56,18 @@ export default function ProductDetail() {
   const userType = dataUser?.data.message.usertype;
   console.log("userData", userType);
 
-  let { addToFavorite, deleteFavoriteProduct, getFavorite, settotal_items_FAV } = useContext(FavoriteContext);
+  let {
+    addToFavorite,
+    deleteFavoriteProduct,
+    getFavorite,
+    settotal_items_FAV,
+  } = useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
       toast.error(res.data.message);
@@ -76,7 +79,7 @@ export default function ProductDetail() {
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -89,7 +92,7 @@ export default function ProductDetail() {
       let res = await getFavorite();
       console.log("hello all to favorite", res);
       setDataFavorite(res.data.favorite_products);
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       console.log("dataFavoeite", dataFavorite);
     } catch (error) {
       console.error("Error while fetching favorite:", error);
@@ -115,18 +118,38 @@ export default function ProductDetail() {
     getAvgRate();
   }, []);
 
-  let { getCart, addToCart, deleteCartProduct , settotal_items_count, increaseCartProduct, decreaseCartProduct } = useContext(CartContext);
+  let { token, setToken } = useContext(TokenContext);
+  useEffect(() => {
+    setToken(localStorage.getItem("userToken"));
+  }, []);
+  let navigate = useNavigate();
 
-  let [cartDetails, setcartDetails] = useState({})
+  function checkLogin() {
+    if (!token) {
+      toast("Please The Login First");
+      navigate("/login");
+    }
+  }
+
+  let {
+    getCart,
+    addToCart,
+    deleteCartProduct,
+    settotal_items_count,
+    increaseCartProduct,
+    decreaseCartProduct,
+  } = useContext(CartContext);
+
+  let [cartDetails, setcartDetails] = useState({});
 
   async function getcartDetails() {
     try {
-      let { data } = await getCart()
+      let { data } = await getCart();
 
       if (data) {
-        setcartDetails(data)
-       
-        settotal_items_count(data.total_items_count)
+        setcartDetails(data);
+
+        settotal_items_count(data.total_items_count);
       }
     } catch (error) {
       console.error("Error fetching cart details:", error);
@@ -138,18 +161,19 @@ export default function ProductDetail() {
     console.log("heloo add to cart ", res);
     if (res.data.msg === "added") {
       toast.success("product added Successfully");
-      settotal_items_count(res.data.total_items_count)
+      settotal_items_count(res.data.total_items_count);
     }
   }
-  let [apiError, setapiError] = useState("")
+  let [apiError, setapiError] = useState("");
   async function increase(id, e) {
     e.preventDefault();
     try {
       let data = await increaseCartProduct(id);
       console.log(data);
-
     } catch (err) {
-      setapiError("Quantity cannot be increased further, exceeds prodStock limit");
+      setapiError(
+        "Quantity cannot be increased further, exceeds prodStock limit"
+      );
     }
   }
 
@@ -158,7 +182,7 @@ export default function ProductDetail() {
     try {
       let { data } = await decreaseCartProduct(id);
       console.log(data);
-      setapiError("")   // this is to remove the error message when user re-try again 
+      setapiError(""); // this is to remove the error message when user re-try again
     } catch (err) {
       console.log(err);
     }
@@ -166,18 +190,16 @@ export default function ProductDetail() {
 
   async function removeProduct(id, e) {
     e.preventDefault();
-    let { data } = await deleteCartProduct(id)
+    let { data } = await deleteCartProduct(id);
     console.log("remove my prod", data.response);
-    settotal_items_count(data.total_items_count)
-    setcartDetails(data)
-    getcartDetails()
-}
-
+    settotal_items_count(data.total_items_count);
+    setcartDetails(data);
+    getcartDetails();
+  }
 
   useEffect(() => {
-    getcartDetails()
-
-  }, [getcartDetails])
+    getcartDetails();
+  }, [getcartDetails]);
 
   return (
     <>
@@ -218,6 +240,15 @@ export default function ProductDetail() {
                           </span>
                         ) : null}
                       </div>
+                      <>
+                   
+                      {
+                       token ? 
+                       (
+                        <>
+                        
+                        
+                     
                       {userType === "vendor" ? null : (
                         <div>
                           {dataFavorite?.find(
@@ -243,6 +274,35 @@ export default function ProductDetail() {
                           )}
                         </div>
                       )}
+                         </>
+                       )
+                       :
+                       (<>
+                       {userType === "vendor" ? null : (
+                        <div>
+                          {dataFavorite?.find(
+                            (favProduct) => favProduct.id === detailPro?.id
+                          ) ? (
+                            <div
+                              className={`${styles.wish_style} bg-danger`}
+                              onClick={checkLogin}                            >
+                              <i
+                                class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
+                              ></i>
+                            </div>
+                          ) : (
+                            <div
+                              className={`${styles.wish_style}`}
+                              onClick={checkLogin}                            >
+                              <i
+                                class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
+                              ></i>
+                            </div>
+                          )}
+                        </div>
+                      )}</>)
+                      }
+                      </>
                     </div>
                   </>
 
@@ -266,7 +326,7 @@ export default function ProductDetail() {
                     {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
                     <div className="d-flex justify-content-start align-items-center">
                       {detailPro?.discounted_price ===
-                        detailPro?.original_price ? (
+                      detailPro?.original_price ? (
                         <p className="fs-5 ">{detailPro?.prodPrice} $</p>
                       ) : (
                         <>
@@ -292,24 +352,91 @@ export default function ProductDetail() {
                       </button>
                     </Link>
                   ) : (
-                    // <button
-                    //   className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
-                    // >
-                    //   ADD TO CART
-                    // </button>
+                 
                     <div className=" d-flex justify-content-between">
+                      <div className="me-4 d-flex">
+                        {cartDetails.cart_items &&
+                          cartDetails.cart_items.some(
+                            (item) => item.item_name === detailPro?.prodName
+                          ) && (
+                            <>
+                              <div>
+                                <button
+                                  onClick={(e) =>
+                                    decrease(
+                                      cartDetails.cart_items.find(
+                                        (item) =>
+                                          item.item_name === detailPro?.prodName
+                                      )?.id,
+                                      e
+                                    )
+                                  }
+                                  className="btn btn-outline-secondary me-2"
+                                  disabled={
+                                    cartDetails.cart_items.find(
+                                      (item) =>
+                                        item.item_name === detailPro?.prodName
+                                    ).quantity <= 1
+                                  }
+                                >
+                                  -
+                                </button>
+                              </div>
+                              <div className="mt-1">
+                                <span>
+                                  {
+                                    cartDetails.cart_items.find(
+                                      (item) =>
+                                        item.item_name === detailPro?.prodName
+                                    ).quantity
+                                  }
+                                </span>
+                              </div>
+                              <div>
+                                <button
+                                  onClick={(e) =>
+                                    increase(
+                                      cartDetails.cart_items.find(
+                                        (item) =>
+                                          item.item_name === detailPro?.prodName
+                                      )?.id,
+                                      e
+                                    )
+                                  }
+                                  className="btn btn-outline-secondary ms-2"
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <div>
+                                <button
+                                  onClick={(e) =>
+                                    removeProduct(
+                                      cartDetails.cart_items.find(
+                                        (item) =>
+                                          item.item_name === detailPro?.prodName
+                                      )?.id,
+                                      e
+                                    )
+                                  }
+                                  className="btn btn-light border text-danger icon-hover-danger ms-3"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            </>
+                          )}
+                      </div>
 
-<div className="me-4 d-flex">
-  {cartDetails.cart_items && cartDetails.cart_items.some(item => item.item_name === detailPro?.prodName) && (
-    <>
-      <div><button onClick={(e) => decrease(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
-      <div className='mt-1'><span>{cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity}</span></div>
-      <div><button onClick={(e) => increase(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
-      <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
-    </>
-  )}
-</div>
 
+                      <>
+                      {
+                        token?
+                        (
+                          <>
+                          
+                   
+                     
 
                       <button
                         className={`${styles.button_style} ${styles.cart}`}
@@ -317,11 +444,32 @@ export default function ProductDetail() {
                       >
                         <i class="fa-solid fa-cart-shopping cart"></i>
                       </button>
+                             </>
+                             )
+                             :
+                             (
+                              <>
+              
+                              <button
+                                className={`${styles.button_style} ${styles.cart}`}
+                                onClick={checkLogin}
+                              >
+                                <i class="fa-solid fa-cart-shopping cart"></i>
+                              </button>
+                                     </>
+                             )
+                           }
+                           </>
                     </div>
-                    
-
                   )}
-                    {apiError && <div className="alert alert-danger mt-3">{apiError}</div>}
+                  {apiError && (
+                    <div className="alert alert-danger mt-3">{apiError}</div>
+                  )}
+                  {
+                    token?
+                    (
+                      <>
+              
                   <Link
                     to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
                   >
@@ -331,6 +479,11 @@ export default function ProductDetail() {
                       View Product Vendor {detailPro?.prodVendor.shopname}
                     </button>
                   </Link>
+                          
+                  </>
+                    ):
+                    null
+                  }
                   {userType === "customer" ? (
                     <Link
                       to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}

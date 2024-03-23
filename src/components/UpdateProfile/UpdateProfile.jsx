@@ -175,7 +175,8 @@ export default function UpdateProfile() {
                     <div className="col-md-12 text-center mb-3">
                       <div className="form-group">
                         <img
-                          src={userData.imageUrl}
+                          src={`http://127.0.0.1:8000${userData.image}`}
+
                           style={{ height: "150px", width: "150px" }}
                           alt="profile img"
                         />
