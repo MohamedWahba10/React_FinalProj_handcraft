@@ -57,8 +57,8 @@ export default function ProductDetail() {
   }, []);
   const userType = dataUser?.data.message.usertype;
   console.log("userData", userType);
-  
-  let { addToFavorite, deleteFavoriteProduct, getFavorite,settotal_items_FAV } = useContext(FavoriteContext);
+
+  let { addToFavorite, deleteFavoriteProduct, getFavorite, settotal_items_FAV } = useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
@@ -115,7 +115,23 @@ export default function ProductDetail() {
     getAvgRate();
   }, []);
 
-  let { addToCart ,settotal_items_count } = useContext(CartContext);
+  let { getCart, addToCart, deleteCartProduct , settotal_items_count, increaseCartProduct, decreaseCartProduct } = useContext(CartContext);
+
+  let [cartDetails, setcartDetails] = useState({})
+
+  async function getcartDetails() {
+    try {
+      let { data } = await getCart()
+
+      if (data) {
+        setcartDetails(data)
+       
+        settotal_items_count(data.total_items_count)
+      }
+    } catch (error) {
+      console.error("Error fetching cart details:", error);
+    }
+  }
 
   async function addcart(id) {
     let res = await addToCart(id);
@@ -123,8 +139,46 @@ export default function ProductDetail() {
     if (res.data.msg === "added") {
       toast.success("product added Successfully");
       settotal_items_count(res.data.total_items_count)
-    } 
+    }
   }
+  let [apiError, setapiError] = useState("")
+  async function increase(id, e) {
+    e.preventDefault();
+    try {
+      let data = await increaseCartProduct(id);
+      console.log(data);
+
+    } catch (err) {
+      setapiError("Quantity cannot be increased further, exceeds prodStock limit");
+    }
+  }
+
+  async function decrease(id, e) {
+    e.preventDefault();
+    try {
+      let { data } = await decreaseCartProduct(id);
+      console.log(data);
+      setapiError("")   // this is to remove the error message when user re-try again 
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function removeProduct(id, e) {
+    e.preventDefault();
+    let { data } = await deleteCartProduct(id)
+    console.log("remove my prod", data.response);
+    settotal_items_count(data.total_items_count)
+    setcartDetails(data)
+    getcartDetails()
+}
+
+
+  useEffect(() => {
+    getcartDetails()
+
+  }, [getcartDetails])
+
   return (
     <>
       <div className="container mb-5 pb-5 overflow-hidden">
@@ -212,7 +266,7 @@ export default function ProductDetail() {
                     {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
                     <div className="d-flex justify-content-start align-items-center">
                       {detailPro?.discounted_price ===
-                      detailPro?.original_price ? (
+                        detailPro?.original_price ? (
                         <p className="fs-5 ">{detailPro?.prodPrice} $</p>
                       ) : (
                         <>
@@ -243,7 +297,20 @@ export default function ProductDetail() {
                     // >
                     //   ADD TO CART
                     // </button>
-                    <div className=" d-flex justify-content-end">
+                    <div className=" d-flex justify-content-between">
+
+<div className="me-4 d-flex">
+  {cartDetails.cart_items && cartDetails.cart_items.some(item => item.item_name === detailPro?.prodName) && (
+    <>
+      <div><button onClick={(e) => decrease(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
+      <div className='mt-1'><span>{cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity}</span></div>
+      <div><button onClick={(e) => increase(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+      <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
+    </>
+  )}
+</div>
+
+
                       <button
                         className={`${styles.button_style} ${styles.cart}`}
                         onClick={() => addcart(detailPro?.id)}
@@ -251,7 +318,10 @@ export default function ProductDetail() {
                         <i class="fa-solid fa-cart-shopping cart"></i>
                       </button>
                     </div>
+                    
+
                   )}
+                    {apiError && <div className="alert alert-danger mt-3">{apiError}</div>}
                   <Link
                     to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
                   >

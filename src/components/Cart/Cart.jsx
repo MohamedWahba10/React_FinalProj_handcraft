@@ -14,7 +14,7 @@ export default function Cart() {
     let [isEmpty, setisEmpty] = useState(true)
 
 
-    let { getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart ,settotal_items_count} = useContext(CartContext)
+    let { getCart, deleteCartProduct , increaseCartProduct , decreaseCartProduct , clearCart , settotal_items_count} = useContext(CartContext)
 
     function empty() {
         if (isEmpty) {
@@ -27,6 +27,7 @@ export default function Cart() {
             let { data } = await getCart()
             setapiError("")   // this is to remove the error message when user re-try again  
             // Check if data is defined before updating state
+            console.log("cartDetails-->",data);
             if (data) {
                 setcartDetails(data)
                 settotal_items_count(data.total_items_count)
@@ -177,7 +178,7 @@ export default function Cart() {
                                             ))}
                                             <div className="border-top pt-4 mx-4 mb-4">
                                                 <div className="d-flex justify-content-between">
-                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price} $</span></p>
+                                                    <p className="h5">Total: <span className="text-primary">{cartDetails.total_items_price +10} $</span></p>
                                                     <a href="checkout" className="btn text-light bg-dark "> Proceed to checkout</a>
                                                 </div>
                                             </div>
@@ -200,7 +201,7 @@ export default function Cart() {
                                             <hr />
                                             <div className="d-flex justify-content-between">
                                                 <p className="h5">Total:</p>
-                                                <p className="h5">{cartDetails.total_items_price} $</p>
+                                                <p className="h5">{cartDetails.total_items_price +10} $</p>
                                             </div>
                                             <a href="/checkout" className="btn text-light bg-dark mt-3">Proceed to checkout</a>
                                         </div>
