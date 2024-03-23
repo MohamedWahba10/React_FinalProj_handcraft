@@ -248,11 +248,12 @@ function NavBar() {
           </div>
 
           <div className={`${styles.cursor_pointer} navbar-brand`}>
+           
+            {token ? <span style={{ fontWeight: "bold" }}>{userName} </span> : null}
             <i
-              class="fa-regular fa-user fs-3 me-1"
+              class="fa-regular fa-user fs-3 ms-2"
               onClick={() => viewAuth()}
             ></i>
-            {token ? <span>{userName} </span> : null}
           </div>
           {token ? (
             <>
