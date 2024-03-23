@@ -5,9 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-import { useQuery } from "@tanstack/react-query";
-import { Modal, Button } from "react-bootstrap";
-import toast from "react-hot-toast";
+
 import FavoriteUser from "../FavoriteUser/FavoriteUser";
 import VendorProduct from "../VendorProduct/VendorProduct";
 
@@ -32,93 +30,20 @@ export default function Profile() {
   useEffect(() => {
     ProfileData();
   }, []);
-  const imageUrl =`http://localhost:8000${dataUser?.data.message.image}`;
+  const imageUrl =dataUser?.data.message.image;
   const userType = dataUser?.data.message.usertype;
   const userData = dataUser?.data?.message;
   const [isLoading, setIsLoading] = useState(true);
   console.log("userData", userData);
 
-  // const [allData, setAllData] = useState([]);
-  // async function getProduct() {
-  //   setIsLoading(true);
-  //   try {
-  //     let { data } = await axios.get(
-  //       `http://127.0.0.1:8000/api/product/vendor/`,
-  //       {
-  //         headers: {
-  //           Authorization: `Token ${localStorage.getItem("userToken")}`,
-  //         },
-  //       }
-  //     );
-  //     console.log("response Product vendor");
-  //     setAllData(data);
-  //     setIsLoading(false);
-  //     return data;
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //     // handle error
-  //     console.error("Error fetching product:", error);
-  //     return null; // or throw error if necessary
-  //   }
-  // }
-  // const Products = allData;
-  // console.log("product vendorrrrrr", Products);
-  // useEffect(() => {
-  //   getProduct();
-  // }, []);
-  // async function deleteProduct(id) {
-  //   try {
-  //     await axios.delete(`http://127.0.0.1:8000/api/product/${id}/`, {
-  //       headers: {
-  //         Authorization: `Token ${localStorage.getItem("userToken")}`,
-  //       },
-  //     });
-  //     toast.success("Product removed successfully");
-  //     // refetchProducts();
-  //     getProduct();
-  //   } catch (error) {
-  //     console.error("Failed to delete product", error);
-  //     toast.error("Failed to remove product");
-  //   }
-  // }
 
-  // const [deleteProductId, setDeleteProductId] = useState(null);
-
-  // const confirmDelete = (id) => {
-  //   setDeleteProductId(id);
-  // };
-
-  // const cancelDelete = () => {
-  //   setDeleteProductId(null);
-  // };
-
-  // const handleDelete = async () => {
-  //   await deleteProduct(deleteProductId);
-  //   setDeleteProductId(null);
-  // };
-  // const handleAddToCartClick = (e) => {
-  //   e.preventDefault();
-  // };
 
   return (
     <>
       <Helmet>
         <title>Profile</title>
       </Helmet>
-      {/* <Modal show={deleteProductId !== null} onHide={cancelDelete}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirm Deletion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this product?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={cancelDelete}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+
       <div className={`${styles.header_profile} py-5 mb-5 text-center `}>
         <h1>Your Profile</h1>
 
@@ -139,7 +64,10 @@ export default function Profile() {
                 <div className={`${styles.profile}`}>
                   <div>
                     {imageUrl ? (
-                      <img src={`${imageUrl}`} alt="Profile" width={"100%"} />
+                      <img 
+                      src={`http://localhost:8000${imageUrl}`}
+
+                     alt="Profile" width={"100%"} />
                     ) : (
                       <img
                         src={PersonIcon}

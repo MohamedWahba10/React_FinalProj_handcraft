@@ -40,8 +40,12 @@ import { toast } from 'react-toastify';
 
 
 export default function Router() {
-  const { clearCart } = useContext(CartContext)
+
+  const { clearCart, handle_payment_success } = useContext(CartContext)
   const location = useLocation();  
+
+
+  
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
@@ -64,7 +68,8 @@ export default function Router() {
           transform: "translate(-50%, -50%)",
         },
       });
-      clearCart();
+       // clearCart(); 
+       handle_payment_success()
     }
   }, [clearCart, location.pathname]);
 
@@ -74,26 +79,26 @@ export default function Router() {
         <Route
           path="/"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <Home />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
 
         <Route
           path="/home"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <Home />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
           path="/about"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <About />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
@@ -150,17 +155,17 @@ export default function Router() {
         <Route
           path="/detail/:id"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <ProductDetail />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
           path="/newproduct"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <NewProduct />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
@@ -221,9 +226,9 @@ export default function Router() {
         <Route
           path="/comment/:id/:prodName"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <AllComment />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
 
@@ -270,25 +275,25 @@ export default function Router() {
         <Route
           path="/category"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <Category />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
           path="/subcategory/:categoryId/:categoryName"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <SubCategory />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route
           path="/productinsubcategory/:categoryId/:categoryName/:subCategoryId/:subCategoryName"
           element={
-            <ProtectedRoutes>
+            // <ProtectedRoutes>
               <ProductINSubCategory />
-            </ProtectedRoutes>
+            // </ProtectedRoutes>
           }
         />
         <Route

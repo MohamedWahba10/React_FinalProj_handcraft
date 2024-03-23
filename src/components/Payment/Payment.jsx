@@ -67,7 +67,7 @@ export default function Payment() {
                             <hr />
                             <div className="d-flex justify-content-between align-items-center">
                                 <p className="h2 m-0">Total:</p>
-                                <p className="h2 m-0 text-primary">{cartDetails.total_items_price +10} $</p>
+                                <p className="h2 m-0 text-primary">{cartDetails.total_items_price} $</p>
                             </div>
                            
                         </div>

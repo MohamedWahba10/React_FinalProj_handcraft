@@ -74,10 +74,16 @@ export default function CartContextProvider(props) {
         setCartID(data.data.id);
     }
 
-    // async function getInitialCartNumber() {
-    //     let { data } = await getCart()
-    //     settotal_items_count(data.total_items_count)
-    // }
+    function handle_payment_success() {
+        return axios.post(` http://127.0.0.1:8000/api/order/handle-payment-success/`, null, {
+            headers: headers
+        }).then((res) => res.data).catch((err) => {
+            throw new Error("error");
+        });
+    }
+    
+   
+
 
     async function getInitialCartNumber() {
         try {
@@ -98,7 +104,7 @@ export default function CartContextProvider(props) {
 
     return (
 
-        <CartContext.Provider value={{ addToCart, getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart, order, cartID, total_items_count, settotal_items_count }}>
+        <CartContext.Provider value={{ addToCart, getCart, deleteCartProduct, increaseCartProduct, decreaseCartProduct, clearCart, order, cartID, total_items_count, settotal_items_count , handle_payment_success }}>
             {props.children}
         </CartContext.Provider>
     );

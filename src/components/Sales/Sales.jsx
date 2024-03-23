@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
+import { TokenContext } from "../../Context/Token";
 
 export default function Sales() {
   const [dataUser, setData] = useState(null);
@@ -128,14 +129,18 @@ export default function Sales() {
     setSelectedCategory(index);
   };
 
-  let { addToFavorite, deleteFavoriteProduct, getFavorite ,settotal_items_FAV } =
-    useContext(FavoriteContext);
+  let {
+    addToFavorite,
+    deleteFavoriteProduct,
+    getFavorite,
+    settotal_items_FAV,
+  } = useContext(FavoriteContext);
   async function addfavorite(id) {
     let res = await addToFavorite(id);
     console.log("heloo add to favorite ", res);
     if (res?.data?.message === "Product was added to favorites.") {
       toast.success("Product Added Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
       toast.error(res.data.message);
@@ -147,7 +152,7 @@ export default function Sales() {
     console.log("heloo remove to favorite ", res);
     if (res?.data?.message === "Product was removed from favorites.") {
       toast.success("Product Removed Favorite Successfully");
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       getfavorite();
     } else {
       toast.error("ERROR");
@@ -159,7 +164,7 @@ export default function Sales() {
     try {
       let res = await getFavorite();
       console.log("hello all to favorite", res);
-      settotal_items_FAV(res.data.total_items_count)
+      settotal_items_FAV(res.data.total_items_count);
       setDataFavorite(res.data.favorite_products);
       console.log("dataFavoeite", dataFavorite);
     } catch (error) {
@@ -170,16 +175,28 @@ export default function Sales() {
     getfavorite();
   }, []);
 
-
-  let { addToCart , settotal_items_count} = useContext(CartContext);
+  let { addToCart, settotal_items_count } = useContext(CartContext);
 
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
     if (res.data.msg === "added") {
       toast.success("product added Successfully");
-      settotal_items_count(res.data.total_items_count)
+      settotal_items_count(res.data.total_items_count);
     } else {
+    }
+  }
+
+  let { token, setToken } = useContext(TokenContext);
+  useEffect(() => {
+    setToken(localStorage.getItem("userToken"));
+  }, []);
+  let navigate = useNavigate();
+
+  function checkLogin() {
+    if (!token) {
+      toast("Please The Login First");
+      navigate("/login");
     }
   }
 
@@ -191,127 +208,174 @@ export default function Sales() {
         <Loading />
       ) : (
         <>
-        <div className="container my-4">
-          {filteredProducts?.some((pro) => pro.product.prodOnSale) && (
-            <h1 className={`${styles.sales_product_word}`}>On Sale</h1>
-          )}
-          <div className="row gy-5">
-            {filteredProducts
-              ?.filter((pro) => pro.product.prodOnSale)
-              .map((pro) => (
-                <div
-                  key={pro.product.id}
-                  className={`col-md-3 cursor-pointer`}
-                >
-                  <div className={` ${styles.product}`}>
-                    <div
-                      className={`${styles.product_info} ${styles.product} w-100`}
-                    >
-                      <img
-                        src={`http://127.0.0.1:8000${pro.product.prodImageThumbnail}`}
-                        className="w-100"
-                        alt={pro.product.prodName}
-                      />
-                      <Link
-                        to={`/detail/${pro.product.id}`}
-                        className="text-decoration-none text-dark"
+          <div className="container my-4">
+            {filteredProducts?.some((pro) => pro.product.prodOnSale) && (
+              <h1 className={`${styles.sales_product_word}`}>On Sale</h1>
+            )}
+            <div className="row gy-5">
+              {filteredProducts
+                ?.filter((pro) => pro.product.prodOnSale)
+                .map((pro) => (
+                  <div
+                    key={pro.product.id}
+                    className={`col-md-3 cursor-pointer`}
+                  >
+                    <div className={` ${styles.product}`}>
+                      <div
+                        className={`${styles.product_info} ${styles.product} w-100`}
                       >
-                        <div
-                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                        <img
+                          src={`http://127.0.0.1:8000${pro.product.prodImageThumbnail}`}
+                          className="w-100"
+                          alt={pro.product.prodName}
+                        />
+                        <Link
+                          to={`/detail/${pro.product.id}`}
+                          className="text-decoration-none text-dark"
                         >
-                          {/* {pro.product.prodOnSale ? (
-                            <span className={`${styles.sale_product}`}>
-                              On Sale
-                            </span>
-                          ) : null} */}
-                        </div>
-                      </Link>
-                    </div>
-                    <div className={`px-2 `}>
-                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
-                        {pro.product.prodName}
-                      </h4>
-                      <div className="d-flex justify-content-between align-content-center">
-                        <h5 className="pb-1">
-                          {pro.prodSubCategory.subCateName}
-                        </h5>
+                          <div
+                            className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                          ></div>
+                        </Link>
                       </div>
-                      <div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          {pro.product.discounted_price ===
-                          pro.product.original_price ? (
-                            <p className="fs-5 ">
-                              {pro.product.prodPrice} $
-                            </p>
-                          ) : (
-                            <>
-                              <p className="fs-5 text-decoration-line-through">
-                                {pro.product.original_price} $
-                              </p>
-                              <p className="fs-5">
-                                {pro.product.discounted_price} $
-                              </p>
-                            </>
-                          )}
+                      <div className={`px-2 `}>
+                        <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                          {pro.product.prodName}
+                        </h4>
+                        <div className="d-flex justify-content-between align-content-center">
+                          <h5 className="pb-1">
+                            {pro.prodSubCategory.subCateName}
+                          </h5>
                         </div>
-                      </div>
-                      <h6 className="pb-1">
-                        Created By {pro.vendor.shopname}
-                      </h6>
-                      <div className="my-2">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            {userType === "vendor" ? null : (
-                              <div onClick={handleAddToCartClick}>
-                                {dataFavorite?.find(
-                                  (favProduct) =>
-                                    favProduct.id === pro.product.id
-                                ) ? (
-                                  <div
-                                    className={`${styles.wish_list} bg-danger`}
-                                    onClick={() =>
-                                      deletefavorite(pro.product.id)
-                                    }
-                                  >
-                                    <i className="fa-regular fa-heart text-white"></i>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`${styles.wish_list} `}
-                                    onClick={() =>
-                                      addfavorite(pro.product.id)
-                                    }
-                                  >
-                                    <i className="fa-regular fa-heart "></i>
-                                  </div>
-                                )}
-                              </div>
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {pro.product.discounted_price ===
+                            pro.product.original_price ? (
+                              <p className="fs-5 ">{pro.product.prodPrice} $</p>
+                            ) : (
+                              <>
+                                <p className="fs-5 text-decoration-line-through">
+                                  {pro.product.original_price} $
+                                </p>
+                                <p className="fs-5">
+                                  {pro.product.discounted_price} $
+                                </p>
+                              </>
                             )}
                           </div>
+                        </div>
+                        <h6 className="pb-1">
+                          Created By {pro.vendor.shopname}
+                        </h6>
+                        <div className="my-2">
+                         
                           <div>
                             {userType === "vendor" ? null : (
-                              <div onClick={handleAddToCartClick}>
-                                <button
-                                  className={`${styles.button_style} ${styles.cart}`}
-                                  onClick={() => addcart(pro.product.id)}
-                                >
-                                  <i className="fa-solid fa-cart-shopping cart"></i>
-                                </button>
-                              </div>
+                              <>
+                                {token ? (
+                                  <div className="d-flex justify-content-between  align-items-center">
+                                    <div
+                                      // className={`${styles.wish_list}`}
+                                      onClick={handleAddToCartClick}
+                                    >
+                                      {dataFavorite?.find(
+                                        (favProduct) =>
+                                          favProduct.id === pro.product.id
+                                      ) ? (
+                                        <div
+                                          className={`${styles.wish_list} bg-danger`}
+                                          onClick={() =>
+                                            deletefavorite(pro.product.id)
+                                          }
+                                        >
+                                          <i className="fa-regular fa-heart text-white"></i>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          className={`${styles.wish_list} `}
+                                          onClick={() =>
+                                            addfavorite(pro.product.id)
+                                          }
+                                        >
+                                          <i className="fa-regular fa-heart "></i>
+                                        </div>
+                                      )}{" "}
+                                    </div>
+                                    <div>
+                                      {userType === "vendor" ? null : (
+                                        <div onClick={handleAddToCartClick}>
+                                          <button
+                                            className={`${styles.button_style} ${styles.cart}`}
+                                            onClick={() =>
+                                              addcart(pro.product.id)
+                                            }
+                                          >
+                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                          </button>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="d-flex justify-content-between  align-items-center">
+                                    <div
+                                      // className={`${styles.wish_list}`}
+                                      onClick={handleAddToCartClick}
+                                    >
+                                      {dataFavorite?.find(
+                                        (favProduct) =>
+                                          favProduct.id === pro.product.id
+                                      ) ? (
+                                        <div
+                                          className={`${styles.wish_list} bg-danger`}
+                                          // onClick={() =>
+                                          //   deletefavorite(pro.product.id)
+                                          // }
+                                          onClick={checkLogin}
+                                        >
+                                          <i className="fa-regular fa-heart text-white"></i>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          className={`${styles.wish_list} `}
+                                          // onClick={() =>
+                                          //   addfavorite(pro.product.id)
+                                          // }
+                                          onClick={checkLogin}
+                                        >
+                                          <i className="fa-regular fa-heart "></i>
+                                        </div>
+                                      )}{" "}
+                                    </div>
+                                    <div>
+                                      {userType === "vendor" ? null : (
+                                        <div onClick={handleAddToCartClick}>
+                                          <button
+                                            className={`${styles.button_style} ${styles.cart}`}
+                                            // onClick={() =>
+                                            //   addcart(pro.product.id)
+                                            // }
+                                            onClick={checkLogin}
+                                          >
+                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                          </button>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+                              </>
                             )}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
-        </div>
-      </>
-      
+        </>
       )}
     </>
   );
 }
-

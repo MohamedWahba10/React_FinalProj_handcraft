@@ -20,7 +20,7 @@ function getFavorite() {
 }
 
 function deleteFavoriteProduct(id) {
-    return axios.delete(`http://127.0.0.1:8000/api/favourit/remove-from-favorite/${id}/`, {
+    return axios.delete(`http://127.0.0.1:8000/api/favourit/remove-from-favorite/${id}/`, {   
         headers: headers
     }).then((res) => res).catch((err) => err);
 }
