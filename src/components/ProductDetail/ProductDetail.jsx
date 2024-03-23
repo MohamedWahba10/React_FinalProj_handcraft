@@ -115,7 +115,7 @@ export default function ProductDetail() {
     getAvgRate();
   }, []);
 
-  let { getCart, addToCart, deleteCartProduct , settotal_items_count, increaseCartProduct, decreaseCartProduct } = useContext(CartContext);
+  let { getCart, addToCart, deleteCartProduct, settotal_items_count, increaseCartProduct, decreaseCartProduct } = useContext(CartContext);
 
   let [cartDetails, setcartDetails] = useState({})
 
@@ -125,7 +125,7 @@ export default function ProductDetail() {
 
       if (data) {
         setcartDetails(data)
-       
+
         settotal_items_count(data.total_items_count)
       }
     } catch (error) {
@@ -171,7 +171,7 @@ export default function ProductDetail() {
     settotal_items_count(data.total_items_count)
     setcartDetails(data)
     getcartDetails()
-}
+  }
 
 
   useEffect(() => {
@@ -299,16 +299,16 @@ export default function ProductDetail() {
                     // </button>
                     <div className=" d-flex justify-content-between">
 
-<div className="me-4 d-flex">
-  {cartDetails.cart_items && cartDetails.cart_items.some(item => item.item_name === detailPro?.prodName) && (
-    <>
-      <div><button onClick={(e) => decrease(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
-      <div className='mt-1'><span>{cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity}</span></div>
-      <div><button onClick={(e) => increase(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
-      <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
-    </>
-  )}
-</div>
+                      <div className="me-4 d-flex">
+                        {cartDetails.cart_items && cartDetails.cart_items.some(item => item.item_name === detailPro?.prodName) && (
+                          <>
+                            <div><button onClick={(e) => decrease(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
+                            <div className='mt-1'><span>{cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName).quantity}</span></div>
+                            <div><button onClick={(e) => increase(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+                            <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find(item => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
+                          </>
+                        )}
+                      </div>
 
 
                       <button
@@ -318,10 +318,10 @@ export default function ProductDetail() {
                         <i class="fa-solid fa-cart-shopping cart"></i>
                       </button>
                     </div>
-                    
+
 
                   )}
-                    {apiError && <div className="alert alert-danger mt-3">{apiError}</div>}
+                  {apiError && <div className="alert alert-danger mt-3">{apiError}</div>}
                   <Link
                     to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
                   >
