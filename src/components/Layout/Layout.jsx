@@ -17,7 +17,7 @@ export default function Layout() {
    
       </div>
 
-      {localStorage.getItem("userToken") !== null && <Footer />}
+    <Footer />
     </>
   );
 }

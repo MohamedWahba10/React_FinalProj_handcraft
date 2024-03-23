@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
+import { TokenContext } from "../../Context/Token";
 
 export default function ProductINSubCategory() {
   const { subCategoryId, subCategoryName, categoryName, categoryId } =
@@ -104,6 +105,19 @@ export default function ProductINSubCategory() {
     }
   }
 
+
+  let { token, setToken } = useContext(TokenContext);
+  useEffect(() => {
+      setToken(localStorage.getItem("userToken"));
+  }, []);
+  let navigate = useNavigate();
+
+  function checkLogin() {
+      if (!token) {
+          toast("Please The Login First");
+          navigate("/login");
+      }
+  }
   return (
     <>
       <Helmet>
@@ -195,6 +209,12 @@ export default function ProductINSubCategory() {
                         </h6>
                         <div className="my-2">
                           <div className="d-flex justify-content-between align-items-center">
+                            <>
+                            {
+                              token?(
+                                <>
+                          
+                            
                             <div>
                               {userType === "vendor" ? null : (
                                 <div
@@ -238,6 +258,51 @@ export default function ProductINSubCategory() {
                                 </div>
                               )}
                             </div>
+                            </>
+                              ):
+                              <>
+                                   <div>
+                              {userType === "vendor" ? null : (
+                                <div
+                                  // className={`${styles.wish_list}`}
+                                  onClick={handleAddToCartClick}
+                                >
+                                  {dataFavorite?.find(
+                                    (favProduct) =>
+                                      favProduct.id === pro.product.id
+                                  ) ? (
+                                    <div
+                                      className={`${styles.wish_list} bg-danger`}
+                                      onClick={checkLogin}
+                                    >
+                                      <i className="fa-regular fa-heart text-white"></i>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`${styles.wish_list} `}
+                                      onClick={checkLogin}
+                                    >
+                                      <i className="fa-regular fa-heart "></i>
+                                    </div>
+                                  )}{" "}
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              {userType === "vendor" ? null : (
+                                <div onClick={handleAddToCartClick}>
+                                  <button
+                                    className={`${styles.button_style} ${styles.cart}`}
+                                    onClick={checkLogin}                                  >
+                                    <i class="fa-solid fa-cart-shopping cart"></i>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                              </>
+                            }
+                            </>
+
                           </div>
                         </div>
                       </div>

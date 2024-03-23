@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./NavBar.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TokenContext } from "../../Context/Token";
-import Cookies from "js-cookie";
 import { CartContext } from "../../Context/CartContext";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -185,74 +184,75 @@ function NavBar() {
           >
             HandCrafted Marketplace
           </Link>
-          {token ? (
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link
-                    className={`${styles.Link_style} nav-link active`}
-                    aria-current="page"
-                    to="/"
-                  >
-                    HOME
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/about" className={`nav-link ${styles.Link_style}`}>
-                    ABOUT US
-                  </Link>
-                </li>
 
-                {userType === "customer" ? null : (
-                  <>
-                    <li className="nav-item">
-                      <Link
-                        className={`nav-link ${styles.Link_style}`}
-                        to="/allProduct"
-                      >
-                        SHOP
-                      </Link>
-                    </li>
-                  </>
-                )}
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link
+                  className={`${styles.Link_style} nav-link active`}
+                  aria-current="page"
+                  to="/"
+                >
+                  HOME
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/about" className={`nav-link ${styles.Link_style}`}>
+                  ABOUT US
+                </Link>
+              </li>
 
-                <li>
-                  <Link
-                    to="/category"
-                    className={`nav-link ${styles.Link_style}`}
-                  >
-                    CATEGORIES
-                  </Link>
-                </li>
-        
-                {userType === "customer" ? null : (
-                  <>
-                    <li>
-                      <Link
-                        to="/addProduct"
-                        className={`nav-link ${styles.Link_style}`}
-                      >
-                        ADD PRODUCT
-                      </Link>
-                    </li>
-                  </>
-                )}
+              {token ? (
+                <>
+                  {userType === "customer" ? null : (
+                    <>
+                      <li className="nav-item">
+                        <Link
+                          className={`nav-link ${styles.Link_style}`}
+                          to="/allProduct"
+                        >
+                          SHOP
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                </>
+              ) : null}
 
-              </ul>
-            </div>
-          ) : null}
+              <li>
+                <Link
+                  to="/category"
+                  className={`nav-link ${styles.Link_style}`}
+                >
+                  CATEGORIES
+                </Link>
+              </li>
+              {token ? (
+                <>
+                  {userType === "customer" ? null : (
+                    <>
+                      <li>
+                        <Link
+                          to="/addProduct"
+                          className={`nav-link ${styles.Link_style}`}
+                        >
+                          ADD PRODUCT
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                </>
+              ) : null}
+      
+            </ul>
+          </div>
+
           <div className={`${styles.cursor_pointer} navbar-brand`}>
-            <i class="fa-regular fa-user fs-3 me-1" onClick={() => viewAuth()}></i>
-            {token?
-                        <span>{userName} </span>
-
-            :null
-            
-            }
-
+            <i
+              class="fa-regular fa-user fs-3 me-1"
+              onClick={() => viewAuth()}
+            ></i>
+            {token ? <span>{userName} </span> : null}
           </div>
           {token ? (
             <>
@@ -354,7 +354,6 @@ function NavBar() {
         </div>
       )}
       {/* .................... wish list ....................... */}
-    
 
       {/* ......................search............................ */}
 
@@ -373,10 +372,8 @@ function NavBar() {
                 onClick={closeLayerSearch}
               ></i>
             </div>
-       
+
             <FilterProduct />
-
-
           </div>
         </div>
       )}

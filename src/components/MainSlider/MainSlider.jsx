@@ -45,9 +45,9 @@ export default function MainSlider() {
               <h1>
                 Summer Sale <br /> Collections
               </h1>
-              <Link to="/allProduct">
+              {/* <Link to="/allProduct">
                 <button className={`${styles.style_button}`}>SHOP NOW</button>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
@@ -63,9 +63,9 @@ export default function MainSlider() {
               <h1>
                 Stylish Looks For <br /> Any Season
               </h1>
-              <Link to="/allProduct">
+              {/* <Link to="/allProduct">
                 <button className={`${styles.style_button}`}>SHOP NOW</button>
-              </Link>{" "}
+              </Link>{" "} */}
             </div>
           </div>
         </div>
@@ -82,9 +82,9 @@ export default function MainSlider() {
                 Accessories For <br />
                 Every Occassion
               </h1>
-              <Link to="/allProduct">
+              {/* <Link to="/allProduct">
                 <button className={`${styles.style_button}`}>SHOP NOW</button>
-              </Link>{" "}
+              </Link>{" "} */}
             </div>
           </div>
         </div>

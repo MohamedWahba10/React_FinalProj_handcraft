@@ -152,7 +152,7 @@ export default function UpdateProduct() {
       )
       .required("Required"),
     prodPrice: Yup.string()
-      .matches(/^[1-9][0-9]{0,6}$/, "'product Price must be only digits'")
+      .matches(/^[1-9][0-9.]{0,6}$/, "'product Price must be only digits'")
       .required("product Price is Required"),
     prodSubCategory: Yup.string().required("Category is Required"),
     prodDescription: Yup.string().required("Description is Required"),

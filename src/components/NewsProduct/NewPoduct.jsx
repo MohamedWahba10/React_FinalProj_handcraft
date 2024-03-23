@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 // import styles from "./NewPoduct.module.css";
 import styles from "./NewProduct.module.css";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import Slider from "react-slick";
+import { TokenContext } from "../../Context/Token";
 
 export default function NewProduct() {
   const settings = {
@@ -159,7 +160,18 @@ export default function NewProduct() {
   const handleAddToCartClick = (e) => {
     e.preventDefault();
   };
+  let { token, setToken } = useContext(TokenContext);
+  useEffect(() => {
+      setToken(localStorage.getItem("userToken"));
+  }, []);
+  let navigate = useNavigate();
 
+  function checkLogin() {
+      if (!token) {
+          toast("Please The Login First");
+          navigate("/login");
+      }
+  }
   return (
     <>
       {isLoading ? (
@@ -205,11 +217,7 @@ export default function NewProduct() {
                                 {pro.prodName}
                               </h4>
                               <div className="d-flex justify-content-between align-content-center">
-                                {/* <h5 className="pb-1">
-                          {" "}
-                          {pro.prodSubCategory.subCateName}
-                        </h5> */}
-                                {/* <h6 className="pb-1">Created By {pro.vendor.shopname}</h6> */}
+                               
                                 {pro.discounted_price === pro.original_price ? (
                                   <p className="fs-5 ">{pro.prodPrice} $</p>
                                 ) : (
@@ -226,7 +234,15 @@ export default function NewProduct() {
                               <p>{pro.prodDescription}</p>
                               <div className="my-2">
                                 <div className="d-flex justify-content-between align-items-center">
+                                <>
+                                   {
+                                    token ?
+                                     (
+                                      <>
+                                      
+                                
                                   <div>
+                                 
                                     {userType === "vendor" ? null : (
                                       <div
                                         // className={`${styles.wish_list}`}
@@ -267,6 +283,52 @@ export default function NewProduct() {
                                       </div>
                                     )}
                                   </div>
+                                  </>
+                                     ) :
+                                     <>
+                                      
+                                
+                                     <div>
+                                    
+                                       {userType === "vendor" ? null : (
+                                         <div
+                                           // className={`${styles.wish_list}`}
+                                           onClick={handleAddToCartClick}
+                                         >
+                                           {dataFavorite?.find(
+                                             (favProduct) =>
+                                               favProduct.id === pro.id
+                                           ) ? (
+                                             <div
+                                               className={`${styles.wish_list} bg-danger`}
+                                               onClick={checkLogin}
+                                             >
+                                               <i className="fa-regular fa-heart text-white"></i>
+                                             </div>
+                                           ) : (
+                                             <div
+                                               className={`${styles.wish_list} `}
+                                               onClick={checkLogin}                                             >
+                                               <i className="fa-regular fa-heart "></i>
+                                             </div>
+                                           )}{" "}
+                                         </div>
+                                       )}
+                                     </div>
+                                     <div>
+                                       {userType === "vendor" ? null : (
+                                         <div onClick={handleAddToCartClick}>
+                                           <button
+                                             className={`${styles.button_style} ${styles.cart}`}
+                                             onClick={checkLogin}                                           >
+                                             <i class="fa-solid fa-cart-shopping cart"></i>
+                                           </button>
+                                         </div>
+                                       )}
+                                     </div>
+                                     </>
+                                   }
+                                  </>
                                 </div>
                               </div>
                             </div>

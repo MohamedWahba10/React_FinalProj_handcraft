@@ -83,7 +83,7 @@ export default function Home() {
           <Sales />
           <HighestRate />
           {/* <ChatBot/> */}
-          {userType === "customer" ? (
+          {userType === "vendor" ?null: (
             <div
             className={`${styles.cursor_pointer} ps-2 navbar-brand ${styles.chat}`}
           >
@@ -95,7 +95,7 @@ export default function Home() {
             </div>
    
           </div>
-          ) : null}
+   )}
 
           
           {layerVisibleSearch && (

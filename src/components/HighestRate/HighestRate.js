@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
+import { TokenContext } from "../../Context/Token";
 
 export default function HighestRate() {
     const [dataUser, setData] = useState(null);
@@ -42,31 +43,9 @@ export default function HighestRate() {
     });
 
     // -------------------------- product Name --------------------------
-    const [searchQuery, setSearchQuery] = useState("");
+    // const [searchQuery, setSearchQuery] = useState("");
 
-    // // -------categoryyyyyyyyyyyyy Name -----------------------------------
-    const [searchQueryCategory, setSearchQueryCategory] = useState("");
-
-    const [searchVendorShopName, setSearchVendorShopName] = useState("");
-
-    const [minPrice, setMinPrice] = useState("");
-    const [maxPrice, setMaxPrice] = useState("");
-
-    const filterByPrice = (product) => {
-        if (minPrice && maxPrice) {
-            return (
-                product.product.prodPrice >= parseInt(minPrice) &&
-                product.product.prodPrice <= parseInt(maxPrice)
-            );
-        } else if (minPrice) {
-            return product.product.prodPrice >= parseInt(minPrice);
-        } else if (maxPrice) {
-            return product.product.prodPrice <= parseInt(maxPrice);
-        }
-        return true;
-    };
-
-    // ////////////////////////////////
+//////////////////////
 
     const [highestData, setHighestData] = useState([]);
 
@@ -74,11 +53,7 @@ export default function HighestRate() {
     // //////////////////////////////////////////////////////////////////////////////////
     async function getProduct() {
         setIsLoadingHighestData(true)
-        let response = await axios.get(`http://127.0.0.1:8000/api/product/top_rating/`, {
-            headers: {
-                Authorization: `Token ${localStorage.getItem("userToken")}`,
-            },
-        });
+        let response = await axios.get(`http://127.0.0.1:8000/api/product/top_rating/`);
         setIsLoadingHighestData(false)
         setHighestData(response?.data?.top_rated_products)
         console.log("heighestRate.........................", response)
@@ -141,6 +116,19 @@ export default function HighestRate() {
         }
     }
 
+
+    let { token, setToken } = useContext(TokenContext);
+    useEffect(() => {
+        setToken(localStorage.getItem("userToken"));
+    }, []);
+    let navigate = useNavigate();
+
+    function checkLogin() {
+        if (!token) {
+            toast("Please The Login First");
+            navigate("/login");
+        }
+    }
     return (
         <>
             {/* --------------------------------------------------------------------------------------- */}
@@ -219,6 +207,12 @@ export default function HighestRate() {
                                                         </p>
                                                         <div className="my-2">
                                                             <div className="d-flex justify-content-between align-items-center">
+                                                               <>
+                                                               {
+                                                                token ? (
+                                                                    <>
+                            
+                                                              
                                                                 <div>
                                                                     {userType === "vendor" ? null : (
                                                                         <div onClick={handleAddToCartClick}>
@@ -259,6 +253,55 @@ export default function HighestRate() {
                                                                         </div>
                                                                     )}
                                                                 </div>
+                                                                </>
+                                                                ) :
+                                                                <>
+                                                                  <div>
+                                                                    {userType === "vendor" ? null : (
+                                                                        <div onClick={handleAddToCartClick}>
+                                                                            {dataFavorite?.find(
+                                                                                (favProduct) =>
+                                                                                    favProduct.id === pro.product_id
+                                                                            ) ? (
+                                                                                <div
+                                                                                    className={`${styles.wish_list} bg-danger`}
+                                                                                    // onClick={() =>
+                                                                                    //     deletefavorite(pro.product_id)
+                                                                                    // }
+                                                                                    onClick={checkLogin}
+                                                                                >
+                                                                                    <i className="fa-regular fa-heart text-white"></i>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <div
+                                                                                    className={`${styles.wish_list} `}
+                                                                                    // onClick={() =>
+                                                                                    //     addfavorite(pro.product_id)
+                                                                                    // }
+                                                                                    onClick={checkLogin}
+                                                                                >
+                                                                                    <i className="fa-regular fa-heart "></i>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <div>
+                                                                    {userType === "vendor" ? null : (
+                                                                        <div onClick={handleAddToCartClick}>
+                                                                            <button
+                                                                                className={`${styles.button_style} ${styles.cart}`}
+                                                                                // onClick={() => addcart(pro.product_id)}
+                                                                                onClick={checkLogin}
+                                                                            >
+                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                </>
+                                                               }
+                                                                </>
                                                             </div>
                                                         </div>
                                                     </div>
