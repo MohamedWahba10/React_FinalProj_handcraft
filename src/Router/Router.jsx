@@ -40,8 +40,12 @@ import { toast } from 'react-toastify';
 
 
 export default function Router() {
-  const { clearCart } = useContext(CartContext)
+
+  const { clearCart, handle_payment_success } = useContext(CartContext)
   const location = useLocation();  
+
+
+  
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
@@ -64,7 +68,8 @@ export default function Router() {
           transform: "translate(-50%, -50%)",
         },
       });
-      clearCart();
+       // clearCart(); 
+       handle_payment_success()
     }
   }, [clearCart, location.pathname]);
 

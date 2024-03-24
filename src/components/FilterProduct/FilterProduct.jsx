@@ -307,7 +307,7 @@ export default function FilterProduct() {
                         >
                           {pro.product.prodOnSale ? (
                             <span className={`${styles.sale_product}`}>
-                              Sales
+                              On Sale
                             </span>
                           ) : null}
                         </div>
