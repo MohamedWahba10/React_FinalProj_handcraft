@@ -48,7 +48,9 @@ function NavBar() {
   useEffect(() => {
     setToken(localStorage.getItem("userToken"));
   }, []);
+  // console.log("SUPER USER >>>>>>>>>>>>>>>>" ,userData )
   const userType = userData?.data.message.usertype;
+  const superuser = userData?.data.message.is_superuser;
   const firstName = userData?.data.message.first_name;
   const lastName = userData?.data.message.last_name;
   const userName = firstName + " " + lastName;
@@ -158,7 +160,12 @@ function NavBar() {
   useEffect(() => {
     getfavorite();
   }, []);
-
+  // -----------------------------------------------------------
+  useEffect(() => {
+    if (superuser) {
+      navigate("/adminPanel");
+    }
+  }, [superuser]);
   return (
     <>
       <nav

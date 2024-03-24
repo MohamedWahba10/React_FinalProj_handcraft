@@ -33,19 +33,13 @@ import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 import { CartContext } from "../Context/CartContext.js";
-import { toast } from 'react-toastify';
-
-
-
-
+import { toast } from "react-toastify";
+import AdminPanel from "../components/Admin/AdminPanel/AdminPanel.jsx";
+import ProtectedAdmin from "../components/ProtectedRoutes/ProtectedAdmin.js";
 
 export default function Router() {
-
-  const { clearCart, handle_payment_success } = useContext(CartContext)
-  const location = useLocation();  
-
-
-  
+  const { clearCart, handle_payment_success } = useContext(CartContext);
+  const location = useLocation();
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
@@ -68,8 +62,8 @@ export default function Router() {
           transform: "translate(-50%, -50%)",
         },
       });
-       // clearCart(); 
-       handle_payment_success()
+      // clearCart();
+      handle_payment_success();
     }
   }, [clearCart, location.pathname]);
 
@@ -80,7 +74,7 @@ export default function Router() {
           path="/"
           element={
             // <ProtectedRoutes>
-              <Home />
+            <Home />
             // </ProtectedRoutes>
           }
         />
@@ -89,7 +83,7 @@ export default function Router() {
           path="/home"
           element={
             // <ProtectedRoutes>
-              <Home />
+            <Home />
             // </ProtectedRoutes>
           }
         />
@@ -97,7 +91,7 @@ export default function Router() {
           path="/about"
           element={
             // <ProtectedRoutes>
-              <About />
+            <About />
             // </ProtectedRoutes>
           }
         />
@@ -156,7 +150,7 @@ export default function Router() {
           path="/detail/:id"
           element={
             // <ProtectedRoutes>
-              <ProductDetail />
+            <ProductDetail />
             // </ProtectedRoutes>
           }
         />
@@ -164,7 +158,7 @@ export default function Router() {
           path="/newproduct"
           element={
             // <ProtectedRoutes>
-              <NewProduct />
+            <NewProduct />
             // </ProtectedRoutes>
           }
         />
@@ -227,7 +221,7 @@ export default function Router() {
           path="/comment/:id/:prodName"
           element={
             // <ProtectedRoutes>
-              <AllComment />
+            <AllComment />
             // </ProtectedRoutes>
           }
         />
@@ -276,7 +270,7 @@ export default function Router() {
           path="/category"
           element={
             // <ProtectedRoutes>
-              <Category />
+            <Category />
             // </ProtectedRoutes>
           }
         />
@@ -284,7 +278,7 @@ export default function Router() {
           path="/subcategory/:categoryId/:categoryName"
           element={
             // <ProtectedRoutes>
-              <SubCategory />
+            <SubCategory />
             // </ProtectedRoutes>
           }
         />
@@ -292,7 +286,7 @@ export default function Router() {
           path="/productinsubcategory/:categoryId/:categoryName/:subCategoryId/:subCategoryName"
           element={
             // <ProtectedRoutes>
-              <ProductINSubCategory />
+            <ProductINSubCategory />
             // </ProtectedRoutes>
           }
         />
@@ -301,8 +295,7 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <ProtectedVendor>
-              <FeatureProduct />
-
+                <FeatureProduct />
               </ProtectedVendor>
             </ProtectedRoutes>
           }
@@ -327,7 +320,16 @@ export default function Router() {
           }
         />
       </Route>
+      <Route
+        path="/adminPanel"
+        element={
+          <ProtectedRoutes>
+            <ProtectedAdmin>
+              <AdminPanel />
+            </ProtectedAdmin>
+          </ProtectedRoutes>
+        }
+      />
     </Routes>
   );
 }
-
