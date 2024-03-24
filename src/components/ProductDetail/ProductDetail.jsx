@@ -323,22 +323,22 @@ export default function ProductDetail() {
                       Created By {detailPro?.prodVendor.shopname}
                     </h5>
 
-                    {/* <p className="fs-4">{detailPro?.prodPrice}$ </p> */}
-                    <div className="d-flex justify-content-start align-items-center">
-                      {detailPro?.discounted_price ===
-                      detailPro?.original_price ? (
-                        <p className="fs-5 ">{detailPro?.prodPrice} $</p>
-                      ) : (
-                        <>
-                          <p className="fs-5  me-4 text-decoration-line-through">
-                            {detailPro?.original_price} $
-                          </p>
-                          <p className="fs-5">
-                            {detailPro?.discounted_price} $
-                          </p>
-                        </>
-                      )}
-                    </div>
+                 
+                    <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {detailPro?.prodOnSale ? (
+                              <>
+                              <p className="fs-5 text-decoration-line-through pe-2">
+                                {detailPro?.prodPrice} $
+                              </p>
+                              <p className="fs-5">{detailPro?.discounted_price} $</p>
+                            </>
+                            ) :         
+                                   <p className="fs-5 ">{detailPro?.prodPrice} $</p>
+                          }
+                           
+                          </div>
+                        </div>
                   </div>
 
                   <p>{detailPro?.prodDescription}</p>

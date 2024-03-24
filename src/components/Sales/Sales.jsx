@@ -248,27 +248,29 @@ export default function Sales() {
                           </h5>
                         </div>
                         <div>
-                          <div className="d-flex justify-content-between align-items-center">
-                            {pro.product.discounted_price ===
-                            pro.product.original_price ? (
-                              <p className="fs-5 ">{pro.product.prodPrice} $</p>
-                            ) : (
-                              <>
-                                <p className="fs-5 text-decoration-line-through">
-                                  {pro.product.original_price} $
+                          <div>
+                            <div className="d-flex justify-content-between align-items-center">
+                              {pro.product.prodOnSale ? (
+                                <>
+                                  <p className="fs-5 text-decoration-line-through">
+                                    {pro.product.prodPrice} $
+                                  </p>
+                                  <p className="fs-5">
+                                    {pro.product.discounted_price} $
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="fs-5 ">
+                                  {pro.product.prodPrice} $
                                 </p>
-                                <p className="fs-5">
-                                  {pro.product.discounted_price} $
-                                </p>
-                              </>
-                            )}
+                              )}
+                            </div>
                           </div>
                         </div>
                         <h6 className="pb-1">
                           Created By {pro.vendor.shopname}
                         </h6>
                         <div className="my-2">
-                         
                           <div>
                             {userType === "vendor" ? null : (
                               <>

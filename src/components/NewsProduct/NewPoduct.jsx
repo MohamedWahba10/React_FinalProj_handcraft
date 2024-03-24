@@ -206,7 +206,7 @@ export default function NewProduct() {
                              
                                   {pro.prodOnSale ? (
                                     <span className={`${styles.sale_product}`}>
-                                      Sale
+                                     On Sale
                                     </span>
                                   ) : null}
                                 </div>
@@ -216,21 +216,22 @@ export default function NewProduct() {
                               <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
                                 {pro.prodName}
                               </h4>
-                              <div className="d-flex justify-content-between align-content-center">
-                               
-                                {pro.discounted_price === pro.original_price ? (
-                                  <p className="fs-5 ">{pro.prodPrice} $</p>
-                                ) : (
-                                  <>
-                                    <p className="fs-5 text-decoration-line-through">
-                                      {pro.original_price} $
-                                    </p>
-                                    <p className="fs-5">
-                                      {pro.discounted_price} $
-                                    </p>
-                                  </>
-                                )}
-                              </div>
+                              
+                              <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {pro.prodOnSale ? (
+                              <>
+                              <p className="fs-5 text-decoration-line-through">
+                                {pro.prodPrice} $
+                              </p>
+                              <p className="fs-5">{pro.discounted_price} $</p>
+                            </>
+                            ) :         
+                                   <p className="fs-5 ">{pro.prodPrice} $</p>
+                          }
+                           
+                          </div>
+                        </div>
                               <p>{pro.prodDescription}</p>
                               <div className="my-2">
                                 <div className="d-flex justify-content-between align-items-center">

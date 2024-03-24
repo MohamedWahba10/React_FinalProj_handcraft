@@ -105,18 +105,17 @@ export default function ProductINSubCategory() {
     }
   }
 
-
   let { token, setToken } = useContext(TokenContext);
   useEffect(() => {
-      setToken(localStorage.getItem("userToken"));
+    setToken(localStorage.getItem("userToken"));
   }, []);
   let navigate = useNavigate();
 
   function checkLogin() {
-      if (!token) {
-          toast("Please The Login First");
-          navigate("/login");
-      }
+    if (!token) {
+      toast("Please The Login First");
+      navigate("/login");
+    }
   }
   return (
     <>
@@ -172,7 +171,7 @@ export default function ProductINSubCategory() {
                           >
                             {pro.product.prodOnSale ? (
                               <span className={`${styles.sale_product}`}>
-                                Sales
+                                On Sales
                               </span>
                             ) : null}
                           </div>
@@ -187,22 +186,24 @@ export default function ProductINSubCategory() {
                             {" "}
                             {pro.prodSubCategory.subCateName}
                           </h5>
-                          {/* <p className="fs-5">{pro.product.prodPrice} EGP</p> */}
                         </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          {pro.product.discounted_price ===
-                          pro.product.original_price ? (
-                            <p className="fs-5 ">{pro.product.prodPrice} EGP</p>
-                          ) : (
-                            <>
-                              <p className="fs-5 text-decoration-line-through">
-                                {pro.product.original_price} EGP
-                              </p>
-                              <p className="fs-5">
-                                {pro.product.discounted_price} EGP
-                              </p>
-                            </>
-                          )}
+                      
+
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {pro.product.prodOnSale ? (
+                              <>
+                                <p className="fs-5 text-decoration-line-through pe-2">
+                                  {pro.product.prodPrice} $
+                                </p>
+                                <p className="fs-5">
+                                  {pro.product.discounted_price} $
+                                </p>
+                              </>
+                            ) : (
+                              <p className="fs-5 ">{pro.product.prodPrice} $</p>
+                            )}
+                          </div>
                         </div>
                         <h6 className="pb-1">
                           Created By {pro.vendor.shopname}
@@ -210,99 +211,98 @@ export default function ProductINSubCategory() {
                         <div className="my-2">
                           <div className="d-flex justify-content-between align-items-center">
                             <>
-                            {
-                              token?(
+                              {token ? (
                                 <>
-                          
-                            
-                            <div>
-                              {userType === "vendor" ? null : (
-                                <div
-                                  // className={`${styles.wish_list}`}
-                                  onClick={handleAddToCartClick}
-                                >
-                                  {dataFavorite?.find(
-                                    (favProduct) =>
-                                      favProduct.id === pro.product.id
-                                  ) ? (
-                                    <div
-                                      className={`${styles.wish_list} bg-danger`}
-                                      onClick={() =>
-                                        deletefavorite(pro.product.id)
-                                      }
-                                    >
-                                      <i className="fa-regular fa-heart text-white"></i>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className={`${styles.wish_list} `}
-                                      onClick={() =>
-                                        addfavorite(pro.product.id)
-                                      }
-                                    >
-                                      <i className="fa-regular fa-heart "></i>
-                                    </div>
-                                  )}{" "}
-                                </div>
+                                  <div>
+                                    {userType === "vendor" ? null : (
+                                      <div
+                                        // className={`${styles.wish_list}`}
+                                        onClick={handleAddToCartClick}
+                                      >
+                                        {dataFavorite?.find(
+                                          (favProduct) =>
+                                            favProduct.id === pro.product.id
+                                        ) ? (
+                                          <div
+                                            className={`${styles.wish_list} bg-danger`}
+                                            onClick={() =>
+                                              deletefavorite(pro.product.id)
+                                            }
+                                          >
+                                            <i className="fa-regular fa-heart text-white"></i>
+                                          </div>
+                                        ) : (
+                                          <div
+                                            className={`${styles.wish_list} `}
+                                            onClick={() =>
+                                              addfavorite(pro.product.id)
+                                            }
+                                          >
+                                            <i className="fa-regular fa-heart "></i>
+                                          </div>
+                                        )}{" "}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div>
+                                    {userType === "vendor" ? null : (
+                                      <div onClick={handleAddToCartClick}>
+                                        <button
+                                          className={`${styles.button_style} ${styles.cart}`}
+                                          onClick={() =>
+                                            addcart(pro.product.id)
+                                          }
+                                        >
+                                          <i class="fa-solid fa-cart-shopping cart"></i>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <div>
+                                    {userType === "vendor" ? null : (
+                                      <div
+                                        // className={`${styles.wish_list}`}
+                                        onClick={handleAddToCartClick}
+                                      >
+                                        {dataFavorite?.find(
+                                          (favProduct) =>
+                                            favProduct.id === pro.product.id
+                                        ) ? (
+                                          <div
+                                            className={`${styles.wish_list} bg-danger`}
+                                            onClick={checkLogin}
+                                          >
+                                            <i className="fa-regular fa-heart text-white"></i>
+                                          </div>
+                                        ) : (
+                                          <div
+                                            className={`${styles.wish_list} `}
+                                            onClick={checkLogin}
+                                          >
+                                            <i className="fa-regular fa-heart "></i>
+                                          </div>
+                                        )}{" "}
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div>
+                                    {userType === "vendor" ? null : (
+                                      <div onClick={handleAddToCartClick}>
+                                        <button
+                                          className={`${styles.button_style} ${styles.cart}`}
+                                          onClick={checkLogin}
+                                        >
+                                          <i class="fa-solid fa-cart-shopping cart"></i>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </>
                               )}
-                            </div>
-                            <div>
-                              {userType === "vendor" ? null : (
-                                <div onClick={handleAddToCartClick}>
-                                  <button
-                                    className={`${styles.button_style} ${styles.cart}`}
-                                    onClick={() => addcart(pro.product.id)}
-                                  >
-                                    <i class="fa-solid fa-cart-shopping cart"></i>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
                             </>
-                              ):
-                              <>
-                                   <div>
-                              {userType === "vendor" ? null : (
-                                <div
-                                  // className={`${styles.wish_list}`}
-                                  onClick={handleAddToCartClick}
-                                >
-                                  {dataFavorite?.find(
-                                    (favProduct) =>
-                                      favProduct.id === pro.product.id
-                                  ) ? (
-                                    <div
-                                      className={`${styles.wish_list} bg-danger`}
-                                      onClick={checkLogin}
-                                    >
-                                      <i className="fa-regular fa-heart text-white"></i>
-                                    </div>
-                                  ) : (
-                                    <div
-                                      className={`${styles.wish_list} `}
-                                      onClick={checkLogin}
-                                    >
-                                      <i className="fa-regular fa-heart "></i>
-                                    </div>
-                                  )}{" "}
-                                </div>
-                              )}
-                            </div>
-                            <div>
-                              {userType === "vendor" ? null : (
-                                <div onClick={handleAddToCartClick}>
-                                  <button
-                                    className={`${styles.button_style} ${styles.cart}`}
-                                    onClick={checkLogin}                                  >
-                                    <i class="fa-solid fa-cart-shopping cart"></i>
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                              </>
-                            }
-                            </>
-
                           </div>
                         </div>
                       </div>

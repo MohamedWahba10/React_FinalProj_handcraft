@@ -13,7 +13,6 @@ export default function ProductVendor() {
   let { addToCart } = useContext(CartContext);
   const { vendorid, shopname } = useParams();
 
-
   async function addcart(id) {
     let res = await addToCart(id);
     console.log("heloo add to cart ", res);
@@ -23,10 +22,10 @@ export default function ProductVendor() {
     }
   }
 
-const [Products,setDataProsuct]=useState([])
-const [isLoading,setIsLoading]=useState(true)
+  const [Products, setDataProsuct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   async function getProduct() {
-    setIsLoading(true)
+    setIsLoading(true);
     let response = await axios.get(
       `http://127.0.0.1:8000/api/product/vendor/${vendorid}/`,
       {
@@ -35,10 +34,10 @@ const [isLoading,setIsLoading]=useState(true)
         },
       }
     );
-    setDataProsuct(response?.data?.data)
+    setDataProsuct(response?.data?.data);
     console.log("my respone==>>", response);
 
-    setIsLoading(false)
+    setIsLoading(false);
     return response;
   }
   useEffect(() => {
@@ -222,36 +221,36 @@ const [isLoading,setIsLoading]=useState(true)
                 // </div>
                 <div key={pro.id} className={`col-md-3 cursor-pointer`}>
                   <div>
-                  <div className={` ${styles.product}`}>
-                    <div
-                      className={`${styles.product_info} ${styles.product} w-100`}
-                    >
-                      <img
-                        src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
-                        className="w-100"
-                        alt={pro.prodName}
-                      />
-                      <Link
-                        to={`/detail/${pro.id}`}
-                        className="text-decoration-none text-dark "
+                    <div className={` ${styles.product}`}>
+                      <div
+                        className={`${styles.product_info} ${styles.product} w-100`}
                       >
-                        <div
-                          className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                        <img
+                          src={`http://127.0.0.1:8000${pro.prodImageThumbnail}`}
+                          className="w-100"
+                          alt={pro.prodName}
+                        />
+                        <Link
+                          to={`/detail/${pro.id}`}
+                          className="text-decoration-none text-dark "
                         >
-                          {pro.prodOnSale ? (
-                            <span className={`${styles.sale_product}`}>
-                              Sales
-                            </span>
-                          ) : null}
-                        </div>
-                      </Link>
-                    </div>
-                    <div className={`px-2 `}>
-                      <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
-                        {pro.prodName}
-                      </h4>
+                          <div
+                            className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
+                          >
+                            {pro.prodOnSale ? (
+                              <span className={`${styles.sale_product}`}>
+                                On Sales
+                              </span>
+                            ) : null}
+                          </div>
+                        </Link>
+                      </div>
+                      <div className={`px-2 `}>
+                        <h4 className={`pb-1 pt-2 ${styles.pro_name}`}>
+                          {pro.prodName}
+                        </h4>
 
-                      {/* <div className="d-flex justify-content-between align-content-center">
+                        {/* <div className="d-flex justify-content-between align-content-center">
                         <h5 className="pb-1">
                           {" "}
                           {pro.prodSubCategory.subCateName}
@@ -259,68 +258,68 @@ const [isLoading,setIsLoading]=useState(true)
                         <p className="fs-5">{pro.product.prodPrice} $</p>
                       </div> */}
 
-                      <div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          {pro.discounted_price === pro.original_price ? (
-                            <p className="fs-5 ">{pro.prodPrice} $</p>
-                          ) : (
-                            <>
+                        <div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {pro.prodOnSale ? (
+                              <>
                               <p className="fs-5 text-decoration-line-through">
-                                {pro.original_price} $
+                                {pro.prodPrice} $
                               </p>
                               <p className="fs-5">{pro.discounted_price} $</p>
                             </>
-                          )}
-                        </div>
-                      </div>
-                      <p className="pb-1">{pro.prodDescription}</p>
-                      <div className="my-2">
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div>
-                            {userType === "vendor" ? null : (
-                              <div
-                                // className={`${styles.wish_list}`}
-                                onClick={handleAddToCartClick}
-                              >
-                                {dataFavorite?.find(
-                                  (favProduct) => favProduct.id === pro.id
-                                ) ? (
-                                  <div
-                                    className={`${styles.wish_list} bg-danger`}
-                                    onClick={() => deletefavorite(pro.id)}
-                                  >
-                                    <i className="fa-regular fa-heart text-white"></i>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className={`${styles.wish_list} `}
-                                    onClick={() => addfavorite(pro.id)}
-                                  >
-                                    <i className="fa-regular fa-heart "></i>
-                                  </div>
-                                )}{" "}
-                              </div>
-                            )}
+                            ) :         
+                                   <p className="fs-5 ">{pro.prodPrice} $</p>
+                          }
+                           
                           </div>
-                          <div>
-                            {userType === "vendor" ? null : (
-                              <div onClick={handleAddToCartClick}>
-                                <button
-                                  className={`${styles.button_style} ${styles.cart}`}
-                                  onClick={() => addcart(pro.id)}
+                        </div>
+
+                        <p className="pb-1">{pro.prodDescription}</p>
+                        <div className="my-2">
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div>
+                              {userType === "vendor" ? null : (
+                                <div
+                                  // className={`${styles.wish_list}`}
+                                  onClick={handleAddToCartClick}
                                 >
-                                  <i class="fa-solid fa-cart-shopping cart"></i>
-                                </button>
-                              </div>
-                            )}
+                                  {dataFavorite?.find(
+                                    (favProduct) => favProduct.id === pro.id
+                                  ) ? (
+                                    <div
+                                      className={`${styles.wish_list} bg-danger`}
+                                      onClick={() => deletefavorite(pro.id)}
+                                    >
+                                      <i className="fa-regular fa-heart text-white"></i>
+                                    </div>
+                                  ) : (
+                                    <div
+                                      className={`${styles.wish_list} `}
+                                      onClick={() => addfavorite(pro.id)}
+                                    >
+                                      <i className="fa-regular fa-heart "></i>
+                                    </div>
+                                  )}{" "}
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              {userType === "vendor" ? null : (
+                                <div onClick={handleAddToCartClick}>
+                                  <button
+                                    className={`${styles.button_style} ${styles.cart}`}
+                                    onClick={() => addcart(pro.id)}
+                                  >
+                                    <i class="fa-solid fa-cart-shopping cart"></i>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  </div>
-                  
                 </div>
               ))}
             </div>

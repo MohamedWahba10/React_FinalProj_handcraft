@@ -64,7 +64,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
     transition: all 0.5s ease 0.5s;
     background-color: transparent;
     border-radius: 15px;
@@ -72,6 +71,24 @@
     z-index: 66;
     width: 100%;
   }
+
+
+  .product_info .above_layer .sale_product {
+    display: inline-block;
+  
+    background-color: black;
+    color: white;
+    /* padding: 7px 10px; */
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+  }
+  
+
+
   .product_info:hover img {
     transform: scale(1.2);
   }
