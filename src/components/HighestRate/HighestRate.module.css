@@ -147,3 +147,20 @@
     margin-top: 100px;
     margin-bottom: 0px;
    }
+
+   
+
+
+.cart_disabled {
+  
+
+  background-color: #fff;
+  filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+  padding: 10px 25px;
+  border-radius: 50px;
+  border-top-left-radius: 0;
+  transition: 0.5s;
+}
+.cart_disabled i {
+  font-size: 19px;
+}

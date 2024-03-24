@@ -252,12 +252,31 @@ export default function HighestRate() {
                                                                                 <div>
                                                                                     {userType === "vendor" ? null : (
                                                                                         <div onClick={handleAddToCartClick}>
-                                                                                            <button
-                                                                                                className={`${styles.button_style} ${styles.cart}`}
-                                                                                                onClick={() => addcart(pro.product_id)}
-                                                                                            >
-                                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
-                                                                                            </button>
+                                                                                            {
+                                                                                                pro.prodStock > 0 ? (
+                                                                                                    <>
+
+                                                                                                        <button
+                                                                                                            className={`${styles.button_style} ${styles.cart}`}
+                                                                                                            onClick={() =>
+                                                                                                                addcart(pro.product_id)
+                                                                                                            }
+
+                                                                                                        >
+                                                                                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                                                                                        </button>
+                                                                                                    </>
+                                                                                                )
+                                                                                                    : (<>
+                                                                                                        <button
+                                                                                                            className={` ${styles.cart_disabled}`}
+
+                                                                                                            disabled
+                                                                                                        >
+                                                                                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                                                                                        </button>
+                                                                                                    </>)
+                                                                                            }
                                                                                         </div>
                                                                                     )}
                                                                                 </div>

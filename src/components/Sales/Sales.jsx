@@ -320,14 +320,31 @@ export default function Sales() {
                                     <div>
                                       {userType === "vendor" ? null : (
                                         <div onClick={handleAddToCartClick}>
-                                          <button
+                                         {
+                                            pro.product.prodStock >0 ?(
+                                              <>
+                                              
+                                              <button
                                             className={`${styles.button_style} ${styles.cart}`}
                                             onClick={() =>
                                               addcart(pro.product.id)
                                             }
+                                            
                                           >
                                             <i class="fa-solid fa-cart-shopping cart"></i>
                                           </button>
+                                              </>
+                                            )
+                                            :(<>
+                                                   <button
+                                            className={` ${styles.cart_disabled}`}
+                        
+                                            disabled
+                                          >
+                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                          </button>
+                                            </>)
+                                          }
                                         </div>
                                       )}
                                     </div>

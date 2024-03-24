@@ -404,10 +404,8 @@ export default function FilterProduct() {
                                             )
                                             :(<>
                                                    <button
-                                            className={`${styles.button_style} ${styles.cart}`}
-                                            // onClick={() =>
-                                            //   addcart(pro.product.id)
-                                            // }
+                                            className={` ${styles.cart_disabled}`}
+                        
                                             disabled
                                           >
                                             <i class="fa-solid fa-cart-shopping cart"></i>

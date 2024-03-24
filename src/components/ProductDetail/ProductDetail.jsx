@@ -443,12 +443,25 @@ export default function ProductDetail() {
                       <>
                         {token ? (
                           <>
-                            <button
-                              className={`${styles.button_style} ${styles.cart}`}
-                              onClick={() => addcart(detailPro?.id)}
-                            >
-                              <i class="fa-solid fa-cart-shopping cart"></i>
-                            </button>
+                            {detailPro?.prodStock > 0 ? (
+                              <>
+                                <button
+                                  className={`${styles.button_style} ${styles.cart}`}
+                                  onClick={() => addcart(detailPro?.id)}
+                                >
+                                  <i class="fa-solid fa-cart-shopping cart"></i>
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  className={` ${styles.cart_disabled}`}
+                                  disabled
+                                >
+                                  <i class="fa-solid fa-cart-shopping cart"></i>
+                                </button>
+                              </>
+                            )}
                           </>
                         ) : (
                           <>
