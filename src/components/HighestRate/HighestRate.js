@@ -45,7 +45,7 @@ export default function HighestRate() {
     // -------------------------- product Name --------------------------
     // const [searchQuery, setSearchQuery] = useState("");
 
-//////////////////////
+    //////////////////////
 
     const [highestData, setHighestData] = useState([]);
 
@@ -174,6 +174,14 @@ export default function HighestRate() {
                                                                         Sales
                                                                     </span>
                                                                 ) : null}
+                                                                {pro.prodStock >
+                                                                    0 ? (
+                                                                    <span className={`${styles.sale_product} bg-light text-dark`}>
+                                                                        In Stock
+                                                                    </span>
+                                                                ) : <span className={`${styles.sale_product}  bg-light text-dark`}>
+                                                                    Out Stock
+                                                                </span>}
                                                             </div>
                                                         </Link>
                                                     </div>
@@ -207,100 +215,100 @@ export default function HighestRate() {
                                                         </p>
                                                         <div className="my-2">
                                                             <div className="d-flex justify-content-between align-items-center">
-                                                               <>
-                                                               {
-                                                                token ? (
-                                                                    <>
-                            
-                                                              
-                                                                <div>
-                                                                    {userType === "vendor" ? null : (
-                                                                        <div onClick={handleAddToCartClick}>
-                                                                            {dataFavorite?.find(
-                                                                                (favProduct) =>
-                                                                                    favProduct.id === pro.product_id
-                                                                            ) ? (
-                                                                                <div
-                                                                                    className={`${styles.wish_list} bg-danger`}
-                                                                                    onClick={() =>
-                                                                                        deletefavorite(pro.product_id)
-                                                                                    }
-                                                                                >
-                                                                                    <i className="fa-regular fa-heart text-white"></i>
-                                                                                </div>
-                                                                            ) : (
-                                                                                <div
-                                                                                    className={`${styles.wish_list} `}
-                                                                                    onClick={() =>
-                                                                                        addfavorite(pro.product_id)
-                                                                                    }
-                                                                                >
-                                                                                    <i className="fa-regular fa-heart "></i>
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <div>
-                                                                    {userType === "vendor" ? null : (
-                                                                        <div onClick={handleAddToCartClick}>
-                                                                            <button
-                                                                                className={`${styles.button_style} ${styles.cart}`}
-                                                                                onClick={() => addcart(pro.product_id)}
-                                                                            >
-                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                </>
-                                                                ) :
                                                                 <>
-                                                                  <div>
-                                                                    {userType === "vendor" ? null : (
-                                                                        <div onClick={handleAddToCartClick}>
-                                                                            {dataFavorite?.find(
-                                                                                (favProduct) =>
-                                                                                    favProduct.id === pro.product_id
-                                                                            ) ? (
-                                                                                <div
-                                                                                    className={`${styles.wish_list} bg-danger`}
-                                                                                    // onClick={() =>
-                                                                                    //     deletefavorite(pro.product_id)
-                                                                                    // }
-                                                                                    onClick={checkLogin}
-                                                                                >
-                                                                                    <i className="fa-regular fa-heart text-white"></i>
+                                                                    {
+                                                                        token ? (
+                                                                            <>
+
+
+                                                                                <div>
+                                                                                    {userType === "vendor" ? null : (
+                                                                                        <div onClick={handleAddToCartClick}>
+                                                                                            {dataFavorite?.find(
+                                                                                                (favProduct) =>
+                                                                                                    favProduct.id === pro.product_id
+                                                                                            ) ? (
+                                                                                                <div
+                                                                                                    className={`${styles.wish_list} bg-danger`}
+                                                                                                    onClick={() =>
+                                                                                                        deletefavorite(pro.product_id)
+                                                                                                    }
+                                                                                                >
+                                                                                                    <i className="fa-regular fa-heart text-white"></i>
+                                                                                                </div>
+                                                                                            ) : (
+                                                                                                <div
+                                                                                                    className={`${styles.wish_list} `}
+                                                                                                    onClick={() =>
+                                                                                                        addfavorite(pro.product_id)
+                                                                                                    }
+                                                                                                >
+                                                                                                    <i className="fa-regular fa-heart "></i>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    )}
                                                                                 </div>
-                                                                            ) : (
-                                                                                <div
-                                                                                    className={`${styles.wish_list} `}
-                                                                                    // onClick={() =>
-                                                                                    //     addfavorite(pro.product_id)
-                                                                                    // }
-                                                                                    onClick={checkLogin}
-                                                                                >
-                                                                                    <i className="fa-regular fa-heart "></i>
+                                                                                <div>
+                                                                                    {userType === "vendor" ? null : (
+                                                                                        <div onClick={handleAddToCartClick}>
+                                                                                            <button
+                                                                                                className={`${styles.button_style} ${styles.cart}`}
+                                                                                                onClick={() => addcart(pro.product_id)}
+                                                                                            >
+                                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    )}
                                                                                 </div>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <div>
-                                                                    {userType === "vendor" ? null : (
-                                                                        <div onClick={handleAddToCartClick}>
-                                                                            <button
-                                                                                className={`${styles.button_style} ${styles.cart}`}
-                                                                                // onClick={() => addcart(pro.product_id)}
-                                                                                onClick={checkLogin}
-                                                                            >
-                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                </>
-                                                               }
+                                                                            </>
+                                                                        ) :
+                                                                            <>
+                                                                                <div>
+                                                                                    {userType === "vendor" ? null : (
+                                                                                        <div onClick={handleAddToCartClick}>
+                                                                                            {dataFavorite?.find(
+                                                                                                (favProduct) =>
+                                                                                                    favProduct.id === pro.product_id
+                                                                                            ) ? (
+                                                                                                <div
+                                                                                                    className={`${styles.wish_list} bg-danger`}
+                                                                                                    // onClick={() =>
+                                                                                                    //     deletefavorite(pro.product_id)
+                                                                                                    // }
+                                                                                                    onClick={checkLogin}
+                                                                                                >
+                                                                                                    <i className="fa-regular fa-heart text-white"></i>
+                                                                                                </div>
+                                                                                            ) : (
+                                                                                                <div
+                                                                                                    className={`${styles.wish_list} `}
+                                                                                                    // onClick={() =>
+                                                                                                    //     addfavorite(pro.product_id)
+                                                                                                    // }
+                                                                                                    onClick={checkLogin}
+                                                                                                >
+                                                                                                    <i className="fa-regular fa-heart "></i>
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                                <div>
+                                                                                    {userType === "vendor" ? null : (
+                                                                                        <div onClick={handleAddToCartClick}>
+                                                                                            <button
+                                                                                                className={`${styles.button_style} ${styles.cart}`}
+                                                                                                // onClick={() => addcart(pro.product_id)}
+                                                                                                onClick={checkLogin}
+                                                                                            >
+                                                                                                <i className="fa-solid fa-cart-shopping cart"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                            </>
+                                                                    }
                                                                 </>
                                                             </div>
                                                         </div>

@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-import { Link, useParams,useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import { CartContext } from "../../Context/CartContext";
@@ -235,73 +235,86 @@ export default function ProductDetail() {
                         className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
                       >
                         {detailPro?.prodOnSale ? (
-                          <span className={`${styles.sale_product}`}>
+                          <span className={`${styles.sale_product} me-3`}>
                             Sales
                           </span>
                         ) : null}
+                        {detailPro?.prodStock > 0 ? (
+                          <span
+                            className={`${styles.sale_product}  text-light bg-secondary `}
+                          >
+                            In Stock
+                          </span>
+                        ) : (
+                          <span
+                            className={`${styles.sale_product} text-light bg-secondary`}
+                          >
+                            Out Stock
+                          </span>
+                        )}
                       </div>
                       <>
-                   
-                      {
-                       token ? 
-                       (
-                        <>
-                        
-                        
-                     
-                      {userType === "vendor" ? null : (
-                        <div>
-                          {dataFavorite?.find(
-                            (favProduct) => favProduct.id === detailPro?.id
-                          ) ? (
-                            <div
-                              className={`${styles.wish_style} bg-danger`}
-                              onClick={() => deletefavorite(detailPro?.id)}
-                            >
-                              <i
-                                class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
-                              ></i>
-                            </div>
-                          ) : (
-                            <div
-                              className={`${styles.wish_style}`}
-                              onClick={() => addfavorite(detailPro?.id)}
-                            >
-                              <i
-                                class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
-                              ></i>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                         </>
-                       )
-                       :
-                       (<>
-                       {userType === "vendor" ? null : (
-                        <div>
-                          {dataFavorite?.find(
-                            (favProduct) => favProduct.id === detailPro?.id
-                          ) ? (
-                            <div
-                              className={`${styles.wish_style} bg-danger`}
-                              onClick={checkLogin}                            >
-                              <i
-                                class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
-                              ></i>
-                            </div>
-                          ) : (
-                            <div
-                              className={`${styles.wish_style}`}
-                              onClick={checkLogin}                            >
-                              <i
-                                class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
-                              ></i>
-                            </div>
-                          )}
-                        </div>
-                      )}</>)
-                      }
+                        {token ? (
+                          <>
+                            {userType === "vendor" ? null : (
+                              <div>
+                                {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === detailPro?.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_style} bg-danger`}
+                                    onClick={() =>
+                                      deletefavorite(detailPro?.id)
+                                    }
+                                  >
+                                    <i
+                                      class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
+                                    ></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_style}`}
+                                    onClick={() => addfavorite(detailPro?.id)}
+                                  >
+                                    <i
+                                      class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
+                                    ></i>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            {userType === "vendor" ? null : (
+                              <div>
+                                {dataFavorite?.find(
+                                  (favProduct) =>
+                                    favProduct.id === detailPro?.id
+                                ) ? (
+                                  <div
+                                    className={`${styles.wish_style} bg-danger`}
+                                    onClick={checkLogin}
+                                  >
+                                    <i
+                                      class={`fa-regular fa-heart fs-2 text-white  ${styles.wish_icon}`}
+                                    ></i>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className={`${styles.wish_style}`}
+                                    onClick={checkLogin}
+                                  >
+                                    <i
+                                      class={`fa-regular fa-heart fs-2  ${styles.wish_icon}`}
+                                    ></i>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        )}
                       </>
                     </div>
                   </>
@@ -323,22 +336,22 @@ export default function ProductDetail() {
                       Created By {detailPro?.prodVendor.shopname}
                     </h5>
 
-                 
                     <div>
-                          <div className="d-flex justify-content-between align-items-center">
-                            {detailPro?.prodOnSale ? (
-                              <>
-                              <p className="fs-5 text-decoration-line-through pe-2">
-                                {detailPro?.prodPrice} $
-                              </p>
-                              <p className="fs-5">{detailPro?.discounted_price} $</p>
-                            </>
-                            ) :         
-                                   <p className="fs-5 ">{detailPro?.prodPrice} $</p>
-                          }
-                           
-                          </div>
-                        </div>
+                      <div className="d-flex justify-content-between align-items-center">
+                        {detailPro?.prodOnSale ? (
+                          <>
+                            <p className="fs-5 text-decoration-line-through pe-2">
+                              {detailPro?.prodPrice} $
+                            </p>
+                            <p className="fs-5">
+                              {detailPro?.discounted_price} $
+                            </p>
+                          </>
+                        ) : (
+                          <p className="fs-5 ">{detailPro?.prodPrice} $</p>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <p>{detailPro?.prodDescription}</p>
@@ -352,7 +365,6 @@ export default function ProductDetail() {
                       </button>
                     </Link>
                   ) : (
-                 
                     <div className=" d-flex justify-content-between">
                       <div className="me-4 d-flex">
                         {cartDetails.cart_items &&
@@ -428,62 +440,45 @@ export default function ProductDetail() {
                           )}
                       </div>
 
-
                       <>
-                      {
-                        token?
-                        (
+                        {token ? (
                           <>
-                          
-                   
-                     
-
-                      <button
-                        className={`${styles.button_style} ${styles.cart}`}
-                        onClick={() => addcart(detailPro?.id)}
-                      >
-                        <i class="fa-solid fa-cart-shopping cart"></i>
-                      </button>
-                             </>
-                             )
-                             :
-                             (
-                              <>
-              
-                              <button
-                                className={`${styles.button_style} ${styles.cart}`}
-                                onClick={checkLogin}
-                              >
-                                <i class="fa-solid fa-cart-shopping cart"></i>
-                              </button>
-                                     </>
-                             )
-                           }
-                           </>
+                            <button
+                              className={`${styles.button_style} ${styles.cart}`}
+                              onClick={() => addcart(detailPro?.id)}
+                            >
+                              <i class="fa-solid fa-cart-shopping cart"></i>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className={`${styles.button_style} ${styles.cart}`}
+                              onClick={checkLogin}
+                            >
+                              <i class="fa-solid fa-cart-shopping cart"></i>
+                            </button>
+                          </>
+                        )}
+                      </>
                     </div>
                   )}
                   {apiError && (
                     <div className="alert alert-danger mt-3">{apiError}</div>
                   )}
-                  {
-                    token?
-                    (
-                      <>
-              
-                  <Link
-                    to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
-                  >
-                    <button
-                      className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
-                    >
-                      View Product Vendor {detailPro?.prodVendor.shopname}
-                    </button>
-                  </Link>
-                          
-                  </>
-                    ):
-                    null
-                  }
+                  {token ? (
+                    <>
+                      <Link
+                        to={`/vendorProduct/${detailPro?.prodVendor.id}/${detailPro?.prodVendor.shopname}`}
+                      >
+                        <button
+                          className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
+                        >
+                          View Product Vendor {detailPro?.prodVendor.shopname}
+                        </button>
+                      </Link>
+                    </>
+                  ) : null}
                   {userType === "customer" ? (
                     <Link
                       to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}

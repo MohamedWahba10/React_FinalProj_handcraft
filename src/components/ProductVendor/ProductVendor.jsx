@@ -242,6 +242,19 @@ export default function ProductVendor() {
                                 On Sales
                               </span>
                             ) : null}
+                            {pro.prodStock > 0 ? (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                In Stock
+                              </span>
+                            ) : (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                Out Stock
+                              </span>
+                            )}
                           </div>
                         </Link>
                       </div>
@@ -262,15 +275,14 @@ export default function ProductVendor() {
                           <div className="d-flex justify-content-between align-items-center">
                             {pro.prodOnSale ? (
                               <>
-                              <p className="fs-5 text-decoration-line-through">
-                                {pro.prodPrice} $
-                              </p>
-                              <p className="fs-5">{pro.discounted_price} $</p>
-                            </>
-                            ) :         
-                                   <p className="fs-5 ">{pro.prodPrice} $</p>
-                          }
-                           
+                                <p className="fs-5 text-decoration-line-through">
+                                  {pro.prodPrice} $
+                                </p>
+                                <p className="fs-5">{pro.discounted_price} $</p>
+                              </>
+                            ) : (
+                              <p className="fs-5 ">{pro.prodPrice} $</p>
+                            )}
                           </div>
                         </div>
 

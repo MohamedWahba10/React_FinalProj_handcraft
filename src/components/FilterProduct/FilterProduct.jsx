@@ -310,6 +310,14 @@ export default function FilterProduct() {
                               On Sale
                             </span>
                           ) : null}
+                              {pro.product.prodStock >
+                              0? (
+                            <span className={`${styles.sale_product} bg-light text-dark`}>
+                              In Stock
+                            </span>
+                          ) :  <span className={`${styles.sale_product}  bg-light text-dark`}>
+                          Out Stock
+                        </span>}
                         </div>
                       </Link>
                     </div>
@@ -379,14 +387,34 @@ export default function FilterProduct() {
                                     <div>
                                       {userType === "vendor" ? null : (
                                         <div onClick={handleAddToCartClick}>
-                                          <button
+                                          {
+                                            pro.product.prodStock >0 ?(
+                                              <>
+                                              
+                                              <button
                                             className={`${styles.button_style} ${styles.cart}`}
                                             onClick={() =>
                                               addcart(pro.product.id)
                                             }
+                                            
                                           >
                                             <i class="fa-solid fa-cart-shopping cart"></i>
                                           </button>
+                                              </>
+                                            )
+                                            :(<>
+                                                   <button
+                                            className={`${styles.button_style} ${styles.cart}`}
+                                            // onClick={() =>
+                                            //   addcart(pro.product.id)
+                                            // }
+                                            disabled
+                                          >
+                                            <i class="fa-solid fa-cart-shopping cart"></i>
+                                          </button>
+                                            </>)
+                                          }
+                                   
                                         </div>
                                       )}
                                     </div>

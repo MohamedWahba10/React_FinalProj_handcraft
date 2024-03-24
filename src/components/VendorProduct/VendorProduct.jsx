@@ -129,6 +129,19 @@ export default function VendorProduct() {
                                 Sales
                               </span>
                             ) : null}
+                            {pro.prodStock > 0 ? (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                In Stock
+                              </span>
+                            ) : (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                Out Stock
+                              </span>
+                            )}
                           </div>
                         </Link>
                       </div>
@@ -138,7 +151,7 @@ export default function VendorProduct() {
                         </h4>
 
                         <div>
-                          <div className="d-flex justify-content-between align-items-center">
+                          {/* <div className="d-flex justify-content-between align-items-center">
                             {pro.discounted_price === pro.original_price ? (
                               <p className="fs-5 ">{pro.prodPrice} $</p>
                             ) : (
@@ -146,14 +159,32 @@ export default function VendorProduct() {
                                 <p className="fs-5 text-decoration-line-through">
                                   {pro.original_price} $
                                 </p>
-                                <p className="fs-5">
-                                  {pro.discounted_price} $
-                                </p>
+                                <p className="fs-5">{pro.discounted_price} $</p>
                               </>
                             )}
+                          </div> */}
+
+                          <div>
+                            <div className="d-flex justify-content-between align-items-center">
+                              {pro.prodOnSale ? (
+                                <>
+                                  <p className="fs-5 text-decoration-line-through">
+                                    {pro.prodPrice} $
+                                  </p>
+                                  <p className="fs-5">
+                                    {pro.discounted_price} $
+                                  </p>
+                                </>
+                              ) : (
+                                <p className="fs-5 ">{pro.prodPrice} $</p>
+                              )}
+                            </div>
                           </div>
                           <div>
                             <p>{pro.prodDescription}</p>
+                          </div>
+                          <div>
+                            <p>Number Product : {pro.prodStock}</p>
                           </div>
                         </div>
 
@@ -191,8 +222,8 @@ export default function VendorProduct() {
           ) : (
             <div className={`col-12 text-center ${styles.No_product}`}>
               <h1>
-                No Product Created By{" "}
-                {dataUser?.message?.first_name} {dataUser?.message?.last_name}
+                No Product Created By {dataUser?.message?.first_name}{" "}
+                {dataUser?.message?.last_name}
               </h1>
             </div>
           )}

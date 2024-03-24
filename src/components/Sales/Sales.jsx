@@ -235,7 +235,21 @@ export default function Sales() {
                         >
                           <div
                             className={`${styles.above_layer}  p-3 d-flex  justify-content-between align-items-start  `}
-                          ></div>
+                          >
+                                   {pro.product.prodStock > 0 ? (
+                                    <span
+                                      className={`${styles.sale_product} bg-light text-dark`}
+                                    >
+                                      In Stock
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className={`${styles.sale_product} bg-light text-dark`}
+                                    >
+                                      Out Stock
+                                    </span>
+                                  )}
+                          </div>
                         </Link>
                       </div>
                       <div className={`px-2 `}>

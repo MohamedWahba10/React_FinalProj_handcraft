@@ -243,18 +243,9 @@ function NavBar() {
                   )}
                 </>
               ) : null}
-      
             </ul>
           </div>
 
-          <div className={`${styles.cursor_pointer} navbar-brand`}>
-           
-            {token ? <span style={{ fontWeight: "bold" }}>{userName} </span> : null}
-            <i
-              class="fa-regular fa-user fs-3 ms-2"
-              onClick={() => viewAuth()}
-            ></i>
-          </div>
           {token ? (
             <>
               {userType === "customer" ? (
@@ -292,6 +283,17 @@ function NavBar() {
               </div>
             </>
           ) : null}
+          <div className={`${styles.cursor_pointer} navbar-brand`}>
+            <i
+              class="fa-regular fa-user fs-3 ms-2"
+              onClick={() => viewAuth()}
+            ></i>
+            {token ? (
+              <span style={{ fontWeight: "bold" }} className="ms-1">
+                {userName}{" "}
+              </span>
+            ) : null}
+          </div>
         </div>
       </nav>
       {layerVisible && (

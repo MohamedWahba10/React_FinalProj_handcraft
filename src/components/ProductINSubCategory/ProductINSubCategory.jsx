@@ -174,6 +174,19 @@ export default function ProductINSubCategory() {
                                 On Sales
                               </span>
                             ) : null}
+                                 {pro.product.prodStock > 0 ? (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                In Stock
+                              </span>
+                            ) : (
+                              <span
+                                className={`${styles.sale_product} bg-light text-dark`}
+                              >
+                                Out Stock
+                              </span>
+                            )}
                           </div>
                         </Link>
                       </div>
