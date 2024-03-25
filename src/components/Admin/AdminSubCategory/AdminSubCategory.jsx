@@ -78,7 +78,7 @@ export default function AdminSubCategory() {
       </Modal>
       <div className="mx-5 my-5">
         <div className="d-flex justify-content-end align-items-end">
-             <Link to={'/adminPanel/AdminSubCategory/addCategory'}>
+             <Link to={'/adminPanel/AdminSubCategory/addSubCategory'}>
               <button className="btn_add">
                 + ADD
               </button>
