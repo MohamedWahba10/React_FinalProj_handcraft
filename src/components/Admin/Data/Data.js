@@ -39,10 +39,10 @@ export const SidebarData = [
     icon: UilPackage,
     heading: 'Products'
   },
-  // {
-  //   icon: UilChart,
-  //   heading: 'Analytics'
-  // },
+  {
+    icon: UilSignOutAlt,
+    heading: 'Logout'
+  },
 ];
 
 // Analytics Cards Data

@@ -92,9 +92,9 @@ export default function AdminProduct() {
                   <TableCell>ID</TableCell>
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left">Price</TableCell>
-                  <TableCell align="left">ON Sale</TableCell>
+                  <TableCell align="left">OnSale</TableCell>
                   <TableCell align="left">Stock</TableCell>
-                  <TableCell align="left">Description</TableCell>
+                  <TableCell align="left">SubCategory</TableCell>
                   <TableCell align="left">Vendor</TableCell>
                   <TableCell align="left">Action</TableCell>
                 </TableRow>
@@ -112,13 +112,12 @@ export default function AdminProduct() {
                     <TableCell align="left">
                       {row.product.discounted_price}
                     </TableCell>
-                    {/* <TableCell align="left">{row.product.prodOnSale}</TableCell> */}
                     <TableCell align="left">
                       {row.product.prodOnSale ? "Yes" : "No"}
                     </TableCell>
                     <TableCell align="left">{row.product.prodStock}</TableCell>
                     <TableCell align="left">
-                      {row.product.prodDescription}
+                      {row.prodSubCategory.subCateName}
                     </TableCell>
                     <TableCell align="left">{row.vendor.shopname}</TableCell>
                     <TableCell align="left">
