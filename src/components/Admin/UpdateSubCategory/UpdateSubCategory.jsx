@@ -186,10 +186,10 @@ export default function UpdateSubCategory() {
 
 
 
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="subCateParent" className="fs-4 fw-bold">
-                      Product Category
+                      Parent Category
                     </label>
 
                     <select
