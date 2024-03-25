@@ -1,54 +1,27 @@
 import React, { useEffect, useState } from "react";
-import styles from "./UpdateCategory.module.css";
+import styles from "./AddCategory.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Helmet } from "react-helmet";
 import axios from "axios";
-import { useParams } from "react-router-dom";
-import toast from "react-hot-toast";
 
-export default function UpdateCategory() {
-  const [categories, setCategories] = useState([]);
+export default function AddCategory() {
   const [error, setError] = useState(null);
   const [isLoading, setisLoading] = useState(false);
-  const { id } = useParams();
   let navigate = useNavigate();
-  const [dataCategory, setData] = useState(null);
 
-  async function CategoryDetail(id) {
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:8000/api/panel/specific_category/${id}/`
-      );
-      setData(response);
-    } catch (error) {
-      console.error("Failed to fetch profile data", error);
-    }
-  }
 
-  useEffect(() => {
-    CategoryDetail(id);
-  }, []);
-  const categoryData = dataCategory?.data.Category;
-  console.log("dataCategory................", categoryData);
-  //  --------------- call api Update Category ----------------------
-
-  async function callUpdateCategory(values) {
+  async function callAddCategory(values) {
     setisLoading(true);
     const formData = new FormData();
     formData.append("cateName", values.cateName);
     formData.append("cateDescription", values.cateDescription);
 
-    if (values.cateImage && values.cateImage instanceof File) {
-      formData.append("cateImage", values.cateImage);
-    } else if (!values.cateImage && categoryData && categoryData.cateImage) {
-      formData.append("cateImage", categoryData.cateImage);
-    }
+     formData.append("cateImage", values.cateImage);
 
     try {
       const response = await axios.post(
-        `http://127.0.0.1:8000/api/panel/updatecategory/${id}/`,
+        `http://127.0.0.1:8000/api/panel/categoryadd/`,
         formData,
         {
           headers: {
@@ -57,7 +30,7 @@ export default function UpdateCategory() {
         }
       );
 
-      if (response.data.message = "Category updated successfully") {
+      if (response.data.message = "Category added successfully") {
         navigate("/adminPanel/adminCategory");
         setisLoading(false);
       } else {
@@ -66,7 +39,7 @@ export default function UpdateCategory() {
       setError(error.response.data.message);
 
       setisLoading(false);
-      console.error("Error during UpdateCategory:", error);
+      console.error("Error during AddCategory:", error);
     }
   }
   const validationSchema = Yup.object({
@@ -81,47 +54,36 @@ export default function UpdateCategory() {
     cateImage: Yup.string().required("Image is Required"),
   });
 
-  const UpdateCategoryForm = useFormik({
+  const AddCategoryForm = useFormik({
     initialValues: {
       cateName: "",
       cateDescription: "",
       cateImage: "",
     },
     validationSchema,
-    onSubmit: (values) => callUpdateCategory(values),
+    onSubmit: (values) => callAddCategory(values),
   });
-  useEffect(() => {
-    if (categoryData) {
-      UpdateCategoryForm.setValues({
-        cateName: categoryData.cateName || "",
-
-        cateDescription: categoryData.cateDescription || "",
-        cateImage: categoryData.cateImage || "",
-      });
-    }
-  }, [categoryData]);
-  // ---------------------------------------------
 
   return (
     <>
-      <div className={`${styles.header_UpdateCategory} py-5 mb-5 mx-5 `}>
+      <div className={`${styles.header_AddCategory} py-5 mb-5 mx-5 `}>
         <Link to="/adminPanel/adminCategory" className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>Category</span>
         </Link>
 
-        <span className={`${styles.span_UpdateCategory}`}>
-          / Update Category
+        <span className={`${styles.span_AddCategory}`}>
+          / Add Category
         </span>
 
         <div className="container my-5 py-5">
           <div>
-            <h2 className="text-center my-3">Update Category</h2>
+            <h2 className="text-center my-3">Add Category</h2>
 
-            <div className={`${styles.form_UpdateCategory}`}>
+            <div className={`${styles.form_AddCategory}`}>
               {error ? <div className="alert alert-danger"> {error}</div> : ""}
 
               <form
-                onSubmit={UpdateCategoryForm.handleSubmit}
+                onSubmit={AddCategoryForm.handleSubmit}
                 encType="multipart/form-data"
               >
                 <div className="row gy-4">
@@ -135,15 +97,15 @@ export default function UpdateCategory() {
                         className="w-100"
                         id="cateName"
                         name="cateName"
-                        value={UpdateCategoryForm.values.cateName}
-                        onChange={UpdateCategoryForm.handleChange}
-                        onBlur={UpdateCategoryForm.handleBlur}
+                        value={AddCategoryForm.values.cateName}
+                        onChange={AddCategoryForm.handleChange}
+                        onBlur={AddCategoryForm.handleBlur}
                         placeholder="Enter The Category Name"
                       />
-                      {UpdateCategoryForm.errors.cateName &&
-                      UpdateCategoryForm.touched.cateName ? (
+                      {AddCategoryForm.errors.cateName &&
+                      AddCategoryForm.touched.cateName ? (
                         <div className="text-danger fs-5 mt-3">
-                          {UpdateCategoryForm.errors.cateName}
+                          {AddCategoryForm.errors.cateName}
                         </div>
                       ) : null}
                     </div>
@@ -159,14 +121,14 @@ export default function UpdateCategory() {
                         id="cateDescription"
                         name="cateDescription"
                         placeholder="Enter The Category Description"
-                        value={UpdateCategoryForm.values.cateDescription}
-                        onChange={UpdateCategoryForm.handleChange}
-                        onBlur={UpdateCategoryForm.handleBlur}
+                        value={AddCategoryForm.values.cateDescription}
+                        onChange={AddCategoryForm.handleChange}
+                        onBlur={AddCategoryForm.handleBlur}
                       ></textarea>
-                      {UpdateCategoryForm.errors.cateDescription &&
-                      UpdateCategoryForm.touched.cateDescription ? (
+                      {AddCategoryForm.errors.cateDescription &&
+                      AddCategoryForm.touched.cateDescription ? (
                         <div className="text-danger fs-5 mt-3">
-                          {UpdateCategoryForm.errors.cateDescription}
+                          {AddCategoryForm.errors.cateDescription}
                         </div>
                       ) : null}
                     </div>
@@ -182,18 +144,18 @@ export default function UpdateCategory() {
                         id="cateImage"
                         name="cateImage"
                         onChange={(event) => {
-                          UpdateCategoryForm.setFieldValue(
+                          AddCategoryForm.setFieldValue(
                             "cateImage",
                             event.currentTarget.files[0]
                           );
                         }}
-                        onBlur={UpdateCategoryForm.handleBlur}
+                        onBlur={AddCategoryForm.handleBlur}
                       />
 
-                      {UpdateCategoryForm.errors.cateImage &&
-                      UpdateCategoryForm.touched.cateImage ? (
+                      {AddCategoryForm.errors.cateImage &&
+                      AddCategoryForm.touched.cateImage ? (
                         <div className="text-danger fs-5 mt-3">
-                          {UpdateCategoryForm.errors.cateImage}
+                          {AddCategoryForm.errors.cateImage}
                         </div>
                       ) : null}
                     </div>
@@ -204,16 +166,16 @@ export default function UpdateCategory() {
                   {isLoading ? (
                     <button
                       type="submit"
-                      className={`${styles.UpdateCategory_button}`}
+                      className={`${styles.AddCategory_button}`}
                     >
                       <i className="fa fa-spinner fa-spin"></i>
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className={`${styles.UpdateCategory_button}`}
+                      className={`${styles.AddCategory_button}`}
                     >
-                      Update Category
+                      Add Category
                     </button>
                   )}
                 </div>

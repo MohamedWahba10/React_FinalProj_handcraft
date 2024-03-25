@@ -77,6 +77,13 @@ export default function AdminCategory() {
         </Modal.Footer>
       </Modal>
       <div className="mx-5 my-5">
+        <div className="d-flex justify-content-end align-items-end">
+             <Link to={'/adminPanel/adminCategory/addCategory'}>
+              <button className="btn_add">
+                + ADD
+              </button>
+             </Link>
+        </div>
         <div className="Table">
           <h3 className="my-3 text-center fw-bold">Category</h3>
           <TableContainer
