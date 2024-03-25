@@ -12,9 +12,8 @@ function AdminPanel() {
     if (selectedIndex === 1) {
       navigate("/adminPanel/adminCategory");
     }
-    else{
-      navigate("/adminPanel");
-
+    if (selectedIndex === 2) {
+      navigate("/adminPanel/adminSubCategory");
     }
   };
   return (

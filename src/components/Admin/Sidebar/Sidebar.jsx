@@ -1,21 +1,17 @@
 
 import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
-// import Logo from "../../";
 import Logo from "../../../assets/images/logo.png";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import axios from "axios";
-import AdminCategory from "../AdminCategory/AdminCategory";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ handleNavigation }) => {
   const [selected, setSelected] = useState(0);
-
   const [expanded, setExpaned] = useState(true);
-  let navigate = useNavigate();
 
   const sidebarVariants = {
     true: {
@@ -25,9 +21,9 @@ const Sidebar = () => {
       left: "-60%",
     },
   };
-  console.log(window.innerWidth);
 
   const [dataUser, setDataUser] = useState(null);
+
   async function ProfileData() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
@@ -48,6 +44,7 @@ const Sidebar = () => {
   if (!dataUser) {
     return null;
   }
+
   const firstName = dataUser?.message.first_name;
   const lastName = dataUser?.message.last_name;
 
@@ -65,7 +62,6 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={window.innerWidth <= 768 ? `${expanded}` : ""}
       >
-        {/* logo */}
         <div className="logo">
           <img src={Logo} alt="logo" />
           <span>
@@ -74,7 +70,7 @@ const Sidebar = () => {
         </div>
 
         <span className="mt-4 ms-3 fs-5">
-          Welcom {firstName} {lastName}
+          Welcome {firstName} {lastName}
         </span>
         <div className="menu">
           {SidebarData.map((item, index) => {
@@ -82,11 +78,16 @@ const Sidebar = () => {
               <div
                 className={selected === index ? "menuItem active" : "menuItem"}
                 key={index}
-                onClick={() => setSelected(index)}
+                onClick={() => {
+                  setSelected(index);
+                  handleNavigation(index);
+                }}
               >
                 <item.icon />
                 <span>
-                  <Link to={item.path} className=" text-decoration-none text-dark">{item.heading}</Link>
+                  <Link to={item.path} className="text-decoration-none text-dark">
+                    {item.heading}
+                  </Link>
                 </span>{" "}
               </div>
             );
@@ -96,4 +97,5 @@ const Sidebar = () => {
     </>
   );
 };
+
 export default Sidebar;
