@@ -1,21 +1,21 @@
 
-  .header_UpdateCategory h1 {
+.header_UpdateSubCategory h1 {
     font-size: 45px;
     font-weight: bold;
     padding-bottom: 10px;
   }
   
-  .header_UpdateCategory .link_home {
+  .header_UpdateSubCategory .link_home {
     color: #727272;
     font-size: 18px;
   }
   
-  .header_UpdateCategory .span_UpdateCategory {
+  .header_UpdateSubCategory .span_UpdateSubCategory {
     color: #3f3e3e;
     font-size: 18px;
   }
   
-  .form_UpdateCategory .UpdateCategory_button {
+  .form_UpdateSubCategory .UpdateSubCategory_button {
     background-color: #1f1f1f;
     font-size: 22px;
     padding: 10px 30px;
@@ -36,15 +36,15 @@
     font-size: 20px;
     font-weight: bold;
   }
-  .form_UpdateCategory form input,
-  .form_UpdateCategory form select,
-  .form_UpdateCategory form textarea {
+  .form_UpdateSubCategory form input,
+  .form_UpdateSubCategory form select,
+  .form_UpdateSubCategory form textarea {
     padding: 15px 13px;
     margin-top: 10px;
     border-radius: 10px;
   }
   
-  .form_UpdateCategory .UpdateCategory_button:hover {
+  .form_UpdateSubCategory .UpdateSubCategory_button:hover {
     background-color: black;
     padding: 10px;
     color: #ff919d;
@@ -58,7 +58,7 @@
     font-size: 20px;
     cursor: pointer;
   }
-  .form_UpdateCategory {
+  .form_UpdateSubCategory {
     padding: 25px 25px;
     border-radius: 20px;
     background-color: #fff;
