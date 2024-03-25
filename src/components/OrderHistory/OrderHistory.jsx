@@ -1,12 +1,12 @@
 import { React, useEffect, useState } from "react";
 import axios from 'axios';
-import { BsClockHistory } from 'react-icons/bs';
+
 
 
 export default function OrderHistory() {
 
   let [orderHistory, setorderHistory] = useState([])
-  
+
 
   const headers = {
     Authorization: `Token ${localStorage.getItem("userToken")}`
@@ -21,7 +21,7 @@ export default function OrderHistory() {
       }).then((res) => res).catch((err) => err);
 
     console.log("order history ==>", data);
-   
+
     setorderHistory(data)
   }
 
@@ -29,13 +29,22 @@ export default function OrderHistory() {
     let { data } = await axios.put(`http://127.0.0.1:8000/api/order/delivered_order/${order_id}/`, {}, {
       headers: headers
     }).then((res) => res).catch((err) => err);
-  
+
     console.log("isDelivered ===>", data);
   }
-  
+
+  async function cancelOrder(order_id) {
+    let { data } = await axios.delete(`http://127.0.0.1:8000/api/order/delete_order/${order_id}/`, {
+      headers: headers
+    }).then((res) => res).catch((err) => err);
+
+    console.log("cancelOrder ===>", data);
+  }
 
   useEffect(() => {
+
     order_History()
+
   }, [])
 
   return (
@@ -65,8 +74,6 @@ export default function OrderHistory() {
                   <td>{ele.created_at}</td>
                   <td>{ele.address}</td>
                   <td>{ele.total_price} $</td>
-
-
                   <td style={{ padding: '5px', borderRadius: '10px' }}>
                     {ele.status === 'P' ?
                       <span style={{ backgroundColor: 'lightgrey', padding: '0.5rem 1rem', borderRadius: '5px' }}>Pending</span> :
@@ -74,9 +81,12 @@ export default function OrderHistory() {
                         <span style={{ backgroundColor: 'lightblue', padding: '0.5rem 1rem', borderRadius: '5px' }}>Shipped</span> :
                         ele.status === 'D' ?
                           <span style={{ backgroundColor: 'lightgreen', padding: '0.5rem 1rem', borderRadius: '5px' }}>Delivered</span> :
-                          ele.status
+                          ele.status === 'C' ?
+                            <span style={{ backgroundColor: 'lightcoral', padding: '0.5rem 1rem', borderRadius: '5px' }}>Canceled</span> :
+                            ele.status
                     }
                   </td>
+
                 </tr>
               </tbody>
             </table>
@@ -102,8 +112,14 @@ export default function OrderHistory() {
               </div>
             ))}
             <hr />
-            <button className="btn btn-light border text-light bg-danger icon-hover-danger ms-5">Cancel Order</button>
-            <button onClick={() => isDelivered(ele.order_id )} className="btn btn-light border text-light bg-success icon-hover-danger ms-5">Dilevered</button>
+            <button
+              onClick={() => cancelOrder(ele.order_id)}
+              className="btn btn-light border text-light bg-danger icon-hover-danger ms-5"
+              disabled={ele.status === 'D'} // Disable button if status is 'Delivered'
+            >
+              Cancel Order
+            </button>
+            <button onClick={() => isDelivered(ele.order_id)} className="btn btn-light border text-light bg-success icon-hover-danger ms-5">Dilevered</button>
           </div>
         ))}
 

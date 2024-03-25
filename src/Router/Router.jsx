@@ -47,6 +47,7 @@ import AdminProduct from "../components/Admin/AdminProduct/AdminProduct.jsx";
 import AddSubCategory from "../components/Admin/AddSubCategory/AddSubCategory.jsx";
 import UpdateSubCategory from "../components/Admin/UpdateSubCategory/UpdateSubCategory.jsx";
 import AddProductAdmin from "../components/Admin/AddProductAdmin/AddProductAdmin.jsx";
+import VendorOrderHistory from "../components/VendorOrderHistory/VendorOrderHistory.jsx";
 
 
 
@@ -216,6 +217,20 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+
+        <Route
+          path="/VendorOrderHistory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedVendor>
+                <VendorOrderHistory />
+              </ProtectedVendor>
+            </ProtectedRoutes>
+          }
+        />
+
+
+
         <Route
           path="/cart"
           element={
@@ -443,7 +458,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-          <Route
+        <Route
           path="/adminPanel/adminProduct/addProduct"
           element={
             <ProtectedRoutes>

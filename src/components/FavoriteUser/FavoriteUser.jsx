@@ -119,7 +119,7 @@ export default function FavoriteUser() {
                               <span
                                 className={`${styles.sale_product} `}
                               >
-                                Out Stock
+                                Out of Stock
                               </span>
                             )}
                             </div>
