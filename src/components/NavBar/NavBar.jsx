@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { FavoriteContext } from "../../Context/FavoriteContext";
 import FilterProduct from "../FilterProduct/FilterProduct";
+import { BsClockHistory } from 'react-icons/bs';
 
 function NavBar() {
   const [layerVisible, setLayerVisible] = useState(false);
@@ -257,6 +258,9 @@ function NavBar() {
             <>
               {userType === "customer" ? (
                 <>
+                  {<Link to="/orderHistory" className={`${styles.cursor_pointer} me-3`}>
+                    <BsClockHistory className="fs-3 position-relative text-dark" />
+                  </Link>}
                   {
                     <Link to="/favorite" className={`${styles.cursor_pointer}`}>
                       <i className="fa-regular fa-heart fs-3 position-relative text-dark">
@@ -284,7 +288,7 @@ function NavBar() {
               ) : null}
               <div className={`${styles.cursor_pointer} ps-2 navbar-brand`}>
                 <i
-                  class="fa-solid fa-magnifying-glass fs-4"
+                  class="fa-solid fa-magnifying-glass fs-4 ms-1"
                   onClick={() => viewSearch()}
                 ></i>
               </div>

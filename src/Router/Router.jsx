@@ -33,7 +33,8 @@ import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 import { CartContext } from "../Context/CartContext.js";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
+import OrderHistory from "../components/OrderHistory/OrderHistory.jsx";
 import AdminPanel from "../components/Admin/AdminPanel/AdminPanel.jsx";
 import ProtectedAdmin from "../components/ProtectedRoutes/ProtectedAdmin.js";
 import AdminCategory from "../components/Admin/AdminCategory/AdminCategory.jsx";
@@ -48,9 +49,16 @@ import UpdateSubCategory from "../components/Admin/UpdateSubCategory/UpdateSubCa
 import AddProductAdmin from "../components/Admin/AddProductAdmin/AddProductAdmin.jsx";
 import UpdateProductAdmin from "../components/Admin/UpdateProductAdmin/UpdateProductAdmin.jsx";
 
+
+
+
 export default function Router() {
-  const { clearCart, handle_payment_success } = useContext(CartContext);
+
+  const { handle_payment_success } = useContext(CartContext)
   const location = useLocation();
+
+
+
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
@@ -73,10 +81,11 @@ export default function Router() {
           transform: "translate(-50%, -50%)",
         },
       });
-      // clearCart();
-      handle_payment_success();
+
+      // clearCart(); 
+      handle_payment_success()
     }
-  }, [clearCart, location.pathname]);
+  }, [location.pathname]);
 
   return (
     <Routes>
@@ -258,6 +267,16 @@ export default function Router() {
           }
         />
         <Route
+          path="/orderHistory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedCustomer>
+                <OrderHistory />
+              </ProtectedCustomer>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
           path="/payment"
           element={
             <ProtectedRoutes>
@@ -277,6 +296,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+
         <Route
           path="/category"
           element={
