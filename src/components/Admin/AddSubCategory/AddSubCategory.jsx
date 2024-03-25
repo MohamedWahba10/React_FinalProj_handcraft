@@ -8,9 +8,10 @@ import axios from "axios";
 export default function AddSubCategory() {
   const [error, setError] = useState(null);
   const [isLoading, setisLoading] = useState(false);
-  let [categoryData, setCategoryData] = useState([]);
 
   let navigate = useNavigate();
+  let [categoryData, setCategoryData] = useState([]);
+
   async function AllCategory() {
     try {
       let response = await axios.get(

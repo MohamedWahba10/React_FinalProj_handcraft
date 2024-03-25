@@ -9,12 +9,34 @@ import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function UpdateSubCategory() {
-//   const [categories, setCategories] = useState([]);
+  //   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setisLoading] = useState(false);
   const { id } = useParams();
   let navigate = useNavigate();
   const [dataSubCategory, setData] = useState(null);
+
+  let [ParentcategoryData, setCategoryData] = useState([]);
+
+  async function AllCategory() {
+    try {
+      let response = await axios.get(
+        `http://127.0.0.1:8000/api/product/category/`
+      );
+      console.log("response data", response.data.data);
+      setCategoryData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+    }
+  }
+
+  useEffect(() => {
+    AllCategory();
+  }, []);
+
+
+
+
 
   async function SubCategoryDetail(id) {
     try {
@@ -39,10 +61,15 @@ export default function UpdateSubCategory() {
     const formData = new FormData();
     formData.append("subCateName", values.subCateName);
     formData.append("subCateDescription", values.subCateDescription);
+    formData.append("subCateParent", values.subCateParent);
 
     if (values.subCateImage && values.subCateImage instanceof File) {
       formData.append("subCateImage", values.subCateImage);
-    } else if (!values.subCateImage && categoryData && categoryData.subCateImage) {
+    } else if (
+      !values.subCateImage &&
+      categoryData &&
+      categoryData.subCateImage
+    ) {
       formData.append("subCateImage", categoryData.subCateImage);
     }
 
@@ -57,7 +84,7 @@ export default function UpdateSubCategory() {
         }
       );
 
-      if (response.data.message = "Category updated successfully") {
+      if ((response.data.message = "Category updated successfully")) {
         navigate("/adminPanel/adminSubCategory");
         setisLoading(false);
       } else {
@@ -76,8 +103,11 @@ export default function UpdateSubCategory() {
         "SubCategory Name must be from 3 to 35 letters"
       )
       .required("Required"),
+    subCateParent: Yup.string().required("Category Parent is Required"),
 
-    subCateDescription: Yup.string().required("SubCategory Description is Required"),
+    subCateDescription: Yup.string().required(
+      "SubCategory Description is Required"
+    ),
     subCateImage: Yup.string().required("Image is Required"),
   });
 
@@ -86,6 +116,7 @@ export default function UpdateSubCategory() {
       subCateName: "",
       subCateDescription: "",
       subCateImage: "",
+      subCateParent: "",
     },
     validationSchema,
     onSubmit: (values) => callUpdateSubCategory(values),
@@ -96,6 +127,7 @@ export default function UpdateSubCategory() {
         subCateName: categoryData.subCateName || "",
 
         subCateDescription: categoryData.subCateDescription || "",
+        subCateParent: categoryData.subCateParent || "",
         subCateImage: categoryData.subCateImage || "",
       });
     }
@@ -105,7 +137,10 @@ export default function UpdateSubCategory() {
   return (
     <>
       <div className={`${styles.header_UpdateSubCategory} py-5 mb-5 mx-5 `}>
-        <Link to="/adminPanel/adminSubCategory" className="text-decoration-none ">
+        <Link
+          to="/adminPanel/adminSubCategory"
+          className="text-decoration-none "
+        >
           <span className={`${styles.link_home} pe-1 `}>SubCategory</span>
         </Link>
 
@@ -149,9 +184,56 @@ export default function UpdateSubCategory() {
                     </div>
                   </div>
 
+
+
+                  <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="subCateParent" className="fs-4 fw-bold">
+                      Product Category
+                    </label>
+
+                    <select
+                      className="w-100 "
+                      id="subCateParent"
+                      name="subCateParent"
+                      value={UpdateSubCategoryForm.values.subCateParent}
+                      onChange={UpdateSubCategoryForm.handleChange}
+                      onBlur={UpdateSubCategoryForm.handleBlur}
+                    >
+                      <option value="">Select Category</option>
+                      {Array.isArray(ParentcategoryData) &&
+                        ParentcategoryData.map((category) => (
+                          <option
+                            value={category.id}
+                            selected={
+                              category.id ===
+                              UpdateSubCategoryForm.values.subCateParent
+                            }
+                            key={category.id}
+                          >
+                            {category.cateName}
+                          </option>
+                        ))}
+                    </select>
+                    {UpdateSubCategoryForm.errors.subCateParent &&
+                      UpdateSubCategoryForm.touched.subCateParent && (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateSubCategoryForm.errors.subCateParent}
+                        </div>
+                      )}
+                  </div>
+                </div>
+
+
+
+
+
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label htmlFor="subCateDescription" className="fs-4 fw-bold">
+                      <label
+                        htmlFor="subCateDescription"
+                        className="fs-4 fw-bold"
+                      >
                         SubCategory Description
                       </label>
                       <textarea
