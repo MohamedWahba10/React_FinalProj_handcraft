@@ -35,14 +35,24 @@ import AllComment from "../components/AllComment/AllComment";
 import { CartContext } from "../Context/CartContext.js";
 import { toast } from 'react-toastify';
 import OrderHistory from "../components/OrderHistory/OrderHistory.jsx";
-
+import AdminPanel from "../components/Admin/AdminPanel/AdminPanel.jsx";
+import ProtectedAdmin from "../components/ProtectedRoutes/ProtectedAdmin.js";
+import AdminCategory from "../components/Admin/AdminCategory/AdminCategory.jsx";
+import LayoutAdmin from "../components/Admin/Layout/Layout.jsx";
+import UpdateCategory from "../components/Admin/UpdateCategory/UpdateCategory.jsx";
+import AddCategory from "../components/Admin/AddCategory/AddCategory.jsx";
+import AdminSubCategory from "../components/Admin/AdminSubCategory/AdminSubCategory.jsx";
+import AdminUser from "../components/Admin/AdminUser/AdminUser.jsx";
+import AdminProduct from "../components/Admin/AdminProduct/AdminProduct.jsx";
+import AddSubCategory from "../components/Admin/AddSubCategory/AddSubCategory.jsx";
+import UpdateSubCategory from "../components/Admin/UpdateSubCategory/UpdateSubCategory.jsx";
 
 
 
 
 export default function Router() {
 
-  const { clearCart, handle_payment_success } = useContext(CartContext)
+  const { handle_payment_success } = useContext(CartContext)
   const location = useLocation();
 
 
@@ -69,10 +79,11 @@ export default function Router() {
           transform: "translate(-50%, -50%)",
         },
       });
+
       // clearCart(); 
       handle_payment_success()
     }
-  }, [clearCart, location.pathname]);
+  }, [location.pathname]);
 
   return (
     <Routes>
@@ -314,7 +325,6 @@ export default function Router() {
             <ProtectedRoutes>
               <ProtectedVendor>
                 <FeatureProduct />
-
               </ProtectedVendor>
             </ProtectedRoutes>
           }
@@ -339,7 +349,100 @@ export default function Router() {
           }
         />
       </Route>
+      <Route element={<AdminPanel />}>
+        <Route
+          path="/adminPanel"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminPanel />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminCategory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminCategory/updateCategory/:id"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <UpdateCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminCategory/addCategory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AddCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminSubCategory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminSubCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminSubCategory/addSubCategory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AddSubCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/adminPanel/adminSubCategory/updateSubCategory/:id"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <UpdateSubCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/adminPanel/adminUser"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminUser />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminProduct"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminProduct />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+      </Route>
     </Routes>
   );
 }
-

@@ -1,4 +1,4 @@
-import {  React, useEffect, useState } from "react";
+import { React, useEffect, useState } from "react";
 import axios from 'axios';
 import { BsClockHistory } from 'react-icons/bs';
 
@@ -6,6 +6,7 @@ import { BsClockHistory } from 'react-icons/bs';
 export default function OrderHistory() {
 
   let [orderHistory, setorderHistory] = useState([])
+  
 
   const headers = {
     Authorization: `Token ${localStorage.getItem("userToken")}`
@@ -20,13 +21,22 @@ export default function OrderHistory() {
       }).then((res) => res).catch((err) => err);
 
     console.log("order history ==>", data);
+   
     setorderHistory(data)
   }
 
+  async function isDelivered(order_id) {
+    let { data } = await axios.put(`http://127.0.0.1:8000/api/order/delivered_order/${order_id}/`, {}, {
+      headers: headers
+    }).then((res) => res).catch((err) => err);
+  
+    console.log("isDelivered ===>", data);
+  }
+  
 
   useEffect(() => {
     order_History()
-  }, [])                                   
+  }, [])
 
   return (
     <div className="card border shadow-0">
@@ -39,7 +49,7 @@ export default function OrderHistory() {
             <table className="table">
               <thead>
                 <tr className="fs-5 text-center fs-sm-3">
-                <th scope="col">Order ID</th>
+                  <th scope="col">Order ID</th>
                   <th scope="col">Created</th>
                   <th scope="col">Address</th>
                   <th scope="col">Total Price</th>
@@ -91,8 +101,12 @@ export default function OrderHistory() {
                 </div>
               </div>
             ))}
+            <hr />
+            <button className="btn btn-light border text-light bg-danger icon-hover-danger ms-5">Cancel Order</button>
+            <button onClick={() => isDelivered(ele.order_id )} className="btn btn-light border text-light bg-success icon-hover-danger ms-5">Dilevered</button>
           </div>
         ))}
+
       </div>
     </div>
   );

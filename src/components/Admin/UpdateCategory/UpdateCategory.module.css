@@ -1,0 +1,67 @@
+
+  .header_UpdateCategory h1 {
+    font-size: 45px;
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  
+  .header_UpdateCategory .link_home {
+    color: #727272;
+    font-size: 18px;
+  }
+  
+  .header_UpdateCategory .span_UpdateCategory {
+    color: #3f3e3e;
+    font-size: 18px;
+  }
+  
+  .form_UpdateCategory .UpdateCategory_button {
+    background-color: #1f1f1f;
+    font-size: 22px;
+    padding: 10px 30px;
+    margin-block: 15px;
+    border-radius: 10px;
+    color: white;
+    transition: all 0.5s;
+    background-color: #ff919d;
+    padding: 10px;
+    color: black;
+    border-radius: 7px;
+    border: none;
+    transition: all 0.5s ease;
+    margin-inline: 7px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .form_UpdateCategory form input,
+  .form_UpdateCategory form select,
+  .form_UpdateCategory form textarea {
+    padding: 15px 13px;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+  
+  .form_UpdateCategory .UpdateCategory_button:hover {
+    background-color: black;
+    padding: 10px;
+    color: #ff919d;
+    border-radius: 7px;
+    border: none;
+    transition: all 0.5s ease;
+    margin-inline: 7px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border-top-left-radius: 0;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .form_UpdateCategory {
+    padding: 25px 25px;
+    border-radius: 20px;
+    background-color: #fff;
+  
+    filter: drop-shadow(rgba(0, 0, 0, 0.45) 1px 1px 1px);
+  }
