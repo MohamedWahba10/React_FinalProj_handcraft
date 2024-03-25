@@ -32,6 +32,11 @@ export default function AdminUser() {
       console.error("Error fetching category:", error);
     }
   }
+  
+  useEffect(() => {
+    AllUser();
+  }, []);
+
   async function deleteUser(id) {
     try {
       await axios.get(`http://127.0.0.1:8000/api/panel/delUser/${id}/`);
@@ -42,10 +47,6 @@ export default function AdminUser() {
       toast.error("Failed to remove Category");
     }
   }
-
-  useEffect(() => {
-    AllUser();
-  }, []);
 
   const handleDelete = async () => {
     await deleteUser(deleteUserId);

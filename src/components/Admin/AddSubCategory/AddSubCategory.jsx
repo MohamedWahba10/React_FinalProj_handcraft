@@ -137,7 +137,7 @@ export default function AddSubCategory() {
                   <div className="col-md-12">
                   <div className="form-group">
                     <label htmlFor="subCateParent" className="fs-4 fw-bold">
-                      Select Category
+                      Parenr Category
                     </label>
 
                     <select
