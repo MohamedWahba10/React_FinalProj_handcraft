@@ -434,6 +434,16 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
+           <Route
+          path="/adminPanel/adminUser/updateUser/:id"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminUser />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path="/adminPanel/adminProduct"
           element={
