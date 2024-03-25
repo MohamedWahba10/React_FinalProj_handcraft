@@ -41,6 +41,7 @@ import LayoutAdmin from "../components/Admin/Layout/Layout.jsx";
 import UpdateCategory from "../components/Admin/UpdateCategory/UpdateCategory.jsx";
 import AddCategory from "../components/Admin/AddCategory/AddCategory.jsx";
 import AdminSubCategory from "../components/Admin/AdminSubCategory/AdminSubCategory.jsx";
+import AdminUser from "../components/Admin/AdminUser/AdminUser.jsx";
 
 export default function Router() {
   const { clearCart, handle_payment_success } = useContext(CartContext);
@@ -356,7 +357,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-          <Route
+        <Route
           path="/adminPanel/adminCategory/addCategory"
           element={
             <ProtectedRoutes>
@@ -372,6 +373,28 @@ export default function Router() {
             <ProtectedRoutes>
               <ProtectedAdmin>
                 <AdminSubCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/adminPanel/adminSubCategory/updateSubCategory/:id"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <UpdateCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        
+        <Route
+          path="/adminPanel/adminUser"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminUser />
               </ProtectedAdmin>
             </ProtectedRoutes>
           }

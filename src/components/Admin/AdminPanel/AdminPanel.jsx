@@ -15,6 +15,9 @@ function AdminPanel() {
     if (selectedIndex === 2) {
       navigate("/adminPanel/adminSubCategory");
     }
+    if (selectedIndex === 3) {
+      navigate("/adminPanel/adminUser");
+    }
   };
   return (
     <div className="Admin">
