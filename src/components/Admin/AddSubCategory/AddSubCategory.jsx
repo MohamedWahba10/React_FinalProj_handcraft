@@ -8,13 +8,30 @@ import axios from "axios";
 export default function AddSubCategory() {
   const [error, setError] = useState(null);
   const [isLoading, setisLoading] = useState(false);
-  let navigate = useNavigate();
+  let [categoryData, setCategoryData] = useState([]);
 
+  let navigate = useNavigate();
+  async function AllCategory() {
+    try {
+      let response = await axios.get(
+        `http://127.0.0.1:8000/api/product/category/`
+      );
+      console.log("response data", response.data.data);
+      setCategoryData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+    }
+  }
+
+  useEffect(() => {
+    AllCategory();
+  }, []);
   async function callAddSubCategory(values) {
     setisLoading(true);
     const formData = new FormData();
     formData.append("subCateName", values.subCateName);
     formData.append("subCateDescription", values.subCateDescription);
+    formData.append("subCateParent", values.subCateParent);
 
     formData.append("subCateImage", values.subCateImage);
 
@@ -53,12 +70,14 @@ export default function AddSubCategory() {
       "Category Description is Required"
     ),
     subCateImage: Yup.string().required("Image is Required"),
+    subCateParent: Yup.string().required("Category Parent is Required"),
   });
 
   const AddSubCategoryForm = useFormik({
     initialValues: {
       subCateName: "",
       subCateDescription: "",
+      subCateParent: "",
       subCateImage: "",
     },
     validationSchema,
@@ -68,11 +87,16 @@ export default function AddSubCategory() {
   return (
     <>
       <div className={`${styles.header_AddSubCategory} py-5 mb-5 mx-5 `}>
-        <Link to="/adminPanel/adminSubCategory" className="text-decoration-none ">
+        <Link
+          to="/adminPanel/adminSubCategory"
+          className="text-decoration-none "
+        >
           <span className={`${styles.link_home} pe-1 `}>SubCategory</span>
         </Link>
 
-        <span className={`${styles.span_AddSubCategory}`}>/ Add SubCategory</span>
+        <span className={`${styles.span_AddSubCategory}`}>
+          / Add SubCategory
+        </span>
 
         <div className="container my-5 py-5">
           <div>
@@ -109,10 +133,42 @@ export default function AddSubCategory() {
                       ) : null}
                     </div>
                   </div>
+                  <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="subCateParent" className="fs-4 fw-bold">
+                      Select Category
+                    </label>
 
+                    <select
+                      className="w-100 "
+                      id="subCateParent"
+                      value={AddSubCategoryForm.values.subCateParent}
+                      name="subCateParent"
+                      onChange={AddSubCategoryForm.handleChange}
+                      onBlur={AddSubCategoryForm.handleBlur}
+                    >
+                      <option value="">Select Category</option>
+                      {Array.isArray(categoryData) &&
+                        categoryData.map((category) => (
+                          <option value={category.id} key={category.id}>
+                            {category.cateName}
+                          </option>
+                        ))}
+                    </select>
+                    {AddSubCategoryForm.errors.subCateParent &&
+                      AddSubCategoryForm.touched.subCateParent && (
+                        <div className="text-danger fs-5 mt-3">
+                          {AddSubCategoryForm.errors.subCateParent}
+                        </div>
+                      )}
+                  </div>
+                </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label htmlFor="subCateDescription" className="fs-4 fw-bold">
+                      <label
+                        htmlFor="subCateDescription"
+                        className="fs-4 fw-bold"
+                      >
                         SubCategory Description
                       </label>
                       <textarea
