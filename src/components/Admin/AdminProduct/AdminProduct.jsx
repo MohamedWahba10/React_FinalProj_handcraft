@@ -7,53 +7,51 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
-import "./AdminCategory.css";
+import "./AdminProduct.css";
 import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function AdminCategory() {
-  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
+export default function AdminProduct() {
+  const [deleteProductId, setDeleteProductId] = useState(null);
 
-  let [categoryData, setCategoryData] = useState([]);
+  let [ProductData, setProductData] = useState([]);
 
-  async function AllCategory() {
+  async function AllProduct() {
     try {
-      let response = await axios.get(
-        `http://127.0.0.1:8000/api/product/category/`
-      );
-      console.log("response data", response.data.data);
-      setCategoryData(response.data.data);
+      let response = await axios.get(`http://127.0.0.1:8000/api/product/`);
+      console.log("response data Productttttttttttttt", response.data.results);
+      setProductData(response.data.results);
     } catch (error) {
-      console.error("Error fetching category:", error);
+      console.error("Error fetching Product:", error);
     }
   }
-  async function deleteCategory(id) {
+  async function deleteProduct(id) {
     try {
-      await axios.get(`http://127.0.0.1:8000/api/panel/delcategory/${id}/`);
-      toast.success("Category removed successfully");
-      AllCategory();
+      await axios.get(`http://127.0.0.1:8000/api/panel/delproduct/${id}/`);
+      toast.success("Product removed successfully");
+      AllProduct();
     } catch (error) {
-      console.error("Failed to delete Category", error);
-      toast.error("Failed to remove Category");
+      console.error("Failed to delete Product", error);
+      toast.error("Failed to remove Product");
     }
   }
 
   useEffect(() => {
-    AllCategory();
+    AllProduct();
   }, []);
 
   const handleDelete = async () => {
-    await deleteCategory(deleteCategoryId);
-    setDeleteCategoryId(null);
+    await deleteProduct(deleteProductId);
+    setDeleteProductId(null);
   };
 
   const confirmDelete = (id) => {
-    setDeleteCategoryId(id);
+    setDeleteProductId(id);
   };
 
   const cancelDelete = () => {
-    setDeleteCategoryId(null);
+    setDeleteProductId(null);
   };
 
   const handleAddToCartClick = (e) => {
@@ -62,11 +60,11 @@ export default function AdminCategory() {
 
   return (
     <>
-      <Modal show={deleteCategoryId !== null} onHide={cancelDelete}>
+      <Modal show={deleteProductId !== null} onHide={cancelDelete}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this Category?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this Product?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={cancelDelete}>
             Cancel
@@ -78,12 +76,12 @@ export default function AdminCategory() {
       </Modal>
       <div className="mx-5 my-5">
         <div className="d-flex justify-content-end align-items-end">
-          <Link to={"/adminPanel/adminCategory/addCategory"}>
+          <Link to={"/adminPanel/AdminProduct/addProduct"}>
             <button className="btn_add">+ ADD</button>
           </Link>
         </div>
         <div className="Table">
-          <h3 className="my-3 text-center fw-bold">Category</h3>
+          <h3 className="my-3 text-center fw-bold">Products</h3>
           <TableContainer
             component={Paper}
             style={{ boxShadow: "0px 13px 20px 0px #80808029 " }}
@@ -92,27 +90,42 @@ export default function AdminCategory() {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell align="left">Category Name</TableCell>
-                  <TableCell align="left">Category Description</TableCell>
+                  <TableCell align="left">Name</TableCell>
+                  <TableCell align="left">Price</TableCell>
+                  <TableCell align="left">ON Sale</TableCell>
+                  <TableCell align="left">Stock</TableCell>
+                  <TableCell align="left">Description</TableCell>
+                  <TableCell align="left">Vendor</TableCell>
                   <TableCell align="left">Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody style={{ color: "white" }}>
-                {categoryData.map((row) => (
+                {ProductData.map((row) => (
                   <TableRow
-                    key={row.name}
+                    key={row.product.id}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">
-                      {row.id}
+                      {row.product.id}
                     </TableCell>
-                    <TableCell align="left">{row.cateName}</TableCell>
-                    <TableCell align="left">{row.cateDescription}</TableCell>
+                    <TableCell align="left">{row.product.prodName}</TableCell>
+                    <TableCell align="left">
+                      {row.product.discounted_price}
+                    </TableCell>
+                    {/* <TableCell align="left">{row.product.prodOnSale}</TableCell> */}
+                    <TableCell align="left">
+                      {row.product.prodOnSale ? "Yes" : "No"}
+                    </TableCell>
+                    <TableCell align="left">{row.product.prodStock}</TableCell>
+                    <TableCell align="left">
+                      {row.product.prodDescription}
+                    </TableCell>
+                    <TableCell align="left">{row.vendor.shopname}</TableCell>
                     <TableCell align="left">
                       <div className="d-flex justify-content-between align-items-center">
                         <div>
                           <div onClick={handleAddToCartClick}>
-                            <Link to={`updateCategory/${row.id}`}>
+                            <Link to={`updateProduct/${row.product.id}`}>
                               <button className={`button_style update`}>
                                 <i class="fa-solid fa-pen-to-square"></i>{" "}
                               </button>
@@ -123,7 +136,7 @@ export default function AdminCategory() {
                           <div onClick={handleAddToCartClick}>
                             <button
                               className={`button_style delete`}
-                              onClick={() => confirmDelete(row.id)}
+                              onClick={() => confirmDelete(row.product.id)}
                             >
                               <i class="fa-solid fa-trash"></i>
                             </button>
