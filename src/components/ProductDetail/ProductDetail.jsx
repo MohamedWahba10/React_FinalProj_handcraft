@@ -190,12 +190,24 @@ export default function ProductDetail() {
 
   async function removeProduct(id, e) {
     e.preventDefault();
-    let { data } = await deleteCartProduct(id);
-    console.log("remove my prod", data.response);
-    settotal_items_count(data.total_items_count);
-    setcartDetails(data);
-    getcartDetails();
+    try {
+      let { data } = await deleteCartProduct(id);
+      console.log("remove my prod", data.response);
+      settotal_items_count(data.total_items_count);
+      if (data.cart_items) {
+        data.cart_items.forEach(item => {
+          if (item.item_name === detailPro?.prodName) {
+            item.quantity = 0;
+          }
+        });
+      }
+      setcartDetails(data);
+      getcartDetails();
+    } catch (error) {
+      console.error("Error removing product from cart:", error);
+    }
   }
+  
 
   useEffect(() => {
     getcartDetails();
@@ -367,79 +379,33 @@ export default function ProductDetail() {
                   ) : (
                     <div className=" d-flex justify-content-between">
                       <div className="me-4 d-flex">
-                        {cartDetails.cart_items &&
-                          cartDetails.cart_items.some(
-                            (item) => item.item_name === detailPro?.prodName
-                          ) && (
+                        {/* {cartDetails.cart_items && cartDetails.cart_items.some((item) => item.item_name === detailPro?.prodName) && (
+                          <>
+                            <div><button onClick={(e) => decrease(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
+                            <div className="mt-1"><span>{cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName).quantity}</span></div>
+                            <div><button onClick={(e) => increase(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+                            <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
+                          </>
+                        )} */}
+                        <>
+                          {cartDetails.cart_items && cartDetails.cart_items.some((item) => item.item_name === detailPro?.prodName) ? (
                             <>
-                              <div>
-                                <button
-                                  onClick={(e) =>
-                                    decrease(
-                                      cartDetails.cart_items.find(
-                                        (item) =>
-                                          item.item_name === detailPro?.prodName
-                                      )?.id,
-                                      e
-                                    )
-                                  }
-                                  className="btn btn-outline-secondary me-2"
-                                  disabled={
-                                    cartDetails.cart_items.find(
-                                      (item) =>
-                                        item.item_name === detailPro?.prodName
-                                    ).quantity <= 1
-                                  }
-                                >
-                                  -
-                                </button>
-                              </div>
-                              <div className="mt-1">
-                                <span>
-                                  {
-                                    cartDetails.cart_items.find(
-                                      (item) =>
-                                        item.item_name === detailPro?.prodName
-                                    ).quantity
-                                  }
-                                </span>
-                              </div>
-                              <div>
-                                <button
-                                  onClick={(e) =>
-                                    increase(
-                                      cartDetails.cart_items.find(
-                                        (item) =>
-                                          item.item_name === detailPro?.prodName
-                                      )?.id,
-                                      e
-                                    )
-                                  }
-                                  className="btn btn-outline-secondary ms-2"
-                                >
-                                  +
-                                </button>
-                              </div>
-                              <div>
-                                <button
-                                  onClick={(e) =>
-                                    removeProduct(
-                                      cartDetails.cart_items.find(
-                                        (item) =>
-                                          item.item_name === detailPro?.prodName
-                                      )?.id,
-                                      e
-                                    )
-                                  }
-                                  className="btn btn-light border text-danger icon-hover-danger ms-3"
-                                >
-                                  Remove
-                                </button>
-                              </div>
+                              <div><button onClick={(e) => decrease(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary me-2" disabled={cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName).quantity <= 1}>-</button></div>
+                              <div className="mt-1"><span>{cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName).quantity}</span></div>
+                              <div><button onClick={(e) => increase(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-outline-secondary ms-2">+</button></div>
+                              <div><button onClick={(e) => removeProduct(cartDetails.cart_items.find((item) => item.item_name === detailPro?.prodName)?.id, e)} className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
+                            </>
+                          ) : (
+                            <>
+                              <div><button className="btn btn-outline-secondary me-2" disabled>-</button></div>
+                              <div className="mt-1"><span>0</span></div>
+                              <div><button className="btn btn-outline-secondary ms-2" disabled>+</button></div>
+                              <div><button className="btn btn-light border text-danger icon-hover-danger ms-3">Remove</button></div>
                             </>
                           )}
-                      </div>
+                        </>
 
+                      </div>
                       <>
                         {token ? (
                           <>
