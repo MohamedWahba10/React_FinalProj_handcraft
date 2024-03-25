@@ -50,6 +50,7 @@ export default function VendorProduct() {
       toast.error("Failed to remove product");
     }
   }
+  
 
   async function ProfileData() {
     try {
@@ -151,19 +152,6 @@ export default function VendorProduct() {
                         </h4>
 
                         <div>
-                          {/* <div className="d-flex justify-content-between align-items-center">
-                            {pro.discounted_price === pro.original_price ? (
-                              <p className="fs-5 ">{pro.prodPrice} $</p>
-                            ) : (
-                              <>
-                                <p className="fs-5 text-decoration-line-through">
-                                  {pro.original_price} $
-                                </p>
-                                <p className="fs-5">{pro.discounted_price} $</p>
-                              </>
-                            )}
-                          </div> */}
-
                           <div>
                             <div className="d-flex justify-content-between align-items-center">
                               {pro.prodOnSale ? (

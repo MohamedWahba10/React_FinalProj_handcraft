@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 // import Logo from "../../";
@@ -7,11 +8,14 @@ import { SidebarData } from "../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import axios from "axios";
+import AdminCategory from "../AdminCategory/AdminCategory";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const [selected, setSelected] = useState(0);
 
   const [expanded, setExpaned] = useState(true);
+  let navigate = useNavigate();
 
   const sidebarVariants = {
     true: {
@@ -25,29 +29,27 @@ const Sidebar = () => {
 
   const [dataUser, setDataUser] = useState(null);
   async function ProfileData() {
-      try {
-          const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
-              headers: {
-                  Authorization: `Token ${localStorage.getItem("userToken")}`,
-              },
-          });
-          setDataUser(response.data);
-      } catch (error) {
-          console.error("Failed to fetch profile data", error);
-      }
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/profile/", {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("userToken")}`,
+        },
+      });
+      setDataUser(response.data);
+    } catch (error) {
+      console.error("Failed to fetch profile data", error);
+    }
   }
 
   useEffect(() => {
-      ProfileData();
+    ProfileData();
   }, []);
 
   if (!dataUser) {
-      return null;
+    return null;
   }
   const firstName = dataUser?.message.first_name;
   const lastName = dataUser?.message.last_name;
-
-    
 
   return (
     <>
@@ -70,9 +72,9 @@ const Sidebar = () => {
             Ad<span>m</span>in
           </span>
         </div>
- 
+
         <span className="mt-4 ms-3 fs-5">
-          Welcom {firstName}{" "}{lastName}
+          Welcom {firstName} {lastName}
         </span>
         <div className="menu">
           {SidebarData.map((item, index) => {
@@ -83,28 +85,15 @@ const Sidebar = () => {
                 onClick={() => setSelected(index)}
               >
                 <item.icon />
-                <span>{item.heading}</span>
+                <span>
+                  <Link to={item.path} className=" text-decoration-none text-dark">{item.heading}</Link>
+                </span>{" "}
               </div>
             );
           })}
-
-          {/* signoutIcon */}
-          {/* <div className="menuItem">
-          <UilSignOutAlt />
-        </div> */}
         </div>
       </motion.div>
-      {selected == 0 ? (
-        <>
-          {/* <div className="d-flex justify-content-center  my-5 align-items-center content">
-            <div></div>
-          </div> */}
-        </>
-      ) : (
-        <>Romaaaaa</>
-      )}
     </>
   );
 };
-
 export default Sidebar;

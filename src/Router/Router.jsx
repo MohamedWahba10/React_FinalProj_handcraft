@@ -36,6 +36,9 @@ import { CartContext } from "../Context/CartContext.js";
 import { toast } from "react-toastify";
 import AdminPanel from "../components/Admin/AdminPanel/AdminPanel.jsx";
 import ProtectedAdmin from "../components/ProtectedRoutes/ProtectedAdmin.js";
+import AdminCategory from "../components/Admin/AdminCategory/AdminCategory.jsx";
+import LayoutAdmin from "../components/Admin/Layout/Layout.jsx";
+import UpdateCategory from "../components/Admin/UpdateCategory/UpdateCategory.jsx";
 
 export default function Router() {
   const { clearCart, handle_payment_success } = useContext(CartContext);
@@ -320,16 +323,38 @@ export default function Router() {
           }
         />
       </Route>
-      <Route
-        path="/adminPanel"
-        element={
-          <ProtectedRoutes>
-            <ProtectedAdmin>
-              <AdminPanel />
-            </ProtectedAdmin>
-          </ProtectedRoutes>
-        }
-      />
+      <Route element={<AdminPanel />}>
+        <Route
+          path="/adminPanel"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminPanel />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminCategory"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/adminCategory/updateCategory/:id"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <UpdateCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+      </Route>
     </Routes>
   );
 }

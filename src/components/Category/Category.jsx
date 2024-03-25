@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Category.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import Loading from "../Loading/Loading";
 import { useQuery } from "@tanstack/react-query";
 

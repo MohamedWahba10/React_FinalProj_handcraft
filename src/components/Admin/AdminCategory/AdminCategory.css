@@ -1,0 +1,62 @@
+.MuiTableRow-root > * {
+  padding: 10px;
+}
+
+.MuiTableRow-root.MuiTableRow-head > * {
+  font-weight: bold !important;
+}
+
+.Table td,
+th {
+  border: none !important;
+}
+
+.button_style {
+  background-color: white;
+  padding: 10px;
+  color: black;
+  border-radius: 7px;
+  border: none;
+  transition: all 0.5s ease;
+  margin-inline: 7px;
+}
+
+.update {
+  background-color: black;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border-top-left-radius: 0;
+  transition: 0.5s;
+}
+.update i {
+  font-size: 19px;
+}
+
+.delete {
+  background-color: red;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  border-top-left-radius: 0;
+  transition: 0.5s;
+}
+.delete i {
+  font-size: 19px;
+}
+@media screen and (max-width: 1200px) {
+  .Table {
+    width: 170%;
+    margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Table {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 23rem;
+  }
+}
