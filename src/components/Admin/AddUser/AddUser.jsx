@@ -21,7 +21,6 @@ export default function AddUser() {
     formData.append("shopname", values.shopname);
     formData.append("ssn", values.ssn);
     formData.append("phone", values.phone);
-    formData.append("phone", values.phone);
     formData.append("address", values.address);
     formData.append("image", values.image);
 

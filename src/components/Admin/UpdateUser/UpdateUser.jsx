@@ -40,13 +40,27 @@ export default function UpdateUser() {
     formData.append("first_name", values.first_name);
     formData.append("last_name", values.last_name);
     formData.append("phone", values.phone);
-    // formData.append("address", values.address);
+    formData.append("address", values.address);
+    formData.append("email", values.email);
+    formData.append("usertype", values.usertype);
+    // if (values.shopname) {
+    //   formData.append("shopname", values.shopname);
+    // } else if (!values.shopname && UserData && UserData.shopname) {
+    //   formData.append("shopname", UserData.shopname);
+    // }
+    // if (values.ssn) {
+    //   formData.append("ssn", values.ssn);
+    // } else if (!values.ssn && UserData && UserData.ssn) {
+    //   formData.append("ssn", UserData.ssn);
+    // }
+    formData.append("shopname", values.shopname || UserData.shopname || "");
+    formData.append("ssn", values.ssn || UserData.ssn || "");
     if (values.image && values.image instanceof File) {
       formData.append("image", values.image);
-    } else if (!values.image && UserData && UserData.Photo_URL) {
-      formData.append("image", UserData.Photo_URL);
+    } else if (!values.image && UserData && UserData.ImageUrl) {
+      formData.append("image", UserData.ImageUrl);
     }
-
+    formData.append("password", UserData.password);
 
     try {
       const response = await axios.post(
@@ -58,13 +72,14 @@ export default function UpdateUser() {
           },
         }
       );
+      console.log("responsedddddddd", response);
 
       if ((response.data.message = "User updated successfully")) {
         navigate("/adminPanel/adminUser");
         setisLoading(false);
-      } 
+      }
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response.data.error);
 
       setisLoading(false);
       console.error("Error during UpdateUser:", error);
@@ -79,6 +94,22 @@ export default function UpdateUser() {
       .required("Required"),
     phone: Yup.string().matches(/^01[1250]\d{8}$/, "invalid Number Phone"),
     address: Yup.string(),
+
+    email: Yup.string().email("Invalid email address").required("Required"),
+    usertype: Yup.string()
+      .oneOf(["customer", "vendor"], "Please select a valid user type")
+      .required("User type is required"),
+    shopname: Yup.string().when("usertype", {
+      is: "vendor",
+      then: () => Yup.string().required("shopname is required"),
+      otherwise: () => Yup.string().notRequired(),
+    }),
+    ssn: Yup.string().when("usertype", {
+      is: "vendor",
+      then: () =>
+        Yup.string().matches(/^\d{14}$/, "SSN must be a 14-digit number").required("ssn is required"),
+      otherwise: () => Yup.string().notRequired(),
+    }),
   });
 
   const UpdateUserForm = useFormik({
@@ -86,9 +117,13 @@ export default function UpdateUser() {
       first_name: "",
       last_name: "",
       phone: "",
+      email: "",
+      usertype: "",
+      ssn: "",
+      password: "",
+      shopname: "",
       image: "",
-      imageUrl: "",
-    //   address: "",
+      address: "",
     },
     validationSchema,
     onSubmit: (values) => callUpdateUser(values),
@@ -99,9 +134,13 @@ export default function UpdateUser() {
         first_name: UserData.first_name || "",
         last_name: UserData.last_name || "",
         phone: UserData.phone || "",
-        image: UserData.Photo_URL || "",
-        // imageUrl: userData.imageUrl || "",
-        // address: userData.address || "",
+        image: UserData.ImageUrl || "",
+        password: UserData.password || "",
+        address: UserData.address || "",
+        email: UserData.email || "",
+        shopname: UserData.shopname || "",
+        usertype: UserData.usertype || "",
+        ssn: UserData.ssn || "",
       });
     }
   }, [UserData]);
@@ -174,10 +213,56 @@ export default function UpdateUser() {
                       ) : null}
                     </div>
                   </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="email" className="fs-4 fw-bold">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        className="w-100"
+                        id="email"
+                        name="email"
+                        value={UpdateUserForm.values.email}
+                        onChange={UpdateUserForm.handleChange}
+                        onBlur={UpdateUserForm.handleBlur}
+                        placeholder="Enter The Email"
+                      />
+                      {UpdateUserForm.errors.email &&
+                      UpdateUserForm.touched.email ? (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateUserForm.errors.email}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="address" className="fs-4 fw-bold">
+                        Address
+                      </label>
+                      <input
+                        type="text"
+                        className="w-100"
+                        id="address"
+                        name="address"
+                        value={UpdateUserForm.values.address}
+                        onChange={UpdateUserForm.handleChange}
+                        onBlur={UpdateUserForm.handleBlur}
+                        placeholder="Enter The Address"
+                      />
+                      {UpdateUserForm.errors.address &&
+                      UpdateUserForm.touched.address ? (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateUserForm.errors.address}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
                   <div className="col-md-12">
                     <div className="form-group">
                       <label htmlFor="phone" className="fs-4 fw-bold">
-                       Phone
+                        Phone
                       </label>
                       <input
                         type="text"
@@ -197,6 +282,87 @@ export default function UpdateUser() {
                       ) : null}
                     </div>
                   </div>
+
+                  <div className="col-md-12">
+                    <div className="form-group my-3">
+                      <label htmlFor="usertype" className="fs-4 fw-bold">
+                        User Type
+                      </label>
+                      <select
+                        className="w-100"
+                        id="usertype"
+                        name="usertype"
+                        onChange={UpdateUserForm.handleChange}
+                        onBlur={UpdateUserForm.handleBlur}
+                        value={UpdateUserForm.values.usertype}
+                      >
+                        <option
+                          value=""
+                          selected={UpdateUserForm.values.usertype}
+                        >
+                          Select User Role
+                        </option>
+                        <option value="customer">Customer</option>
+                        <option value="vendor">Vendor</option>
+                      </select>
+                      {UpdateUserForm.touched.usertype &&
+                      UpdateUserForm.errors.usertype ? (
+                        <div className="text-danger fs-5 mt-3">
+                          {UpdateUserForm.errors.usertype}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                  {UpdateUserForm.values.usertype === "vendor" ? (
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="ssn" className="fs-4 fw-bold">
+                          SSN
+                        </label>
+                        <input
+                          type="text"
+                          className="w-100"
+                          id="ssn"
+                          name="ssn"
+                          value={UpdateUserForm.values.ssn}
+                          onChange={UpdateUserForm.handleChange}
+                          onBlur={UpdateUserForm.handleBlur}
+                          placeholder="Enter The SNN"
+                        />
+                        {UpdateUserForm.errors.ssn &&
+                        UpdateUserForm.touched.ssn ? (
+                          <div className="text-danger fs-5 mt-3">
+                            {UpdateUserForm.errors.ssn}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
+                  {UpdateUserForm.values.usertype === "vendor" ? (
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="shopname" className="fs-4 fw-bold">
+                          Shop Name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-100"
+                          id="shopname"
+                          name="shopname"
+                          value={UpdateUserForm.values.shopname}
+                          onChange={UpdateUserForm.handleChange}
+                          onBlur={UpdateUserForm.handleBlur}
+                          placeholder="Enter The Shop Nane"
+                        />
+                        {UpdateUserForm.errors.shopname &&
+                        UpdateUserForm.touched.shopname ? (
+                          <div className="text-danger fs-5 mt-3">
+                            {UpdateUserForm.errors.shopname}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
                   <div className="col-md-12">
                     <div className="form-group">
                       <label htmlFor="image" className="fs-4 fw-bold">
