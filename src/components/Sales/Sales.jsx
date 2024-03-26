@@ -111,7 +111,9 @@ export default function Sales() {
     minPrice,
     maxPrice,
   ]);
+
   // //////////////////////////////////////////////////////////////////////////////////
+  
   const Products = data?.data?.results;
   function getProduct() {
     let response = axios.get(`http://127.0.0.1:8000/api/product/`, {

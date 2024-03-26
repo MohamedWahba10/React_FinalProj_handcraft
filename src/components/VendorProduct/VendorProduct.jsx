@@ -172,7 +172,7 @@ export default function VendorProduct() {
                             <p>{pro.prodDescription}</p>
                           </div>
                           <div>
-                            <p>Number Product : {pro.prodStock}</p>
+                            <p>number in stock: {pro.prodStock}</p>
                           </div>
                         </div>
 

@@ -36,7 +36,7 @@ export default function AllComment() {
         <title>Comment</title>
       </Helmet>
       <div className={`${styles.header_product} py-5 mb-5 text-center `}>
-        <h1>All Comment Of Product {prodName}</h1>
+        <h1> Comments for {prodName}</h1>
         <Link to={`/detail/${id}`} className="text-decoration-none ">
           <span className={`${styles.link_home} pe-1 `}>Detail Product</span>
         </Link>
