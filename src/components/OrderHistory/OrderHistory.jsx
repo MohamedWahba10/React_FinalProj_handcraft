@@ -147,7 +147,7 @@ export default function OrderHistory() {
             <button
               onClick={() => cancelOrder(ele.order_id)}
               className="btn btn-light border text-light bg-danger icon-hover-danger ms-5"
-              disabled={ele.status === 'D'} // Disable button if status is 'Delivered'
+              disabled={ele.status === 'D' || ele.status === 'S'}
             >
               Cancel Order
             </button>
