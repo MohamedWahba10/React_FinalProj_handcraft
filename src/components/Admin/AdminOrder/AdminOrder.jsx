@@ -4,58 +4,46 @@ import { Link } from "react-router-dom";
 
 
 
-export default function OrderHistory() {
+export default function AdminOrder() {
 
-  let [orderHistory, setorderHistory] = useState([])
-
-
-  const headers = {
-    Authorization: `Token ${localStorage.getItem("userToken")}`
-  };
+  let [AdminOrder, setAdminOrder] = useState([])
 
 
-  async function order_History() {
 
-    let { data } = await axios.get(`http://127.0.0.1:8000/api/order/customer/`,
-      {
-        headers: headers
-      }).then((res) => res).catch((err) => err);
 
-    console.log("order history ==>", data);
+  async function Admin_Order() {
 
-    setorderHistory(data)
+    let { data } = await axios.get(`http://127.0.0.1:8000/api/panel/get_orders/`,
+    ).then((res) => res).catch((err) => err);
+
+    console.log("order Admin_ ==>", data);
+
+    setAdminOrder(data)
   }
 
-  async function isDelivered(order_id) {
-    let { data } = await axios.put(`http://127.0.0.1:8000/api/order/delivered_order/${order_id}/`, {}, {
-      headers: headers
-    }).then((res) => res).catch((err) => err);
-    order_History()
-    console.log("isDelivered ===>", data);
+  async function shipping_admin(order_id) {
+    let { data } = await axios.put(` http://127.0.0.1:8000/api/panel/shipped_order/${order_id}/`, {},
+    ).then((res) => res).catch((err) => err);
+    Admin_Order()
+
+    console.log("shipping_admin ===>", data);
   }
 
-  async function cancelOrder(order_id) {
-    let { data } = await axios.put(`http://127.0.0.1:8000/api/order/delete_order/${order_id}/`, {}, {
-      headers: headers
-    }).then((res) => res).catch((err) => err);
-    order_History()
-    console.log("cancelOrder ===>", data);
-  }
 
   useEffect(() => {
 
-    order_History()
+    Admin_Order()
 
   }, [])
 
   return (
-    <div className="card border shadow-0">
+    <div className="card bg-transparent mx-5 border-0">
       <div className="m-4">
         <div className="d-flex mb-2">
-          <h1 className="card-title mb-4 fas ms-2 " style={{ fontWeight: 'bold', fontFamily: 'Arial, sans-serif' }}>Orders History</h1>
+          <h1 className="card-title mb-4 fas ms-2 " style={{ fontWeight: 'bold', fontFamily: 'Arial, sans-serif' }}>Orders </h1>
         </div>
-        {orderHistory.orders && orderHistory.orders.map((ele) => (
-          <div key={ele.order_id} className="bg-light p-4 shadow-lg mt-4">
+        {AdminOrder.orders && AdminOrder.orders.map((ele) => (
+          <div key={ele.order_id} className=" p-4 shadow-lg mt-4 bg-light">
             <table className="table">
               <thead>
                 <tr className="fs-5 text-center fs-sm-3">
@@ -92,13 +80,13 @@ export default function OrderHistory() {
               </tbody>
             </table>
 
-            {ele.order_items.map((item) => (
+            {ele.products?.map((item) => (
               <div key={item.id} className="row gy-3 mb-4 mt-3 ms-5">
                 <div className="col-lg-5">
                   <div className="me-lg-5">
                     <div className="d-flex">
 
-                      <img src={`http://localhost:8000${item.product_image_thumbnail}`} className="border rounded me-3" style={{ width: '8rem', height: '8rem' }} alt="Product" />
+
                       <div className="">
                         <a href="#" className="nav-link fs-5"> <span className="fw-bold fs-5">Product name :</span> {item.product_name}</a>
                       </div>
@@ -112,46 +100,20 @@ export default function OrderHistory() {
                     <p className="fs-5"> <span className="fw-bold fs-5"> Price/item : </span> {item.product_price} $</p>
                   </div>
                 </div>
-                <div className="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
-                  {ele.status === 'D' ? (
-                    <Link
-                      key={item.item_id}
-                      to={`/rateProduct/${item.item_id}/${item.product_name}`}
-                    >
-                      <button
-                        className={`btn btn-light border text-light bg-dark icon-hover-danger ms-5`}
-                      >
-                        Rate
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link
-                      key={item.item_id}
-                      to={`/rateProduct/${item.item_id}/${item.product_name}`}
-                    >
-                      <button
-                        className={`btn btn-light border text-light bg-dark icon-hover-danger d-none ms-5`}
-                      >
-                        Rate
-                      </button>
-                    </Link>
-                  )}
-
-
-
-                </div>
+            
               </div>
             ))}
 
             <hr />
             <button
-              onClick={() => cancelOrder(ele.order_id)}
-              className="btn btn-light border text-light bg-danger icon-hover-danger ms-5"
+              onClick={() => shipping_admin(ele.order_id)}
+
+              className="btn btn-light border text-light bg-success icon-hover-danger ms-5"
               disabled={ele.status === 'D' || ele.status === 'S'}
             >
-              Cancel Order
+              shipping
             </button>
-            <button onClick={() => isDelivered(ele.order_id)} className="btn btn-light border text-light bg-success icon-hover-danger ms-5">Dilevered</button>
+
 
 
 

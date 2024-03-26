@@ -27,6 +27,9 @@ function AdminPanel() {
       navigate("/adminPanel/adminProduct");
     }
     if (selectedIndex === 5) {
+      navigate("/adminPanel/AdminOrder");
+    }
+    if (selectedIndex === 6) {
       toast(`Please Login Agin`);
       localStorage.removeItem("userToken");
       navigate("/login");
@@ -51,3 +54,4 @@ function AdminPanel() {
 }
 
 export default AdminPanel;
+

@@ -52,6 +52,7 @@ import UpdateUser from "../components/Admin/UpdateUser/UpdateUser.jsx";
 import VendorOrderHistory from "../components/VendorOrderHistory/VendorOrderHistory.jsx";
 import AddUser from "../components/Admin/AddUser/AddUser.jsx";
 import AdminDashBoard from "../components/Admin/AdminDashBoard/AdminDashBord.jsx";
+import AdminOrder from "../components/Admin/AdminOrder/AdminOrder.jsx";
 
 export default function Router() {
   const { handle_payment_success } = useContext(CartContext);
@@ -438,6 +439,16 @@ export default function Router() {
             <ProtectedRoutes>
               <ProtectedAdmin>
                 <UpdateSubCategory />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/adminPanel/AdminOrder"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminOrder /> 
               </ProtectedAdmin>
             </ProtectedRoutes>
           }
