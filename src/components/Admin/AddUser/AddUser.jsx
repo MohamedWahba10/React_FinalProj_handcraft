@@ -36,13 +36,18 @@ export default function AddUser() {
         }
       );
 
-      if ((response.data.message = "User added successfully")) {
-        navigate("/adminPanel/adminUser");
+      if ((response.data.error)) {
+        // navigate("/adminPanel/adminUser");
+        setError(response.data.error);
+        console.log("response tehe user",response)
         setisLoading(false);
       } else {
+        console.log("response tehe user",response)
+
+        navigate("/adminPanel/adminUser");
       }
     } catch (error) {
-      setError(error.response.data.message);
+      setError(error.response.data.error);
 
       setisLoading(false);
       console.error("Error during AddUser:", error);
