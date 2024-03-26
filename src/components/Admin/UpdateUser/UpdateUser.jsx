@@ -78,7 +78,7 @@ export default function UpdateUser() {
       .matches(/^[a-zA-Z]{3,10}$/, "name must be from 3 to 10 letters")
       .required("Required"),
     phone: Yup.string().matches(/^01[1250]\d{8}$/, "invalid Number Phone"),
-    // address: Yup.string(),
+    address: Yup.string(),
   });
 
   const UpdateUserForm = useFormik({
@@ -116,7 +116,7 @@ export default function UpdateUser() {
 
         <span className={`${styles.span_UpdateUser}`}>/ Update User</span>
 
-        <div className="container my-5 py-5">
+        <div className="container py-5">
           <div>
             <h2 className="text-center my-3">Update User</h2>
 

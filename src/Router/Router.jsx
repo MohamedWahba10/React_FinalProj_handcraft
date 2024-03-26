@@ -50,6 +50,7 @@ import AddProductAdmin from "../components/Admin/AddProductAdmin/AddProductAdmin
 import UpdateProductAdmin from "../components/Admin/UpdateProductAdmin/UpdateProductAdmin.jsx";
 import UpdateUser from "../components/Admin/UpdateUser/UpdateUser.jsx";
 import VendorOrderHistory from "../components/VendorOrderHistory/VendorOrderHistory.jsx";
+import AddUser from "../components/Admin/AddUser/AddUser.jsx";
 
 
 
@@ -445,6 +446,16 @@ export default function Router() {
             <ProtectedRoutes>
               <ProtectedAdmin>
                 <AdminUser />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+         <Route
+          path="/adminPanel/adminUser/addUser"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AddUser />
               </ProtectedAdmin>
             </ProtectedRoutes>
           }
