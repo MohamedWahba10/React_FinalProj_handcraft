@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
+import ProductDiscountChart from "../ProductDiscountChart/ProductDiscountChart";
 
 const AdminDashBoard = () => {
   const [topRatedProducts, setTopRatedProducts] = useState([]);
@@ -58,10 +59,11 @@ const AdminDashBoard = () => {
       <div className="row">
         <div className="col-md-6">
         <h3 className="mb-3">Top Rated Products Chart</h3>
-        {/* <canvas id="topRatedChart" width="400" height="200"></canvas> */}
         <canvas id="topRatedChart" ></canvas>
         </div>
-        
+        <div className="col-md-6">
+            <ProductDiscountChart/>
+        </div>
       </div>
     </div>
   );
