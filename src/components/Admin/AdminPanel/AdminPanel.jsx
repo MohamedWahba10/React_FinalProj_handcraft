@@ -11,6 +11,9 @@ function AdminPanel() {
   const navigate = useNavigate();
 
   const handleNavigation = (selectedIndex) => {
+    if (selectedIndex === 0) {
+      navigate("/adminPanel/adminDashBoard");
+    }
     if (selectedIndex === 1) {
       navigate("/adminPanel/adminCategory");
     }

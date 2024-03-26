@@ -164,7 +164,7 @@ function NavBar() {
   // -----------------------------------------------------------
   useEffect(() => {
     if (superuser) {
-      navigate("/adminPanel");
+      navigate("/adminPanel/adminDashBoard");
     }
   }, [superuser]);
   return (
