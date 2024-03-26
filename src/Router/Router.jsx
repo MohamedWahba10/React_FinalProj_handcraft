@@ -48,6 +48,7 @@ import AddSubCategory from "../components/Admin/AddSubCategory/AddSubCategory.js
 import UpdateSubCategory from "../components/Admin/UpdateSubCategory/UpdateSubCategory.jsx";
 import AddProductAdmin from "../components/Admin/AddProductAdmin/AddProductAdmin.jsx";
 import UpdateProductAdmin from "../components/Admin/UpdateProductAdmin/UpdateProductAdmin.jsx";
+import UpdateUser from "../components/Admin/UpdateUser/UpdateUser.jsx";
 
 
 
@@ -439,7 +440,7 @@ export default function Router() {
           element={
             <ProtectedRoutes>
               <ProtectedAdmin>
-                <AdminUser />
+                <UpdateUser />
               </ProtectedAdmin>
             </ProtectedRoutes>
           }
