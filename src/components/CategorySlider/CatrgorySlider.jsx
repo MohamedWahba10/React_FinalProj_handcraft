@@ -94,7 +94,7 @@ export default function CategorySlider() {
                   <div key={category.id}>
                     <img
                       className={`${styles.image_category}`}
-                      src={`${category.subCateImage}`}
+                      src={`http://localhost:8000${category.subCateImage}`}
                       width={"100%"}
                       alt={category.subCateName}
                       onClick={() => viewDetail(category)}
@@ -141,7 +141,7 @@ export default function CategorySlider() {
                 </div>
                 <div className="col-6">
                   <img
-                    src={`${selectedBrand.subCateImage}`}
+                   src={`http://localhost:8000${selectedBrand.subCateImage}`}
                     alt=""
                     width={"100%"}
                   />

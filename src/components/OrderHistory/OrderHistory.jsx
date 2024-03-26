@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 
 
@@ -34,7 +35,7 @@ export default function OrderHistory() {
   }
 
   async function cancelOrder(order_id) {
-    let { data } = await axios.delete(`http://127.0.0.1:8000/api/order/delete_order/${order_id}/`, {
+    let { data } = await axios.put(`http://127.0.0.1:8000/api/order/delete_order/${order_id}/`, {}, {
       headers: headers
     }).then((res) => res).catch((err) => err);
 
@@ -90,12 +91,14 @@ export default function OrderHistory() {
                 </tr>
               </tbody>
             </table>
+
             {ele.order_items.map((item) => (
               <div key={item.id} className="row gy-3 mb-4 mt-3 ms-5">
                 <div className="col-lg-5">
                   <div className="me-lg-5">
                     <div className="d-flex">
-                      <img src={item.product_image_thumbnail} className="border rounded me-3" style={{ width: '8rem', height: '8rem' }} alt="Product" />
+
+                      <img src={`http://localhost:8000${item.product_image_thumbnail}`} className="border rounded me-3" style={{ width: '8rem', height: '8rem' }} alt="Product" />
                       <div className="">
                         <a href="#" className="nav-link fs-5"> <span className="fw-bold fs-5">Product name :</span> {item.product_name}</a>
                       </div>
@@ -109,8 +112,37 @@ export default function OrderHistory() {
                     <p className="fs-5"> <span className="fw-bold fs-5"> Price/item : </span> {item.product_price} $</p>
                   </div>
                 </div>
+                <div className="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
+                  {ele.status === 'D' ? (
+                    <Link
+                      key={item.item_id}
+                      to={`/rateProduct/${item.item_id}/${item.product_name}`}
+                    >
+                      <button
+                        className={`btn btn-light border text-light bg-dark icon-hover-danger ms-5`}
+                      >
+                        Rate
+                      </button>
+                    </Link>
+                  ) : (
+                    <Link
+                      key={item.item_id}
+                      to={`/rateProduct/${item.item_id}/${item.product_name}`}
+                    >
+                      <button
+                        className={`btn btn-light border text-light bg-dark icon-hover-danger d-none ms-5`}
+                      >
+                        Rate
+                      </button>
+                    </Link>
+                  )}
+
+
+
+                </div>
               </div>
             ))}
+
             <hr />
             <button
               onClick={() => cancelOrder(ele.order_id)}
@@ -120,10 +152,15 @@ export default function OrderHistory() {
               Cancel Order
             </button>
             <button onClick={() => isDelivered(ele.order_id)} className="btn btn-light border text-light bg-success icon-hover-danger ms-5">Dilevered</button>
+
+
+
           </div>
+
         ))}
 
       </div>
     </div>
   );
 }
+
