@@ -180,7 +180,7 @@ export default function HighestRate() {
                                                                         In Stock
                                                                     </span>
                                                                 ) : <span className={`${styles.sale_product}  bg-light text-dark`}>
-                                                                    Out Stock
+                                                                    Out of Stock
                                                                 </span>}
                                                             </div>
                                                         </Link>

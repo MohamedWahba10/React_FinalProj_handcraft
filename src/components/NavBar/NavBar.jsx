@@ -247,7 +247,16 @@ function NavBar() {
                           ADD PRODUCT
                         </Link>
                       </li>
+                       <li>
+                        <Link
+                          to="/VendorOrderHistory"
+                          className={`nav-link ${styles.Link_style}`}
+                        >
+                           Orders
+                        </Link>
+                      </li>
                     </>
+
                   )}
                 </>
               ) : null}

@@ -93,7 +93,6 @@ export default function Cart() {
     // useEffect(() => {
     //     getcartDetails()
 
-       
     // }, [removeProduct]);
    
     return (
