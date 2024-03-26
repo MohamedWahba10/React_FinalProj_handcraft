@@ -453,28 +453,18 @@ export default function ProductDetail() {
                         <button
                           className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                         >
-                          View Product Vendor {detailPro?.prodVendor.shopname}
+                          View Products of <span className="fw-bold"> {detailPro?.prodVendor.shopname}</span>
                         </button>
                       </Link>
                     </>
                   ) : null}
-                  {userType === "customer" ? (
-                    <Link
-                      to={`/rateProduct/${detailPro?.id}/${detailPro?.prodName}`}
-                    >
-                      <button
-                        className={`mt-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
-                      >
-                        Rate Product {detailPro?.prodName}
-                      </button>
-                    </Link>
-                  ) : null}
+                
 
                   <Link to={`/comment/${detailPro?.id}/${detailPro?.prodName}`}>
                     <button
                       className={` my-4 w-100 fs-4 py-3 ${styles.cart_button_style}`}
                     >
-                      All Comment Product {detailPro?.prodName}
+                       Comments
                     </button>
                   </Link>
                 </div>
@@ -483,6 +473,8 @@ export default function ProductDetail() {
           </div>
         )}
       </div>
+
+     
     </>
   );
 }

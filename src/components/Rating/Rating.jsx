@@ -182,10 +182,8 @@ export default function RatingProduct() {
             className={`col-md-5 ${styles.new_account} offset-md-1   d-flex align-items-center`}
           >
             <div className="d-flex flex-column ">
-              <h3>Want The Back Product</h3>
-              <p>
-                Welcome Back Detail Product {prodName}
-              </p>
+              <h3>Want to return back ?</h3>
+             
               <Link to="/detail/${id}" className="text-decoration-none">
                 <span className={`${styles.register_button}`}>Back To Product</span>
               </Link>

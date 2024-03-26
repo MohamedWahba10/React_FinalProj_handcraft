@@ -87,7 +87,7 @@ export default function VendorOrderHistory() {
                                 <div className="col-lg-5">
                                     <div className="me-lg-5">
                                         <div className="d-flex">
-                                            <img src={item.product_image_thumbnail} className="border rounded me-3" style={{ width: '8rem', height: '8rem' }} alt="Product" />
+                                            <img src={`http://localhost:8000${item.product_image_thumbnail}`} className="border rounded me-3" style={{ width: '8rem', height: '8rem' }} alt="Product" />
                                             <div className="">
                                                 <a href="#" className="nav-link fs-5"> <span className="fw-bold fs-5">Product name : </span>{item.product_name}</a>
                                                 <p className="fs-5" > <span className="fw-bold fs-5">left on stock :</span> {item.stock}</p>
