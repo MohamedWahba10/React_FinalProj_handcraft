@@ -248,7 +248,7 @@ export default function ProductDetail() {
                       >
                         {detailPro?.prodOnSale ? (
                           <span className={`${styles.sale_product} me-3`}>
-                            Sales
+                           ON Sale
                           </span>
                         ) : null}
                         {detailPro?.prodStock > 0 ? (

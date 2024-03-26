@@ -171,7 +171,7 @@ export default function ProductINSubCategory() {
                           >
                             {pro.product.prodOnSale ? (
                               <span className={`${styles.sale_product}`}>
-                                On Sales
+                                On Sale
                               </span>
                             ) : null}
                             {pro.product.prodStock > 0 ? (
