@@ -33,7 +33,7 @@ import ResetPassword from "../components/ResetPassword/ResetPassword";
 import AllComment from "../components/AllComment/AllComment";
 // import ChangePassword from "../components/ChangePassword/ChangPassword";
 import { CartContext } from "../Context/CartContext.js";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import OrderHistory from "../components/OrderHistory/OrderHistory.jsx";
 import AdminPanel from "../components/Admin/AdminPanel/AdminPanel.jsx";
 import ProtectedAdmin from "../components/ProtectedRoutes/ProtectedAdmin.js";
@@ -51,16 +51,11 @@ import UpdateProductAdmin from "../components/Admin/UpdateProductAdmin/UpdatePro
 import UpdateUser from "../components/Admin/UpdateUser/UpdateUser.jsx";
 import VendorOrderHistory from "../components/VendorOrderHistory/VendorOrderHistory.jsx";
 import AddUser from "../components/Admin/AddUser/AddUser.jsx";
-
-
+import AdminDashBoard from "../components/Admin/AdminDashBoard/AdminDashBord.jsx";
 
 export default function Router() {
-
-  const { handle_payment_success } = useContext(CartContext)
+  const { handle_payment_success } = useContext(CartContext);
   const location = useLocation();
-
-
-
 
   useEffect(() => {
     if (location.pathname === "/handle-payment-success/") {
@@ -84,8 +79,8 @@ export default function Router() {
         },
       });
 
-      // clearCart(); 
-      handle_payment_success()
+      // clearCart();
+      handle_payment_success();
     }
   }, [location.pathname]);
 
@@ -230,8 +225,6 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-
-
 
         <Route
           path="/cart"
@@ -379,6 +372,16 @@ export default function Router() {
           }
         />
         <Route
+          path="/adminPanel/adminDashBoard"
+          element={
+            <ProtectedRoutes>
+              <ProtectedAdmin>
+                <AdminDashBoard />
+              </ProtectedAdmin>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
           path="/adminPanel/adminCategory"
           element={
             <ProtectedRoutes>
@@ -450,7 +453,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-         <Route
+        <Route
           path="/adminPanel/adminUser/addUser"
           element={
             <ProtectedRoutes>
@@ -460,7 +463,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-           <Route
+        <Route
           path="/adminPanel/adminUser/updateUser/:id"
           element={
             <ProtectedRoutes>
@@ -490,7 +493,7 @@ export default function Router() {
             </ProtectedRoutes>
           }
         />
-            <Route
+        <Route
           path="/adminPanel/adminProduct/updateProduct/:id"
           element={
             <ProtectedRoutes>
