@@ -35,13 +35,13 @@ export default function AddUser() {
         }
       );
 
-      if ((response.data.error)) {
+      if (response.data.error) {
         // navigate("/adminPanel/adminUser");
         setError(response.data.error);
-        console.log("response tehe user",response)
+        console.log("response tehe user", response);
         setisLoading(false);
       } else {
-        console.log("response tehe user",response)
+        console.log("response tehe user", response);
 
         navigate("/adminPanel/adminUser");
       }
@@ -129,6 +129,9 @@ export default function AddUser() {
                 <div className="row gy-4">
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                      <label htmlFor="first_name" className="fs-4 fw-bold">
+                        First Name
+                      </label>
                       <input
                         type="text"
                         className="w-100"
@@ -149,6 +152,9 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                      <label htmlFor="last_name" className="fs-4 fw-bold">
+                        Last Name
+                      </label>
                       <input
                         type="text"
                         className="w-100"
@@ -169,12 +175,15 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                      <label htmlFor="email" className="fs-4 fw-bold">
+                        Email
+                      </label>
                       <input
                         type="email"
                         className="w-100"
                         id="email"
                         name="email"
-                        placeholder="Enter Your Email"
+                        placeholder="Enter The Email"
                         onChange={AddUserForm.handleChange}
                         onBlur={AddUserForm.handleBlur}
                         value={AddUserForm.values.email}
@@ -188,12 +197,15 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                      <label htmlFor="password" className="fs-4 fw-bold">
+                        Password
+                      </label>
                       <input
                         type="password"
                         className="w-100"
                         id="password"
                         name="password"
-                        placeholder="Enter Your Password"
+                        placeholder="Enter The Password"
                         onChange={AddUserForm.handleChange}
                         onBlur={AddUserForm.handleBlur}
                         value={AddUserForm.values.password}
@@ -208,12 +220,15 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                    <label htmlFor="address" className="fs-4 fw-bold">
+                        Address
+                      </label>
                       <input
                         type="text"
                         className="w-100"
                         id="address"
                         name="address"
-                        placeholder="Enter Your Address"
+                        placeholder="Enter The Address"
                         onChange={AddUserForm.handleChange}
                         onBlur={AddUserForm.handleBlur}
                         value={AddUserForm.values.address}
@@ -228,12 +243,15 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group my-3">
+                      <label htmlFor="phone" className="fs-4 fw-bold">
+                        Phone
+                      </label>
                       <input
                         type="text"
                         className="w-100"
                         id="phone"
                         name="phone"
-                        placeholder="Enter Your Phone"
+                        placeholder="Enter The Phone"
                         onChange={AddUserForm.handleChange}
                         onBlur={AddUserForm.handleBlur}
                         value={AddUserForm.values.phone}
@@ -247,6 +265,9 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
+                      <label htmlFor="image" className="fs-4 fw-bold">
+                        Image
+                      </label>
                       <input
                         type="file"
                         className="w-100 border"
@@ -270,6 +291,9 @@ export default function AddUser() {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group my-3">
+                      <label htmlFor="usertype" className="fs-4 fw-bold">
+                        User Type
+                      </label>
                       <select
                         className="w-100"
                         id="usertype"
@@ -294,6 +318,9 @@ export default function AddUser() {
                   {AddUserForm.values.usertype === "vendor" ? (
                     <div className="col-md-6">
                       <div className="form-group my-3">
+                        <label htmlFor="shopname" className="fs-4 fw-bold">
+                          Shop Name
+                        </label>
                         <input
                           type="text"
                           className="w-100"
@@ -317,6 +344,9 @@ export default function AddUser() {
                   {AddUserForm.values.usertype === "vendor" && (
                     <div className="col-md-6">
                       <div className="form-group my-3">
+                        <label htmlFor="ssn" className="fs-4 fw-bold">
+                          SSN
+                        </label>
                         <input
                           type="text"
                           className="w-100"
