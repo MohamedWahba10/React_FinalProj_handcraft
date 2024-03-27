@@ -60,7 +60,7 @@ const CountProdUserChart = () => {
 
   return (
     <div className="container">
-      <h3>Count of Products and Users Chart</h3>
+      <h3>Number of Products & Users Chart</h3>
       <canvas id="countProdUserChart" width="400"  style={{ height: "300px" }}></canvas>
     </div>
   );

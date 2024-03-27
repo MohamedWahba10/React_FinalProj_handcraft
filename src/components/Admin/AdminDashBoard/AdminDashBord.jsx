@@ -3,6 +3,9 @@ import Chart from "chart.js/auto";
 import ProductDiscountChart from "../ProductDiscountChart/ProductDiscountChart";
 import CountProdUserChart from "../CountProdUserChart/CountProdUserChart ";
 import ProductNewChart from "../../ProductNewChart/ProductNewChart";
+import MostSellProduct from "../MostSellProduct/MostSellProduct";
+import Mostfrequentcustomers from "../Mostfrequentcustomers/Mostfrequentcustomers";
+
 
 const AdminDashBoard = () => {
   const [topRatedProducts, setTopRatedProducts] = useState([]);
@@ -70,8 +73,15 @@ const AdminDashBoard = () => {
             <CountProdUserChart/>
         </div>
         <div className="col-md-6">
-            <ProductNewChart/>
+            <ProductNewChart/> 
         </div>
+        <div className="col-md-6">
+            <MostSellProduct />   
+        </div>
+        <div className="col-md-6">
+            <Mostfrequentcustomers />     
+        </div>
+      
       </div>
     </div>
   );

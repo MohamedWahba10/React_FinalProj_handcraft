@@ -252,7 +252,7 @@ function NavBar() {
                           to="/VendorOrderHistory"
                           className={`nav-link ${styles.Link_style}`}
                         >
-                           Orders
+                           ORDERS
                         </Link>
                       </li>
                     </>
