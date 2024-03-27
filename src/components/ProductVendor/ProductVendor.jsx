@@ -118,7 +118,7 @@ export default function ProductVendor() {
       ) : (
         <>
           <div className={`${styles.header_product} py-5 mb-5 text-center `}>
-            <h1>Products Vendor {shopname}</h1>
+            <h1>{shopname}</h1>
 
             <Link to="/" className="text-decoration-none ">
               <span className={`${styles.link_home} pe-1 `}>HomePage</span>
